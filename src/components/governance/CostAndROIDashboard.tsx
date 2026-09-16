@@ -1,0 +1,661 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  TrendingUp,
+  DollarSign,
+  Clock,
+  Cpu,
+  AlertTriangle,
+  ShieldCheck,
+  RefreshCw,
+  Info,
+  HelpCircle,
+  ChevronRight,
+  Lock,
+  Layers,
+  Calendar,
+  Users,
+  Building2,
+} from 'lucide-react';
+import { CompleteGovernanceMetricsResponse, AIAuditEvent } from '../../types/aiAudit';
+import { PricingModelConfig } from '../../types/cost';
+import { useAuth } from '../../contexts/AuthContext';
+import { Badge } from '../ui/Badge';
+import { Button } from '../ui/Button';
+import { LoadingState } from '../ui/LoadingState';
+import { PricingCatalogModal } from './PricingCatalogModal';
+import { AuditEventDetailModal } from './AuditEventDetailModal';
+
+export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> = ({
+  onNavigateToAudit,
+}) => {
+  const { user } = useAuth();
+  const [data, setData] = useState<CompleteGovernanceMetricsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Pricing Catalog Modal
+  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
+  const [pricingCatalog, setPricingCatalog] = useState<PricingModelConfig[]>([]);
+
+  // Inspected Event for modal
+  const [inspectedEvent, setInspectedEvent] = useState<AIAuditEvent | null>(null);
+
+  const getAuthHeaders = useCallback(() => {
+    return {
+      'Content-Type': 'application/json',
+      'x-user-id': user?.id || 'anonymous',
+      'x-user-role': user?.role || 'Administrator',
+      'x-user-email': user?.email || '',
+      'x-user-name': user?.displayName || '',
+    };
+  }, [user]);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [roiRes, pricingRes] = await Promise.all([
+        fetch('/api/governance/costs-roi', { headers: getAuthHeaders() }),
+        fetch('/api/governance/pricing-config', { headers: getAuthHeaders() }),
+      ]);
+
+      if (!roiRes.ok) {
+        const errJson = await roiRes.json().catch(() => ({}));
+        throw new Error(errJson.message || `Erro HTTP ${roiRes.status}`);
+      }
+
+      const roiData: CompleteGovernanceMetricsResponse = await roiRes.json();
+      setData(roiData);
+
+      if (pricingRes.ok) {
+        const pData = await pricingRes.json();
+        setPricingCatalog(pData.pricingCatalog || []);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error al cargar métricas de gobernanza.');
+    } finally {
+      setLoading(false);
+    }
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return <LoadingState message="Consolidando métricas de auditoría, costes y productividad de IA..." />;
+  }
+
+  if (error || !data) {
+    return (
+      <div className="p-8 rounded-2xl bg-red-950/20 border border-red-800/40 text-center space-y-3">
+        <AlertTriangle className="w-8 h-8 text-red-400 mx-auto" />
+        <h3 className="text-base font-semibold text-white">Error al cargar datos de gobernanza</h3>
+        <p className="text-xs text-red-300">{error || 'Datos no disponibles.'}</p>
+        <Button variant="secondary" size="sm" onClick={fetchData}>
+          Reintentar
+        </Button>
+      </div>
+    );
+  }
+
+  const { operational, costs, productivity, roi, recentAuditEvents } = data;
+
+  return (
+    <div className="space-y-8">
+      {/* Top Header & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              Auditoría de IA, Costes y Productividad
+            </h1>
+            <Badge variant="purple" size="sm">
+              Fase 10B
+            </Badge>
+          </div>
+          <p className="text-xs text-slate-400 mt-1">
+            Trazabilidad integral, control de consumo de inferencia y métricas operacionales sin fabricación de datos
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsPricingModalOpen(true)}
+            leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-400" />}
+          >
+            Tabla de Precios
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={fetchData}
+            leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+          >
+            Actualizar
+          </Button>
+        </div>
+      </div>
+
+      {/* Partial Cost Notice (if applicable) */}
+      {costs.hasPartialCostWarning && (
+        <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-800/50 flex items-start gap-3">
+          <Info className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h4 className="text-xs font-semibold text-amber-200">
+              Aviso de Coste Parcial (Principio de No Fabricación)
+            </h4>
+            <p className="text-xs text-amber-300/80 leading-relaxed">
+              {costs.partialCostNotice} El valor informado corresponde estrictamente al total de operaciones con tarificación y telemetría confirmadas. Las operaciones con claves no configuradas o proveedor de respaldo sin medición de tokens no se inventan ni se estiman con valores ficticios.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Provider Status Disclosures */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Claude Status Box */}
+        <div className="p-4 rounded-xl bg-[#141c2e] border border-amber-500/30 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-xs font-bold text-white">Anthropic Claude (claude-3-5-sonnet)</span>
+            </div>
+            <Badge variant="warning" size="sm">
+              CLAVE BLOQUEADA
+            </Badge>
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            La clave <code className="text-amber-300 font-mono">ANTHROPIC_API_KEY</code> no está
+            configurada en el entorno. Las operaciones se registran como{' '}
+            <span className="text-amber-400 font-semibold font-mono">BLOCKED</span> con tokens y costes marcados
+            explícitamente como <code className="text-slate-300 font-mono">COST_UNKNOWN</code>. No se fabrica
+            ninguna generación de texto.
+          </p>
+        </div>
+
+        {/* Image Generation Provider Status Box */}
+        <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42] space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" />
+              <span className="text-xs font-bold text-white">Stability AI / Fallback Provider</span>
+            </div>
+            <Badge variant="neutral" size="sm">
+              TELEMETRÍA ACTIVA
+            </Badge>
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Generaciones visuales auditadas con dimensiones, latencia e identificación inequívoca de proveedor real
+            frente a fallback. Las generaciones de respaldo tienen un coste computado como{' '}
+            <span className="text-slate-300 font-mono">COST_UNKNOWN</span> para evitar desviaciones presupuestarias.
+          </p>
+        </div>
+      </div>
+
+      {/* SECTION 1: Operational Metrics Overview */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          1. Métricas Operacionales de IA (Total de Inferencias: {operational.totalOperations})
+        </h3>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42]">
+            <span className="text-[11px] text-slate-400">Total de Operaciones</span>
+            <div className="text-xl font-bold font-mono text-white mt-1">
+              {operational.totalOperations}
+            </div>
+            <span className="text-[10px] text-slate-500">100% auditadas</span>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-emerald-900/40">
+            <span className="text-[11px] text-emerald-400">Éxitos Concluidos</span>
+            <div className="text-xl font-bold font-mono text-emerald-300 mt-1">
+              {operational.successfulOperations}
+            </div>
+            <span className="text-[10px] text-emerald-500/80">
+              Tasa: {operational.totalOperations > 0 ? ((operational.successfulOperations / operational.totalOperations) * 100).toFixed(1) : 0}%
+            </span>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-amber-900/40">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] text-amber-400">Bloqueos de Gobernanza</span>
+              <HelpCircle className="w-3 h-3 text-amber-500" title="Los bloqueos no son fallos; son retenciones preventivas de seguridad" />
+            </div>
+            <div className="text-xl font-bold font-mono text-amber-300 mt-1">
+              {operational.blockedOperations}
+            </div>
+            <span className="text-[10px] text-amber-500/80">Claves ausentes / Moderación</span>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-red-900/40">
+            <span className="text-[11px] text-red-400">Fallos Técnicos</span>
+            <div className="text-xl font-bold font-mono text-red-300 mt-1">
+              {operational.failedOperations}
+            </div>
+            <span className="text-[10px] text-red-500/80">Errores de API / Timeout</span>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42]">
+            <span className="text-[11px] text-slate-400">Latencia Media</span>
+            <div className="text-xl font-bold font-mono text-indigo-300 mt-1">
+              {operational.averageDurationMs !== null ? `${operational.averageDurationMs} ms` : 'N/A'}
+            </div>
+            <span className="text-[10px] text-slate-500">Excluye solicitudes bloqueadas</span>
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION 2: Cost Tracking & Observability */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            2. Rastreo de Costes Financieros de Inferencia
+          </h3>
+          <span className="text-[11px] font-mono text-slate-400">Moneda Base: USD</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-5 rounded-xl bg-[#0f1523] border border-emerald-500/30 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400">Coste Conocido (Facturable)</span>
+              <Badge variant="success" size="sm">CONFIRMADO</Badge>
+            </div>
+            <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
+              ${costs.totalKnownCostUSD.toFixed(4)} <span className="text-xs text-slate-400">USD</span>
+            </div>
+            <p className="text-[11px] text-slate-500">
+              Derivado estrictamente de tokens y solicitudes confirmadas
+            </p>
+          </div>
+
+          <div className="p-5 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400">Coste Estimado</span>
+              <Badge variant="neutral" size="sm">ESTIMADO</Badge>
+            </div>
+            <div className="text-2xl font-bold font-mono text-slate-300 mt-1">
+              ${costs.totalEstimatedCostUSD.toFixed(4)} <span className="text-xs text-slate-400">USD</span>
+            </div>
+            <p className="text-[11px] text-slate-500">
+              Cuando es aplicable un método heurístico aprobado
+            </p>
+          </div>
+
+          <div className="p-5 rounded-xl bg-[#0f1523] border border-amber-900/30 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-amber-400">Operaciones Sin Coste Definido</span>
+              <Badge variant="warning" size="sm">COST_UNKNOWN</Badge>
+            </div>
+            <div className="text-2xl font-bold font-mono text-amber-300 mt-1">
+              {costs.unknownCostOperationsCount}{' '}
+              <span className="text-xs text-slate-400 font-normal">operaciones</span>
+            </div>
+            <p className="text-[11px] text-amber-500/80">
+              Operaciones bloqueadas o de fallback sin informe de tokens
+            </p>
+          </div>
+        </div>
+
+        {/* Cost Tables: by Provider & by Campaign */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* By Provider Table */}
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
+            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
+              Consumo por Proveedor
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
+                  <tr>
+                    <th className="pb-2">Proveedor</th>
+                    <th className="pb-2">Llamadas</th>
+                    <th className="pb-2">Coste Conocido</th>
+                    <th className="pb-2">Indefinidas</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#182236]">
+                  {(
+                    Object.entries(costs.costByProvider) as Array<
+                      [
+                        string,
+                        {
+                          knownUSD: number;
+                          estimatedUSD: number;
+                          unknownCount: number;
+                          totalOperations: number;
+                        }
+                      ]
+                    >
+                  ).map(([prov, item]) => (
+                    <tr key={prov}>
+                      <td className="py-2.5 font-medium text-slate-200">{prov}</td>
+                      <td className="py-2.5 font-mono text-slate-400">{item.totalOperations}</td>
+                      <td className="py-2.5 font-mono text-emerald-400 font-semibold">
+                        ${item.knownUSD.toFixed(4)}
+                      </td>
+                      <td className="py-2.5">
+                        {item.unknownCount > 0 ? (
+                          <Badge variant="warning" size="sm">{item.unknownCount} UNKNOWN</Badge>
+                        ) : (
+                          <Badge variant="success" size="sm">0</Badge>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* By Campaign Table */}
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
+            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
+              Consumo por Campaña
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
+                  <tr>
+                    <th className="pb-2">Campaña</th>
+                    <th className="pb-2">Coste Conocido</th>
+                    <th className="pb-2">Estado</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#182236]">
+                  {costs.costByCampaign.map((c) => (
+                    <tr key={c.campaignId}>
+                      <td className="py-2.5 font-medium text-slate-200 truncate max-w-[180px]" title={c.campaignName}>
+                        {c.campaignName}
+                      </td>
+                      <td className="py-2.5 font-mono text-emerald-400 font-semibold">
+                        ${c.knownCostUSD.toFixed(4)}
+                      </td>
+                      <td className="py-2.5">
+                        {c.hasPartialCostWarning ? (
+                          <Badge variant="warning" size="sm">PARCIAL</Badge>
+                        ) : (
+                          <Badge variant="success" size="sm">COMPLETO</Badge>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* User Consumption Table (if present) */}
+        {costs.costByUser && costs.costByUser.length > 0 && (
+          <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
+            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
+              Consumo y generaciones por usuario
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
+                  <tr>
+                    <th className="pb-2">Usuario</th>
+                    <th className="pb-2">Rol</th>
+                    <th className="pb-2">Total de Generaciones</th>
+                    <th className="pb-2">Texto / Imagen</th>
+                    <th className="pb-2">Coste Conocido</th>
+                    <th className="pb-2">Operaciones Sin Coste</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#182236]">
+                  {costs.costByUser.map((u) => (
+                    <tr key={u.userId}>
+                      <td className="py-2.5 font-medium text-slate-200">{u.userName}</td>
+                      <td className="py-2.5">
+                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono border border-slate-700">
+                          {u.userRole}
+                        </span>
+                      </td>
+                      <td className="py-2.5 font-mono text-slate-300">{u.totalGenerations}</td>
+                      <td className="py-2.5 font-mono text-slate-400">
+                        {u.textOperations} txt / {u.imageOperations} img
+                      </td>
+                      <td className="py-2.5 font-mono text-emerald-400 font-semibold">
+                        ${u.knownCostUSD.toFixed(4)}
+                      </td>
+                      <td className="py-2.5">
+                        {u.unknownCostOperationsCount > 0 ? (
+                          <span className="text-amber-400 font-mono text-xs">
+                            {u.unknownCostOperationsCount} unk
+                          </span>
+                        ) : (
+                          <span className="text-slate-500 font-mono text-xs">0</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* SECTION 3: Productivity & Operational Efficiency */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            3. Eficiencia Operacional y Productividad
+          </h3>
+          <span className="text-[11px] text-slate-500 font-mono">
+            Diferenciación Estricta: Duración de Flujo vs Tiempo Ahorrado
+          </span>
+        </div>
+
+        <div className="p-6 rounded-2xl bg-[#0f1523] border border-[#202b42] space-y-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
+              <span className="text-[11px] text-slate-400">Versiones Creadas</span>
+              <div className="text-xl font-bold font-mono text-white mt-1">
+                {productivity.contentVersionsCreated}
+              </div>
+              <p className="text-[10px] text-slate-500 mt-1">
+                {productivity.aiAssistedVersions} con IA / {productivity.humanEditedVersions} manuales
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
+              <span className="text-[11px] text-slate-400">Aprobados / Rechazados</span>
+              <div className="text-xl font-bold font-mono text-slate-200 mt-1">
+                {productivity.approvedContentCount} / {productivity.rejectedContentCount}
+              </div>
+              <p className="text-[10px] text-slate-500 mt-1">
+                {productivity.revisionCount} revisiones solicitadas
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
+              <span className="text-[11px] text-slate-400">Activos Generados</span>
+              <div className="text-xl font-bold font-mono text-indigo-300 mt-1">
+                {productivity.contentGenerated + productivity.imagesGenerated}
+              </div>
+              <p className="text-[10px] text-slate-500 mt-1">
+                {productivity.contentGenerated} piezas / {productivity.imagesGenerated} imágenes
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#141c2e] border border-emerald-900/30">
+              <span className="text-[11px] text-emerald-400">Ciclo Medio de Aprobación</span>
+              <div className="text-xl font-bold font-mono text-emerald-300 mt-1">
+                {productivity.averageReviewCycleFormatted}
+              </div>
+              <p className="text-[10px] text-emerald-500/80 mt-1">
+                Creación hasta aprobación final
+              </p>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-lg bg-[#0d131f] border border-[#1a2337] flex items-start gap-3">
+            <Info className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+            <div className="text-xs text-slate-400 leading-relaxed">
+              <span className="text-slate-200 font-semibold">Metodología de Productividad:</span>{' '}
+              La duración computacional de la IA representa el tiempo técnico de inferencia. La plataforma no reivindica horas ahorradas sin un estudio previo de baseline de productividad con el cliente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION 4: ROI Framework & Governance Disclosure */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          4. Marco de Retorno sobre la Inversión (ROI)
+        </h3>
+
+        <div className="p-6 rounded-2xl bg-[#0f1523] border border-indigo-950/60 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                <TrendingUp className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-white">Estado del ROI Financiero</h4>
+                <p className="text-xs text-slate-400">Conformidad con los estándares de auditoría corporativa</p>
+              </div>
+            </div>
+            <Badge variant="purple" size="md">
+              {roi.status}
+            </Badge>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#141c2e] border border-purple-900/30 space-y-2">
+            <div className="text-xs font-semibold text-purple-300 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Directriz de Transparencia Financiera</span>
+            </div>
+            <p className="text-xs text-purple-200/80 leading-relaxed">
+              {roi.disclaimer}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-400">
+            <div className="p-3 rounded-lg bg-[#0d131f] border border-[#1a2337]">
+              <span className="font-semibold text-slate-300 block mb-1">Coste de Inferencia Registrado:</span>
+              <span className="font-mono text-emerald-400 text-sm">
+                ${roi.availableInputs.aiOperationalKnownCostUSD.toFixed(4)} USD
+              </span>
+            </div>
+            <div className="p-3 rounded-lg bg-[#0d131f] border border-[#1a2337]">
+              <span className="font-semibold text-slate-300 block mb-1">Entradas No Disponibles para ROI:</span>
+              <span className="font-mono text-slate-400 text-xs">
+                {roi.unavailableInputs.join(' • ')}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION 5: Recent Traceable Audit Stream */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              5. Flujo Reciente de Pista Inmutable de Auditoría
+            </h3>
+            <p className="text-xs text-slate-500">Últimos eventos registrados en el sink central</p>
+          </div>
+          {onNavigateToAudit && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onNavigateToAudit}
+              rightIcon={<ChevronRight className="w-4 h-4" />}
+            >
+              Abrir Pista Completa
+            </Button>
+          )}
+        </div>
+
+        <div className="rounded-xl bg-[#0f1523] border border-[#202b42] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#141c2e] border-b border-[#202b42] text-slate-400 text-[11px]">
+                <tr>
+                  <th className="py-2.5 px-4">Fecha/Hora</th>
+                  <th className="py-2.5 px-4">Campaña</th>
+                  <th className="py-2.5 px-4">Usuario</th>
+                  <th className="py-2.5 px-4">Proveedor/Modelo</th>
+                  <th className="py-2.5 px-4">Operación</th>
+                  <th className="py-2.5 px-4">Estado</th>
+                  <th className="py-2.5 px-4">Coste</th>
+                  <th className="py-2.5 px-4 text-right">Detalle</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#1a243a]">
+                {recentAuditEvents.slice(0, 8).map((ev) => (
+                  <tr key={ev.id} className="hover:bg-[#131b2c] transition-colors">
+                    <td className="py-2.5 px-4 whitespace-nowrap text-slate-300 font-mono">
+                      {new Date(ev.started_at).toLocaleTimeString('es-ES')}
+                    </td>
+                    <td className="py-2.5 px-4 text-slate-200 font-medium">
+                      {ev.campaign_name || 'Global'}
+                    </td>
+                    <td className="py-2.5 px-4 text-slate-300">
+                      {ev.user_name || ev.user_id}
+                    </td>
+                    <td className="py-2.5 px-4 font-mono text-[11px] text-slate-400">
+                      {ev.provider} ({ev.model})
+                    </td>
+                    <td className="py-2.5 px-4 font-mono text-[11px] text-indigo-300">
+                      {ev.operation}
+                    </td>
+                    <td className="py-2.5 px-4">
+                      {ev.status === 'SUCCESS' ? (
+                        <Badge variant="success" size="sm">ÉXITO</Badge>
+                      ) : ev.status === 'BLOCKED' ? (
+                        <Badge variant="warning" size="sm">BLOQUEADO</Badge>
+                      ) : (
+                        <Badge variant="danger" size="sm">FALLO</Badge>
+                      )}
+                    </td>
+                    <td className="py-2.5 px-4 font-mono text-emerald-400">
+                      {ev.estimated_cost !== null
+                        ? `$${ev.estimated_cost.toFixed(5)}`
+                        : <span className="text-slate-500 text-[10px]">UNKNOWN</span>}
+                    </td>
+                    <td className="py-2.5 px-4 text-right">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setInspectedEvent(ev)}
+                      >
+                        Inspeccionar
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Pricing Catalog Modal */}
+      <PricingCatalogModal
+        isOpen={isPricingModalOpen}
+        onClose={() => setIsPricingModalOpen(false)}
+        pricingCatalog={pricingCatalog}
+      />
+
+      {/* Audit Event Detail Modal */}
+      <AuditEventDetailModal
+        event={inspectedEvent}
+        onClose={() => setInspectedEvent(null)}
+      />
+    </div>
+  );
+};
