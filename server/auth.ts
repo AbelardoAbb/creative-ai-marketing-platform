@@ -118,6 +118,10 @@ export interface AuthenticatedRequest extends Request {
  * True role must come from trusted server database table (user_roles).
  */
 export async function authenticateToken(token: string): Promise<UserIdentity | null> {
+  if (!token || !token.trim() || token === 'undefined' || token === 'null') {
+    return null;
+  }
+
   const client = getServerSupabaseAdminClient();
   if (!client) {
     return null;
@@ -127,7 +131,9 @@ export async function authenticateToken(token: string): Promise<UserIdentity | n
     // 1. Verify token cryptographically with Supabase Auth
     const { data, error } = await client.auth.getUser(token);
     if (error || !data.user) {
-      console.warn('[Auth] Token validation failed:', error?.message);
+      if (error?.message && error.message !== 'Auth session missing!') {
+        console.warn('[Auth] Token validation failed:', error.message);
+      }
       return null;
     }
 
@@ -202,7 +208,9 @@ export async function requireAuth(
   }
 
   const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7).trim() : '';
+
+  if (!token || token === 'undefined' || token === 'null') {
     // Development fallback when token not yet issued
     const devUserId = req.headers['x-user-id'] as string;
     if (process.env.NODE_ENV !== 'production' && devUserId) {
@@ -226,7 +234,6 @@ export async function requireAuth(
     return;
   }
 
-  const token = authHeader.substring(7).trim();
   const identity = await authenticateToken(token);
 
   if (!identity) {

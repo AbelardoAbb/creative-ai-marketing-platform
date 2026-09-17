@@ -27,7 +27,7 @@ interface CampaignAIMetricsTabProps {
 }
 
 export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ campaign }) => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [operational, setOperational] = useState<AIOperationalMetrics | null>(null);
   const [productivity, setProductivity] = useState<ProductivityMetrics | null>(null);
   const [roi, setRoi] = useState<ROIFrameworkMetrics | null>(null);
@@ -37,14 +37,18 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
   const [error, setError] = useState<string | null>(null);
 
   const getAuthHeaders = useCallback(() => {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'x-user-id': user?.id || 'anonymous',
       'x-user-role': user?.role || 'Designer',
       'x-user-email': user?.email || '',
       'x-user-name': user?.displayName || '',
     };
-  }, [user]);
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [user, session]);
 
   const fetchMetrics = useCallback(async () => {
     setLoading(true);

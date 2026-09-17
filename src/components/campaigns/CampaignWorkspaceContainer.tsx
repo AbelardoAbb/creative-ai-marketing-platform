@@ -20,7 +20,7 @@ import { LoadingState } from '../ui/LoadingState';
 import { ErrorState } from '../ui/ErrorState';
 
 export const CampaignWorkspaceContainer: React.FC = () => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
   const [campaigns, setCampaigns] = useState<CampaignModel[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<CampaignModel | null>(null);
@@ -35,13 +35,17 @@ export const CampaignWorkspaceContainer: React.FC = () => {
 
   // Helper for auth headers
   const getAuthHeaders = () => {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'x-user-id': user?.id || 'anonymous',
       'x-user-role': user?.role || 'Designer',
       'x-user-email': user?.email || '',
       'x-user-name': user?.displayName || '',
     };
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
   };
 
   // 1. Fetch campaigns list

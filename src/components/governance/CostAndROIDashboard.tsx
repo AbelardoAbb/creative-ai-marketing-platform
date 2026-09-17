@@ -33,7 +33,7 @@ import { AuditEventDetailModal } from './AuditEventDetailModal';
 export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> = ({
   onNavigateToAudit,
 }) => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [data, setData] = useState<CompleteGovernanceMetricsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,14 +46,18 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
   const [inspectedEvent, setInspectedEvent] = useState<AIAuditEvent | null>(null);
 
   const getAuthHeaders = useCallback(() => {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'x-user-id': user?.id || 'anonymous',
       'x-user-role': user?.role || 'Administrator',
       'x-user-email': user?.email || '',
       'x-user-name': user?.displayName || '',
     };
-  }, [user]);
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [user, session]);
 
   const fetchData = useCallback(async () => {
     setLoading(true);

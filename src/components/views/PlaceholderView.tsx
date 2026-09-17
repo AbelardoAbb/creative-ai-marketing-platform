@@ -29,6 +29,7 @@ import { Skeleton } from '../ui/Skeleton';
 import { EmptyState } from '../ui/EmptyState';
 import { LoadingState } from '../ui/LoadingState';
 import { ErrorState } from '../ui/ErrorState';
+import { ChangePasswordSection } from '../settings/ChangePasswordSection';
 
 export interface PlaceholderViewProps {
   viewId: NavigationId;
@@ -228,6 +229,10 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
       {/* Integration Blueprint & Architecture Contract Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
+          {viewId === 'settings' && (
+            <ChangePasswordSection />
+          )}
+
           <Card variant="default" padding="lg">
             <h3 className="text-base font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-600" />
