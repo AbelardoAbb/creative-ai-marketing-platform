@@ -165,7 +165,7 @@ app.get('/api/health', (req, res) => {
   // -------------------------------------------------------------
 
   // 4. List Campaigns Accessible to the Authenticated User (with search, status & client filtering)
-  app.get('/api/campaigns', requireAuth, requirePermission('campaign.view'), async (req: AuthenticatedRequest, res) => {
+  app.get('/api/campaigns', requireAuth, requirePermission('campaign.view'), async (req: AuthenticatedRequest, res, next) => {
     const user = req.user!;
     const { search, status, client: clientFilter } = req.query;
     const client = getServerSupabaseAdminClient();
@@ -174,52 +174,64 @@ app.get('/api/health', (req, res) => {
       let campaignsList: CampaignModel[] = [];
 
       if (client) {
-        if (user.role === 'Administrator') {
-          let query = client.from('campaigns').select('*');
-          if (status && typeof status === 'string' && status !== 'all') {
-            query = query.eq('status', status);
-          }
-          if (clientFilter && typeof clientFilter === 'string' && clientFilter !== 'all') {
-            query = query.ilike('client', `%${clientFilter}%`);
-          }
-          if (search && typeof search === 'string') {
-            query = query.or(`name.ilike.%${search}%,campaign_objective.ilike.%${search}%,client.ilike.%${search}%`);
-          }
-          const { data, error } = await query.order('created_at', { ascending: false });
+        try {
+          if (user.role === 'Administrator') {
+            let query = client.from('campaigns').select('*');
+            if (status && typeof status === 'string' && status !== 'all') {
+              query = query.eq('status', status);
+            }
+            if (clientFilter && typeof clientFilter === 'string' && clientFilter !== 'all') {
+              query = query.ilike('client', `%${clientFilter}%`);
+            }
+            if (search && typeof search === 'string') {
+              query = query.or(`name.ilike.%${search}%,campaign_objective.ilike.%${search}%,client.ilike.%${search}%`);
+            }
+            const { data, error } = await query.order('created_at', { ascending: false });
 
-          if (!error && data) {
-            campaignsList = data as CampaignModel[];
-          }
-        } else {
-          // Regular members: access only campaigns they are members of OR created
-          const { data: memberEntries } = await client
-            .from('campaign_members')
-            .select('campaign_id')
-            .eq('user_id', user.id);
-
-          const campaignIds = (memberEntries || []).map((m) => m.campaign_id);
-
-          let query = client.from('campaigns').select('*');
-          if (campaignIds.length > 0) {
-            query = query.or(`created_by.eq.${user.id},id.in.(${campaignIds.join(',')})`);
+            if (!error && data) {
+              campaignsList = data as CampaignModel[];
+            } else if (error) {
+              console.warn('[Campaigns] Supabase query warning:', error.message);
+            }
           } else {
-            query = query.eq('created_by', user.id);
-          }
+            // Regular members: access only campaigns they are members of OR created
+            const { data: memberEntries, error: mErr } = await client
+              .from('campaign_members')
+              .select('campaign_id')
+              .eq('user_id', user.id);
 
-          if (status && typeof status === 'string' && status !== 'all') {
-            query = query.eq('status', status);
-          }
-          if (clientFilter && typeof clientFilter === 'string' && clientFilter !== 'all') {
-            query = query.ilike('client', `%${clientFilter}%`);
-          }
-          if (search && typeof search === 'string') {
-            query = query.or(`name.ilike.%${search}%,campaign_objective.ilike.%${search}%,client.ilike.%${search}%`);
-          }
+            if (mErr) {
+              console.warn('[Campaigns] Supabase member lookup warning:', mErr.message);
+            }
 
-          const { data: campaigns, error: cErr } = await query.order('created_at', { ascending: false });
-          if (!cErr && campaigns) {
-            campaignsList = campaigns as CampaignModel[];
+            const campaignIds = (memberEntries || []).map((m) => m.campaign_id);
+
+            let query = client.from('campaigns').select('*');
+            if (campaignIds.length > 0) {
+              query = query.or(`created_by.eq.${user.id},id.in.(${campaignIds.join(',')})`);
+            } else {
+              query = query.eq('created_by', user.id);
+            }
+
+            if (status && typeof status === 'string' && status !== 'all') {
+              query = query.eq('status', status);
+            }
+            if (clientFilter && typeof clientFilter === 'string' && clientFilter !== 'all') {
+              query = query.ilike('client', `%${clientFilter}%`);
+            }
+            if (search && typeof search === 'string') {
+              query = query.or(`name.ilike.%${search}%,campaign_objective.ilike.%${search}%,client.ilike.%${search}%`);
+            }
+
+            const { data: campaigns, error: cErr } = await query.order('created_at', { ascending: false });
+            if (!cErr && campaigns) {
+              campaignsList = campaigns as CampaignModel[];
+            } else if (cErr) {
+              console.warn('[Campaigns] Supabase campaigns warning:', cErr.message);
+            }
           }
+        } catch (dbErr) {
+          console.warn('[Campaigns] Supabase network/query exception, falling back to memory store:', dbErr);
         }
       }
 
@@ -260,7 +272,7 @@ app.get('/api/health', (req, res) => {
         scope: user.role === 'Administrator' ? 'global_administrator' : 'member_restricted',
       });
     } catch (err: unknown) {
-      res.status(500).json({ error: err instanceof Error ? err.message : 'Erro ao listar campanhas.' });
+      next(err);
     }
   });
 
@@ -2845,23 +2857,27 @@ app.get('/api/health', (req, res) => {
     '/api/governance/costs-roi',
     requireAuth,
     requirePermission('costs.view'),
-    async (req: AuthenticatedRequest, res) => {
-      const { campaignId, userId } = req.query as { campaignId?: string; userId?: string };
+    async (req: AuthenticatedRequest, res, next) => {
+      try {
+        const { campaignId, userId } = req.query as { campaignId?: string; userId?: string };
 
-      const operational = aiAuditStore.getOperationalMetrics({ campaignId, userId });
-      const costs = aiAuditStore.getCostSummary({ campaignId, userId });
-      const productivity = aiAuditStore.getProductivityMetrics({ campaignId });
-      const roi = aiAuditStore.getROIMetrics({ campaignId });
-      const recentAuditEvents = aiAuditStore.listEvents({ campaignId, userId, limit: 25 });
+        const operational = aiAuditStore.getOperationalMetrics({ campaignId, userId });
+        const costs = aiAuditStore.getCostSummary({ campaignId, userId });
+        const productivity = aiAuditStore.getProductivityMetrics({ campaignId });
+        const roi = aiAuditStore.getROIMetrics({ campaignId });
+        const recentAuditEvents = aiAuditStore.listEvents({ campaignId, userId, limit: 25 });
 
-      res.json({
-        operational,
-        costs,
-        productivity,
-        roi,
-        auditEventsCount: recentAuditEvents.length,
-        recentAuditEvents,
-      });
+        res.json({
+          operational,
+          costs,
+          productivity,
+          roi,
+          auditEventsCount: recentAuditEvents.length,
+          recentAuditEvents,
+        });
+      } catch (err) {
+        next(err);
+      }
     }
   );
 
@@ -2870,44 +2886,48 @@ app.get('/api/health', (req, res) => {
     '/api/governance/ai-audit',
     requireAuth,
     requirePermission('audit.view'),
-    async (req: AuthenticatedRequest, res) => {
-      const {
-        userId,
-        campaignId,
-        provider,
-        model,
-        operation,
-        status,
-        moderationStatus,
-        startDate,
-        endDate,
-        limit,
-        offset,
-      } = req.query as Record<string, string | undefined>;
+    async (req: AuthenticatedRequest, res, next) => {
+      try {
+        const {
+          userId,
+          campaignId,
+          provider,
+          model,
+          operation,
+          status,
+          moderationStatus,
+          startDate,
+          endDate,
+          limit,
+          offset,
+        } = req.query as Record<string, string | undefined>;
 
-      const parsedLimit = limit ? Math.min(parseInt(limit, 10), 200) : 50;
-      const parsedOffset = offset ? parseInt(offset, 10) : 0;
+        const parsedLimit = limit ? Math.min(parseInt(limit, 10), 200) : 50;
+        const parsedOffset = offset ? parseInt(offset, 10) : 0;
 
-      const events = aiAuditStore.listEvents({
-        userId,
-        campaignId,
-        provider,
-        model,
-        operation,
-        status: status as any,
-        moderationStatus: moderationStatus as any,
-        startDate,
-        endDate,
-        limit: parsedLimit,
-        offset: parsedOffset,
-      });
+        const events = aiAuditStore.listEvents({
+          userId,
+          campaignId,
+          provider,
+          model,
+          operation,
+          status: status as any,
+          moderationStatus: moderationStatus as any,
+          startDate,
+          endDate,
+          limit: parsedLimit,
+          offset: parsedOffset,
+        });
 
-      res.json({
-        events,
-        total: events.length,
-        limit: parsedLimit,
-        offset: parsedOffset,
-      });
+        res.json({
+          events,
+          total: events.length,
+          limit: parsedLimit,
+          offset: parsedOffset,
+        });
+      } catch (err) {
+        next(err);
+      }
     }
   );
 
@@ -2926,33 +2946,37 @@ app.get('/api/health', (req, res) => {
   app.get(
     '/api/campaigns/:campaignId/ai-metrics',
     requireAuth,
-    async (req: AuthenticatedRequest, res) => {
-      const user = req.user!;
-      const { campaignId } = req.params;
+    async (req: AuthenticatedRequest, res, next) => {
+      try {
+        const user = req.user!;
+        const { campaignId } = req.params;
 
-      if (user.role !== 'Administrator') {
-        const mem = await checkUserCampaignMembership(user.id, campaignId);
-        if (!mem.isMember) {
-          res.status(403).json({ error: 'Forbidden', message: 'Acesso negado aos dados desta campanha.' });
-          return;
+        if (user.role !== 'Administrator') {
+          const mem = await checkUserCampaignMembership(user.id, campaignId);
+          if (!mem.isMember) {
+            res.status(403).json({ error: 'Forbidden', message: 'Acesso negado aos dados desta campanha.' });
+            return;
+          }
         }
+
+        const operational = aiAuditStore.getOperationalMetrics({ campaignId });
+        const productivity = aiAuditStore.getProductivityMetrics({ campaignId });
+        const roi = aiAuditStore.getROIMetrics({ campaignId });
+
+        // Financial cost data is restricted to Administrator or users with costs.view permission
+        const hasCostsView = hasRolePermission(user.role, 'costs.view');
+        const costs = hasCostsView ? aiAuditStore.getCostSummary({ campaignId }) : null;
+
+        res.json({
+          operational,
+          productivity,
+          roi,
+          costs,
+          hasFinancialAccess: hasCostsView,
+        });
+      } catch (err) {
+        next(err);
       }
-
-      const operational = aiAuditStore.getOperationalMetrics({ campaignId });
-      const productivity = aiAuditStore.getProductivityMetrics({ campaignId });
-      const roi = aiAuditStore.getROIMetrics({ campaignId });
-
-      // Financial cost data is restricted to Administrator or users with costs.view permission
-      const hasCostsView = hasRolePermission(user.role, 'costs.view');
-      const costs = hasCostsView ? aiAuditStore.getCostSummary({ campaignId }) : null;
-
-      res.json({
-        operational,
-        productivity,
-        roi,
-        costs,
-        hasFinancialAccess: hasCostsView,
-      });
     }
   );
 
@@ -2963,6 +2987,32 @@ app.get('/api/health', (req, res) => {
     res.status(404).json({
       error: 'NotFound',
       message: `API endpoint não encontrado: ${req.method} ${req.path}`,
+    });
+  });
+
+  // -------------------------------------------------------------
+  // CENTRALIZED GLOBAL ERROR HANDLER FOR EXPRESS 4
+  // -------------------------------------------------------------
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('[Express Global Error]:', err);
+    if (res.headersSent) {
+      return next(err);
+    }
+    const statusCode =
+      typeof err?.statusCode === 'number'
+        ? err.statusCode
+        : typeof err?.status === 'number'
+        ? err.status
+        : 500;
+    const message =
+      err instanceof Error
+        ? err.message
+        : typeof err === 'string'
+        ? err
+        : 'Erro interno do servidor.';
+    res.status(statusCode).json({
+      error: err?.name || 'InternalServerError',
+      message,
     });
   });
 
