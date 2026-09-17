@@ -39,6 +39,39 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+function deriveIdentityFromSessionUser(authUser: {
+  id: string;
+  email?: string | null;
+  user_metadata?: Record<string, unknown>;
+  app_metadata?: Record<string, unknown>;
+  created_at?: string;
+}): UserIdentity {
+  const metaRole = authUser.user_metadata?.role as UserRole | undefined;
+  const appRole = authUser.app_metadata?.role as UserRole | undefined;
+  const safeRole: UserRole =
+    appRole && ['Administrator', 'Approver', 'Designer', 'Copywriter'].includes(appRole)
+      ? appRole
+      : metaRole && ['Administrator', 'Approver', 'Designer', 'Copywriter'].includes(metaRole)
+      ? metaRole
+      : 'Designer';
+
+  const fullName =
+    (authUser.user_metadata?.full_name as string) ||
+    (authUser.user_metadata?.name as string) ||
+    authUser.email?.split('@')[0] ||
+    'Usuario';
+
+  return {
+    id: authUser.id,
+    email: authUser.email || '',
+    displayName: fullName,
+    avatarUrl: authUser.user_metadata?.avatar_url as string | undefined,
+    role: safeRole,
+    accountStatus: 'active',
+    createdAt: authUser.created_at,
+  };
+}
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authStatus, setAuthStatus] = useState<AuthStateStatus>('loading');
   const [user, setUser] = useState<UserIdentity | null>(null);
@@ -135,27 +168,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (initialSession) {
         setSession(initialSession);
-        const identity = await fetchServerIdentity(initialSession.access_token);
-        if (identity) {
-          setUser(identity);
-          setAuthStatus('authenticated');
-        } else {
-          // If server rejects token or table isn't reachable, keep fallback info from token
-          const tokenUser = initialSession.user;
-          const fallbackIdentity: UserIdentity = {
-            id: tokenUser.id,
-            email: tokenUser.email || '',
-            displayName:
-              tokenUser.user_metadata?.full_name ||
-              tokenUser.user_metadata?.name ||
-              tokenUser.email?.split('@')[0] ||
-              'Usuario',
-            role: (tokenUser.user_metadata?.role as UserRole) || 'Designer',
-            accountStatus: 'active',
-          };
-          setUser(fallbackIdentity);
-          setAuthStatus('authenticated');
-        }
+        // Immediate client-side identity resolution from verified Supabase session
+        const baseIdentity = deriveIdentityFromSessionUser(initialSession.user);
+        setUser(baseIdentity);
+        setAuthStatus('authenticated');
+
+        // Asynchronously update with server-verified role from database
+        fetchServerIdentity(initialSession.access_token).then((serverIdentity) => {
+          if (serverIdentity) {
+            setUser(serverIdentity);
+          }
+        });
       } else {
         setSession(null);
         setUser(null);
@@ -181,22 +204,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } = supabase.auth.onAuthStateChange(async (event, currentSession) => {
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         if (currentSession) {
-          setSession(currentSession);
-          const identity = await fetchServerIdentity(currentSession.access_token);
-          if (identity) {
-            setUser(identity);
+          if (event === 'SIGNED_IN') {
+            setDevVisualRole(null); // Clear preview override upon real login
           }
+          setSession(currentSession);
+          // Immediate client-side identity resolution guarantees user is never null
+          const baseIdentity = deriveIdentityFromSessionUser(currentSession.user);
+          setUser((prev) => (prev && prev.id === baseIdentity.id && prev.role !== 'Designer' ? prev : baseIdentity));
           setAuthStatus('authenticated');
           setError(null);
+
+          fetchServerIdentity(currentSession.access_token).then((serverIdentity) => {
+            if (serverIdentity) {
+              setUser(serverIdentity);
+            }
+          });
         }
       } else if (event === 'SIGNED_OUT') {
         setSession(null);
         setUser(null);
+        setDevVisualRole(null);
         setAuthStatus('unauthenticated');
       } else if (event === 'USER_UPDATED') {
         if (currentSession) {
-          const identity = await fetchServerIdentity(currentSession.access_token);
-          if (identity) setUser(identity);
+          const baseIdentity = deriveIdentityFromSessionUser(currentSession.user);
+          setUser(baseIdentity);
+          fetchServerIdentity(currentSession.access_token).then((serverIdentity) => {
+            if (serverIdentity) {
+              setUser(serverIdentity);
+            }
+          });
         }
       }
     });
@@ -234,12 +271,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (data.session) {
+        setDevVisualRole(null); // Clear preview override upon real login
         setSession(data.session);
-        const identity = await fetchServerIdentity(data.session.access_token);
-        if (identity) {
-          setUser(identity);
-        }
+        // Immediate identity from authenticated session ensures user is immediately present
+        const baseIdentity = deriveIdentityFromSessionUser(data.session.user);
+        setUser(baseIdentity);
         setAuthStatus('authenticated');
+
+        // Asynchronously update with server-verified role
+        fetchServerIdentity(data.session.access_token).then((serverIdentity) => {
+          if (serverIdentity) {
+            setUser(serverIdentity);
+          }
+        });
+
         return { success: true };
       }
 
@@ -281,10 +326,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (data.session) {
+        setDevVisualRole(null);
         setSession(data.session);
-        const identity = await fetchServerIdentity(data.session.access_token);
-        if (identity) setUser(identity);
+        const baseIdentity = deriveIdentityFromSessionUser(data.session.user);
+        setUser(baseIdentity);
         setAuthStatus('authenticated');
+
+        fetchServerIdentity(data.session.access_token).then((serverIdentity) => {
+          if (serverIdentity) {
+            setUser(serverIdentity);
+          }
+        });
+
         return { success: true };
       } else if (data.user) {
         return {

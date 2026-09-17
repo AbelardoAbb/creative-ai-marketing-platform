@@ -19,20 +19,31 @@ export const TopBar: React.FC<TopBarProps> = ({
   selectedRole,
   onRoleChange,
 }) => {
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const currentNav = NAVIGATION_ITEMS.find((item) => item.id === currentTab);
 
-  const displayUser = user || {
+  const displayUser = user || (session?.user ? {
+    id: session.user.id,
+    displayName:
+      (session.user.user_metadata?.full_name as string) ||
+      (session.user.user_metadata?.name as string) ||
+      session.user.email?.split('@')[0] ||
+      'Usuario',
+    email: session.user.email || '',
+    role: (session.user.user_metadata?.role as UserRole) || selectedRole,
+    avatarUrl: session.user.user_metadata?.avatar_url as string | undefined,
+    accountStatus: 'active' as const,
+  } : {
     id: 'anon',
     displayName: 'Usuario invitado',
     email: 'autenticacion.pendiente@empresa.com',
     role: selectedRole,
     avatarUrl: undefined,
     accountStatus: 'active' as const,
-  };
+  });
 
   const roleColors: Record<UserRole, string> = {
     Designer: 'bg-slate-100 text-slate-700 border-slate-200',
@@ -162,7 +173,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <Avatar
             name={displayUser.displayName}
             avatarUrl={displayUser.avatarUrl}
-            role={user ? user.role : selectedRole}
+            role={displayUser.role}
             size="md"
           />
           <div className="flex flex-col text-left">
@@ -175,7 +186,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
 
           {/* Logout Action Button */}
-          {user && (
+          {(user || session) && (
             <button
               onClick={() => signOut()}
               className="p-1.5 ml-1 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"

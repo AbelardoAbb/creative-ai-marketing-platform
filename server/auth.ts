@@ -44,6 +44,10 @@ function cleanSupabaseUrl(url: string): string {
       }
     }
   } catch {}
+  // If user provided a raw project ref (e.g. "xpqswzkvcgkkodehvrun")
+  if (/^[a-z0-9]{20}$/i.test(trimmed)) {
+    return `https://${trimmed}.supabase.co`;
+  }
   return '';
 }
 
