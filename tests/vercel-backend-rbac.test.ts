@@ -43,6 +43,13 @@ async function runTests() {
   // 2. Check api/index.ts exports a valid handler function
   assert(typeof handler === 'function', 'api/index.ts exports a callable function');
 
+  // 3. Check api/index.js bundle exists and is completely self-contained for Vercel Serverless
+  const apiJsPath = path.join(process.cwd(), 'api', 'index.js');
+  assert(fs.existsSync(apiJsPath), 'api/index.js bundle exists in repository/deployment artifact');
+  const apiJsContent = fs.readFileSync(apiJsPath, 'utf8');
+  assert(!apiJsContent.includes('../server/app'), 'api/index.js does not contain unresolved relative import ../server/app');
+  assert(!apiJsContent.includes('/var/task/server/app'), 'api/index.js does not contain unresolved reference to /var/task/server/app');
+
   console.log('\nSuite 2: Express App & API Route Registration');
   
   // Start temporary HTTP test server
