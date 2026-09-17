@@ -40,8 +40,9 @@ async function runTests() {
   const spaRewrite = vercelConfig.rewrites.find((r: any) => r.source === '/(.*)');
   assert(!!spaRewrite && spaRewrite.destination === '/index.html', '/(.*) rewrites to /index.html SPA entrypoint');
 
-  // 2. Check api/index.ts exports a valid handler function
-  assert(typeof handler === 'function', 'api/index.ts exports a callable function');
+  // 2. Check api/index.js exports a valid handler function
+  assert(typeof handler === 'function', 'api/index.js exports a callable function');
+  assert(!fs.existsSync(path.join(process.cwd(), 'api', 'index.ts')), 'no conflicting api/index.ts exists in api directory');
 
   // 3. Check api/index.js bundle exists and is completely self-contained for Vercel Serverless
   const apiJsPath = path.join(process.cwd(), 'api', 'index.js');

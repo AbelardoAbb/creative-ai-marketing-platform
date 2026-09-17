@@ -4,7 +4,7 @@
  */
 
 import type { IncomingMessage, ServerResponse } from 'http';
-import app from '../server/app';
+import app from './app';
 
 /**
  * Vercel Serverless Function entry point for Express backend.

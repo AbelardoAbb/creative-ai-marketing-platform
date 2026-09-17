@@ -5431,7 +5431,7 @@ app.use((err, req, res, next) => {
 });
 var app_default = app;
 
-// api/index.ts
+// server/api.ts
 function handler(req, res) {
   return new Promise((resolve) => {
     if (res.writableEnded || res.finished) {
