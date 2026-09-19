@@ -42,7 +42,7 @@ export const Toast: React.FC<ToastProps> = ({
       </div>
       <button
         onClick={() => onClose(id)}
-        aria-label="Cerrar notificación"
+        aria-label="Fechar notificação"
         className="text-slate-400 hover:text-slate-700 p-1 rounded-md transition-colors"
       >
         <X className="w-4 h-4" />

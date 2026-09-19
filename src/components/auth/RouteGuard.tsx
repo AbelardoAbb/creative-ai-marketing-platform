@@ -26,7 +26,7 @@ export const RouteGuard: React.FC<RouteGuardProps> = ({
   if (authStatus === 'loading') {
     return (
       <div className="min-h-screen bg-[#090d16] flex items-center justify-center p-4">
-        <LoadingState message="Verificando sessão segura no Supabase..." />
+        <LoadingState message="A verificar sessão segura no Supabase..." />
       </div>
     );
   }

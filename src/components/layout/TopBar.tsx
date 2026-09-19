@@ -31,15 +31,15 @@ export const TopBar: React.FC<TopBarProps> = ({
       (session.user.user_metadata?.full_name as string) ||
       (session.user.user_metadata?.name as string) ||
       session.user.email?.split('@')[0] ||
-      'Usuario',
+      'Utilizador',
     email: session.user.email || '',
     role: (session.user.user_metadata?.role as UserRole) || selectedRole,
     avatarUrl: session.user.user_metadata?.avatar_url as string | undefined,
     accountStatus: 'active' as const,
   } : {
     id: 'anon',
-    displayName: 'Usuario invitado',
-    email: 'autenticacion.pendiente@empresa.com',
+    displayName: 'Utilizador convidado',
+    email: 'autenticacao.pendente@empresa.com',
     role: selectedRole,
     avatarUrl: undefined,
     accountStatus: 'active' as const,
@@ -59,7 +59,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           onClick={onOpenMobileMenu}
           className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-          aria-label="Abrir menú de navegación"
+          aria-label="Abrir menu de navegação"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -67,7 +67,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <h1 className="text-sm sm:text-base font-semibold text-slate-900 tracking-tight">
-              {currentNav?.label || 'Panel'}
+              {currentNav?.label || 'Painel'}
             </h1>
             <span className="hidden sm:inline-block text-xs text-slate-300">•</span>
             <span className="hidden sm:inline-block text-xs text-slate-500 font-medium">
@@ -89,11 +89,11 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
             className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors text-xs cursor-pointer text-slate-700"
-            title="Selector de rol para pruebas de interfaz"
+            title="Seletor de função para testes de interface"
           >
             <div className="flex items-center gap-1 text-[10px] uppercase font-medium tracking-wider px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
               <ShieldAlert className="w-3 h-3 text-amber-600" />
-              <span>TEST PREVIEW</span>
+              <span>PRÉ-VISUALIZAÇÃO DE TESTE</span>
             </div>
             <span className={`text-xs font-medium px-1.5 py-0.5 rounded border ${roleColors[selectedRole]}`}>
               {selectedRole}
@@ -107,10 +107,10 @@ export const TopBar: React.FC<TopBarProps> = ({
               <div className="p-2.5 border-b border-slate-100 mb-2 bg-slate-50 rounded-md">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
                   <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>Entorno de pruebas visuales</span>
+                  <span>Ambiente de testes visuais</span>
                 </div>
                 <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                  Este selector altera únicamente la previsualización visual de la interfaz. <strong>NO</strong> altera permisos ni modifica su usuario en el backend.
+                  Este seletor altera unicamente a pré-visualização visual da interface. <strong>NÃO</strong> altera permissões nem modifica o seu utilizador no backend.
                 </p>
               </div>
 
@@ -147,7 +147,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         {/* Notifications */}
         <div className="relative">
           <IconButton
-            aria-label="Notificaciones"
+            aria-label="Notificações"
             icon={<Bell className="w-4 h-4 text-slate-600" />}
             variant="ghost"
             onClick={() => setShowNotifications(!showNotifications)}
@@ -158,11 +158,11 @@ export const TopBar: React.FC<TopBarProps> = ({
           {showNotifications && (
             <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg z-50 p-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs font-semibold text-slate-800">
-                <span>Notificaciones del sistema</span>
-                <span className="text-[10px] text-slate-500 font-normal">Sesión activa</span>
+                <span>Notificações do sistema</span>
+                <span className="text-[10px] text-slate-500 font-normal">Sessão ativa</span>
               </div>
               <div className="py-3 text-center text-xs text-slate-500">
-                No hay notificaciones nuevas en este momento.
+                Não há notificações novas neste momento.
               </div>
             </div>
           )}
@@ -190,8 +190,8 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               onClick={() => signOut()}
               className="p-1.5 ml-1 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-              title="Cerrar sesión"
-              aria-label="Cerrar sesión"
+              title="Terminar sessão"
+              aria-label="Terminar sessão"
             >
               <LogOut className="w-4 h-4" />
             </button>

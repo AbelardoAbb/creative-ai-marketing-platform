@@ -34,25 +34,25 @@ export const ContentApprovalModal: React.FC<ContentApprovalModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Aprobar pieza de contenido" size="md">
+    <Modal isOpen={isOpen} onClose={onClose} title="Aprovar peça de conteúdo" size="md">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="p-3.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs flex items-start gap-2.5">
           <ShieldCheck className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
           <div>
-            <span className="font-semibold text-emerald-200">Decisión formal de aprobación: </span>
-            Al aprobar la versión #{versionNumber} de &ldquo;{contentTitle}&rdquo;, usted certifica que la pieza ha sido revisada por un humano, cumple con los requisitos normativos de la campaña y queda autorizada para su distribución.
+            <span className="font-semibold text-emerald-200">Decisão formal de aprovação: </span>
+            Ao aprovar a versão #{versionNumber} de &ldquo;{contentTitle}&rdquo;, certifica que a peça foi revista por um humano, cumpre os requisitos normativos da campanha e fica autorizada para distribuição.
           </div>
         </div>
 
         <div>
           <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Nota de aprobación (Opcional)
+            Nota de aprovação (Opcional)
           </label>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             rows={3}
-            placeholder="Añada indicaciones finales de distribución u observaciones para el equipo creativo..."
+            placeholder="Adicione indicações finais de distribuição ou observações para a equipa criativa..."
             className="w-full bg-[#161f30] border border-[#26344d] rounded-lg px-3 py-2.5 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
           />
         </div>
@@ -69,7 +69,7 @@ export const ContentApprovalModal: React.FC<ContentApprovalModalProps> = ({
             isLoading={isProcessing}
             leftIcon={<CheckCircle2 className="w-4 h-4" />}
           >
-            Confirmar aprobación
+            Confirmar aprovação
           </Button>
         </div>
       </form>

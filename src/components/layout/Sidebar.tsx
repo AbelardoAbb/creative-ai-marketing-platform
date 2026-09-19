@@ -96,14 +96,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           onClick={onCloseMobile}
           className="lg:hidden text-slate-400 hover:text-slate-700 p-1.5 rounded-md hover:bg-slate-100"
-          aria-label="Cerrar navegación"
+          aria-label="Fechar navegação"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
       {/* Navigation List */}
-      <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-1" aria-label="Menú principal">
+      <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-1" aria-label="Menu principal">
         {NAVIGATION_ITEMS.map((item) => {
           const isActive = currentTab === item.id;
           const isPermitted = !item.allowedRoles || item.allowedRoles.includes(currentRole);
@@ -135,7 +135,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <span className="truncate">{item.label}</span>
                   <div className="flex items-center gap-1.5">
                     {!isPermitted && (
-                      <Lock className="w-3 h-3 text-slate-400" title="Requiere permisos adicionales" />
+                      <Lock className="w-3 h-3 text-slate-400" title="Requer permissões adicionais" />
                     )}
                     {item.badge !== undefined && (
                       <span
@@ -166,13 +166,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {!isCollapsed && (
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-[11px] text-slate-500">Sistema en línea</span>
+            <span className="text-[11px] text-slate-500">Sistema online</span>
           </div>
         )}
         <button
           onClick={onToggleCollapse}
           className="hidden lg:flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-          aria-label={isCollapsed ? 'Expandir barra lateral' : 'Plegar barra lateral'}
+          aria-label={isCollapsed ? 'Expandir barra lateral' : 'Recolher barra lateral'}
         >
           {isCollapsed ? (
             <ChevronRight className="w-4 h-4" />

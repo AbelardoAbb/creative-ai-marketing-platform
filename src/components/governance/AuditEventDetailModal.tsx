@@ -20,25 +20,25 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'SUCCESS':
-        return <Badge variant="success" size="md">ÉXITO</Badge>;
+        return <Badge variant="success" size="md">SUCESSO</Badge>;
       case 'BLOCKED':
         return <Badge variant="warning" size="md">BLOQUEADO</Badge>;
       case 'FAILED':
       default:
-        return <Badge variant="danger" size="md">FALLO</Badge>;
+        return <Badge variant="danger" size="md">FALHA</Badge>;
     }
   };
 
   const getModerationBadge = (mod: string) => {
     switch (mod) {
       case 'LOW_RISK':
-        return <Badge variant="success" size="sm">BAJO RIESGO</Badge>;
+        return <Badge variant="success" size="sm">BAIXO RISCO</Badge>;
       case 'MEDIUM_RISK':
-        return <Badge variant="warning" size="sm">RIESGO MEDIO</Badge>;
+        return <Badge variant="warning" size="sm">RISCO MÉDIO</Badge>;
       case 'HIGH_RISK':
-        return <Badge variant="danger" size="sm">ALTO RIESGO (BLOQUEADO)</Badge>;
+        return <Badge variant="danger" size="sm">ALTO RISCO (BLOQUEADO)</Badge>;
       case 'REQUIRES_HUMAN_REVIEW':
-        return <Badge variant="purple" size="sm">REVISIÓN HUMANA</Badge>;
+        return <Badge variant="purple" size="sm">REVISÃO HUMANA</Badge>;
       default:
         return <Badge variant="neutral" size="sm">{mod}</Badge>;
     }
@@ -55,7 +55,7 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-semibold text-white">Evento de Auditoría de IA</h3>
+                <h3 className="text-base font-semibold text-white">Evento de Auditoria de IA</h3>
                 {getStatusBadge(event.status)}
               </div>
               <p className="text-xs text-slate-400 font-mono mt-0.5">{event.id}</p>
@@ -74,7 +74,7 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
           {/* Metadata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="p-3 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Proveedor</span>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Fornecedor</span>
               <div className="text-xs font-semibold text-white mt-1">{event.provider}</div>
             </div>
 
@@ -86,12 +86,12 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
             </div>
 
             <div className="p-3 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Operación</span>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Operação</span>
               <div className="text-xs font-semibold text-indigo-400 mt-1">{event.operation}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Duración</span>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Duração</span>
               <div className="text-xs font-mono font-semibold text-amber-400 mt-1">
                 {event.duration_ms !== null ? `${event.duration_ms} ms` : 'N/A (Bloqueado)'}
               </div>
@@ -100,10 +100,10 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
 
           {/* User & Campaign Context */}
           <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42] space-y-3">
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Contexto de Ejecución</h4>
+            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Contexto de Execução</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-slate-400">Usuario ejecutor:</span>
+                <span className="text-slate-400">Utilizador executor:</span>
                 <span className="text-white font-medium ml-2">
                   {event.user_name || event.user_id}{' '}
                   {event.user_role && (
@@ -114,19 +114,19 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
                 </span>
               </div>
               <div>
-                <span className="text-slate-400">Campaña:</span>
+                <span className="text-slate-400">Campanha:</span>
                 <span className="text-white font-medium ml-2">
                   {event.campaign_name || event.campaign_id || 'Global'}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400">Inicio:</span>
+                <span className="text-slate-400">Início:</span>
                 <span className="text-slate-300 font-mono ml-2">
-                  {new Date(event.started_at).toLocaleString('es-ES')}
+                  {new Date(event.started_at).toLocaleString('pt-PT')}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400">Moderación de seguridad:</span>
+                <span className="text-slate-400">Moderação de segurança:</span>
                 <span className="ml-2">{getModerationBadge(event.moderation_status)}</span>
               </div>
             </div>
@@ -136,13 +136,13 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
           <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42] space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                Telemetría de Tokens y Coste Financiero
+                Telemetria de Tokens e Custo Financeiro
               </h4>
               <Badge
                 variant={event.cost_status === 'KNOWN' ? 'success' : event.cost_status === 'ESTIMATED' ? 'warning' : 'neutral'}
                 size="sm"
               >
-                Coste: {event.cost_status}
+                Custo: {event.cost_status}
               </Badge>
             </div>
 
@@ -150,26 +150,26 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
               <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
                 <span className="text-[11px] text-slate-400">Tokens de entrada</span>
                 <div className="text-xs font-mono font-semibold text-slate-200 mt-0.5">
-                  {event.input_tokens !== null ? event.input_tokens.toLocaleString('es-ES') : 'N/A'}
+                  {event.input_tokens !== null ? event.input_tokens.toLocaleString('pt-PT') : 'N/A'}
                 </div>
               </div>
 
               <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-                <span className="text-[11px] text-slate-400">Tokens de salida</span>
+                <span className="text-[11px] text-slate-400">Tokens de saída</span>
                 <div className="text-xs font-mono font-semibold text-slate-200 mt-0.5">
-                  {event.output_tokens !== null ? event.output_tokens.toLocaleString('es-ES') : 'N/A'}
+                  {event.output_tokens !== null ? event.output_tokens.toLocaleString('pt-PT') : 'N/A'}
                 </div>
               </div>
 
               <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
                 <span className="text-[11px] text-slate-400">Total de tokens</span>
                 <div className="text-xs font-mono font-semibold text-indigo-300 mt-0.5">
-                  {event.total_tokens !== null ? event.total_tokens.toLocaleString('es-ES') : 'N/A'}
+                  {event.total_tokens !== null ? event.total_tokens.toLocaleString('pt-PT') : 'N/A'}
                 </div>
               </div>
 
               <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-                <span className="text-[11px] text-slate-400">Coste computado</span>
+                <span className="text-[11px] text-slate-400">Custo computado</span>
                 <div className="text-xs font-mono font-bold text-emerald-400 mt-0.5">
                   {event.estimated_cost !== null
                     ? `$${event.estimated_cost.toFixed(6)} ${event.currency}`
@@ -184,7 +184,7 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
             <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-800/40 space-y-2">
               <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold">
                 <AlertTriangle className="w-4 h-4" />
-                <span>Justificación técnica de error / bloqueo</span>
+                <span>Justificação técnica de erro / bloqueio</span>
               </div>
               {event.error_code && (
                 <div className="text-xs font-mono text-amber-300">
@@ -203,7 +203,7 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
           {event.metadata && Object.keys(event.metadata).length > 0 && (
             <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42] space-y-2">
               <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                Metadatos adicionales
+                Metadados adicionais
               </h4>
               <pre className="text-[11px] font-mono text-slate-300 bg-[#0d131f] p-3 rounded-lg border border-[#1a2337] overflow-x-auto">
                 {JSON.stringify(event.metadata, null, 2)}
@@ -215,10 +215,10 @@ export const AuditEventDetailModal: React.FC<AuditEventDetailModalProps> = ({ ev
         {/* Footer */}
         <div className="px-6 py-4 border-t border-[#202b42] flex justify-between items-center bg-[#090d16]">
           <span className="text-[11px] text-slate-500 font-mono">
-            Pista inmutable de auditoría (Append-Only)
+            Trilha imutável de auditoria (Append-Only)
           </span>
           <Button variant="secondary" onClick={onClose}>
-            Cerrar
+            Fechar
           </Button>
         </div>
       </div>

@@ -122,20 +122,20 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
       if (!res.ok) {
         setActionFeedback({
           type: 'error',
-          message: data.message || 'Error al resolver el evento de moderación.',
+          message: data.message || 'Erro ao resolver o evento de moderação.',
         });
         return;
       }
       setActionFeedback({
         type: 'success',
-        message: `Moderación resuelta con éxito (${decision}).`,
+        message: `Moderação resolvida com sucesso (${decision}).`,
       });
       setResolvingModerationEvent(null);
       await Promise.all([fetchQueue(), fetchPendingModeration()]);
     } catch (err: unknown) {
       setActionFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo al comunicarse con el servidor.',
+        message: err instanceof Error ? err.message : 'Falha ao comunicar com o servidor.',
       });
     } finally {
       setIsProcessing(false);
@@ -168,15 +168,15 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
       });
       const data = await res.json();
       if (!res.ok) {
-        setActionFeedback({ type: 'error', message: data.message || 'Error al iniciar la revisión.' });
+        setActionFeedback({ type: 'error', message: data.message || 'Erro ao iniciar a revisão.' });
         return;
       }
-      setActionFeedback({ type: 'success', message: 'Revisión iniciada con éxito.' });
+      setActionFeedback({ type: 'success', message: 'Revisão iniciada com sucesso.' });
       await fetchQueue();
     } catch (err: unknown) {
       setActionFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación con el servidor.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação com o servidor.',
       });
     } finally {
       setIsProcessing(false);
@@ -196,20 +196,20 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
       if (!res.ok) {
         setActionFeedback({
           type: 'error',
-          message: data.message || 'Error al aprobar el contenido.',
+          message: data.message || 'Erro ao aprovar o conteúdo.',
         });
         return;
       }
       setActionFeedback({
         type: 'success',
-        message: `¡Pieza "${approvingItem.title}" aprobada formalmente con éxito!`,
+        message: `Peça "${approvingItem.title}" aprovada formalmente com sucesso!`,
       });
       setApprovingItem(null);
       await fetchQueue();
     } catch (err: unknown) {
       setActionFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación con el servidor.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação com o servidor.',
       });
     } finally {
       setIsProcessing(false);
@@ -229,20 +229,20 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
       if (!res.ok) {
         setActionFeedback({
           type: 'error',
-          message: data.message || 'Error al rechazar el contenido.',
+          message: data.message || 'Erro ao rejeitar o conteúdo.',
         });
         return;
       }
       setActionFeedback({
         type: 'success',
-        message: `Pieza "${rejectingItem.title}" rechazada con solicitud de revisión fundamentada.`,
+        message: `Peça "${rejectingItem.title}" rejeitada com pedido de revisão fundamentado.`,
       });
       setRejectingItem(null);
       await fetchQueue();
     } catch (err: unknown) {
       setActionFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación con el servidor.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação com o servidor.',
       });
     } finally {
       setIsProcessing(false);
@@ -252,20 +252,20 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
   const getStatusBadge = (status: ContentStatus) => {
     switch (status) {
       case 'APPROVED':
-        return <Badge variant="success" size="sm">APROBADO</Badge>;
+        return <Badge variant="success" size="sm">APROVADO</Badge>;
       case 'REJECTED':
-        return <Badge variant="danger" size="sm">RECHAZADO</Badge>;
+        return <Badge variant="danger" size="sm">REJEITADO</Badge>;
       case 'UNDER_REVIEW':
-        return <Badge variant="warning" size="sm">EN REVISIÓN</Badge>;
+        return <Badge variant="warning" size="sm">EM REVISÃO</Badge>;
       case 'READY_FOR_REVIEW':
-        return <Badge variant="info" size="sm">LISTO PARA REVISIÓN</Badge>;
+        return <Badge variant="info" size="sm">PRONTO P/ REVISÃO</Badge>;
       case 'HUMAN_EDITED':
-        return <Badge variant="blue" size="sm">EDICIÓN MANUAL</Badge>;
+        return <Badge variant="blue" size="sm">EDIÇÃO MANUAL</Badge>;
       case 'AI_GENERATED':
-        return <Badge variant="neutral" size="sm">IA GENERADO</Badge>;
+        return <Badge variant="neutral" size="sm">GERADO POR IA</Badge>;
       case 'DRAFT':
       default:
-        return <Badge variant="neutral" size="sm">BORRADOR</Badge>;
+        return <Badge variant="neutral" size="sm">RASCUNHO</Badge>;
     }
   };
 
@@ -283,7 +283,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Cola Editorial de Piezas</span>
+            <span>Fila Editorial de Peças</span>
             <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeSection === 'CONTENT' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'}`}>
               {queue.length}
             </span>
@@ -298,7 +298,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
             }`}
           >
             <ShieldAlert className="w-3.5 h-3.5" />
-            <span>Moderación de Seguridad IA</span>
+            <span>Moderação de Segurança IA</span>
             {pendingModeration.length > 0 ? (
               <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-200 text-amber-900 font-bold">
                 {pendingModeration.length}
@@ -321,7 +321,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
           isLoading={loading}
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          Actualizar Datos
+          Atualizar Dados
         </Button>
       </div>
 
@@ -346,7 +346,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
             onClick={() => setActionFeedback(null)}
             className="text-slate-500 hover:text-slate-700 font-medium"
           >
-            Cerrar
+            Fechar
           </button>
         </div>
       )}
@@ -358,10 +358,10 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
             <ShieldAlert className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="space-y-1">
               <div className="font-semibold text-amber-900">
-                Central de Moderación y Gobernanza Responsable
+                Central de Moderação e Governação Responsável
               </div>
               <p className="text-amber-800">
-                Todas las solicitudes y generaciones pasan por filtros de seguridad de contenido. Los eventos clasificados como riesgo moderado o alto requieren análisis humano obligatorio por Revisores Autorizados o Administradores antes de que el contenido pueda continuar.
+                Todas as solicitações e gerações passam por filtros de segurança de conteúdo. Os eventos classificados como risco moderado ou alto requerem análise humana obrigatória por Revisores Autorizados ou Administradores antes que o conteúdo possa continuar.
               </p>
             </div>
           </div>
@@ -370,10 +370,10 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
             <div className="p-12 text-center rounded-2xl border border-dashed border-slate-200 bg-white space-y-3">
               <ShieldCheck className="w-10 h-10 text-emerald-600 mx-auto" />
               <h4 className="text-sm font-semibold text-slate-900">
-                Sin pendientes de moderación de seguridad
+                Sem pendências de moderação de segurança
               </h4>
               <p className="text-xs text-slate-500 max-w-md mx-auto">
-                Todas las interacciones recientes de IA pasaron las validaciones de términos sensibles o ya fueron evaluadas por revisores.
+                Todas as interações recentes de IA passaram nas validações de termos sensíveis ou já foram avaliadas por revisores.
               </p>
             </div>
           ) : (
@@ -387,7 +387,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-semibold">
-                            {event.stage === 'INPUT' ? 'ENTRADA (Prompt)' : 'SALIDA (Generación)'}
+                            {event.stage === 'INPUT' ? 'ENTRADA (Prompt)' : 'SAÍDA (Geração)'}
                           </span>
                           <span
                             className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
@@ -396,7 +396,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                                 : 'bg-amber-100 text-amber-800 border border-amber-200'
                             }`}
                           >
-                            Riesgo: {event.risk_level}
+                            Risco: {event.risk_level}
                           </span>
                           <span className="text-xs text-slate-500 font-mono">
                             {event.provider} · {event.model}
@@ -404,7 +404,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                         </div>
 
                         <div className="text-xs text-slate-500">
-                          Enviado por <strong className="text-slate-800">{event.user_name}</strong> ({event.user_role}) el {new Date(event.timestamp).toLocaleString('es-ES')}
+                          Enviado por <strong className="text-slate-800">{event.user_name}</strong> ({event.user_role}) em {new Date(event.timestamp).toLocaleString('pt-PT')}
                         </div>
                       </div>
 
@@ -416,11 +416,11 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                             onClick={() => setResolvingModerationEvent(event)}
                             leftIcon={<ShieldCheck className="w-3.5 h-3.5" />}
                           >
-                            Evaluar Moderación
+                            Avaliar Moderação
                           </Button>
                         ) : (
                           <span className="text-xs text-slate-500 italic">
-                            Requiere rol de Revisor o Administrador
+                            Requer função de Revisor ou Administrador
                           </span>
                         )}
                       </div>
@@ -429,7 +429,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                     {/* Detected Categories & Reason */}
                     {event.categories && event.categories.length > 0 && (
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-xs text-slate-600">Categorías detectadas:</span>
+                        <span className="text-xs text-slate-600">Categorias detetadas:</span>
                         {event.categories.map((cat) => (
                           <span
                             key={cat}
@@ -475,11 +475,11 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">Listos p/ Revisión</span>
+                <span className="text-xs text-slate-500 font-medium">Prontos p/ Revisão</span>
                 <Clock className="w-4 h-4 text-blue-600" />
               </div>
               <div className="mt-2 text-2xl font-bold text-slate-900">{readyCount}</div>
-              <p className="text-[11px] text-slate-500 mt-1">Esperando inicio de revisión</p>
+              <p className="text-[11px] text-slate-500 mt-1">A aguardar início de revisão</p>
             </div>
 
             <div
@@ -491,11 +491,11 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">En Revisión Activa</span>
+                <span className="text-xs text-slate-500 font-medium">Em Revisão Ativa</span>
                 <AlertTriangle className="w-4 h-4 text-amber-600" />
               </div>
               <div className="mt-2 text-2xl font-bold text-slate-900">{underReviewCount}</div>
-              <p className="text-[11px] text-slate-500 mt-1">En evaluación por revisores</p>
+              <p className="text-[11px] text-slate-500 mt-1">Em avaliação por revisores</p>
             </div>
 
             <div
@@ -507,11 +507,11 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">Aprobados</span>
+                <span className="text-xs text-slate-500 font-medium">Aprovados</span>
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </div>
               <div className="mt-2 text-2xl font-bold text-slate-900">{approvedCount}</div>
-              <p className="text-[11px] text-slate-500 mt-1">Habilitados para difusión</p>
+              <p className="text-[11px] text-slate-500 mt-1">Habilitados para difusão</p>
             </div>
 
             <div
@@ -523,11 +523,11 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">Rechazados</span>
+                <span className="text-xs text-slate-500 font-medium">Rejeitados</span>
                 <XCircle className="w-4 h-4 text-red-600" />
               </div>
               <div className="mt-2 text-2xl font-bold text-slate-900">{rejectedCount}</div>
-              <p className="text-[11px] text-slate-500 mt-1">Requieren revisión del autor</p>
+              <p className="text-[11px] text-slate-500 mt-1">Requerem revisão do autor</p>
             </div>
           </div>
 
@@ -546,35 +546,35 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                 size="sm"
                 onClick={() => setFilterStatus('PENDING')}
               >
-                Pendientes ({readyCount + underReviewCount})
+                Pendentes ({readyCount + underReviewCount})
               </Button>
               <Button
                 variant={filterStatus === 'READY_FOR_REVIEW' ? 'primary' : 'ghost'}
                 size="sm"
                 onClick={() => setFilterStatus('READY_FOR_REVIEW')}
               >
-                Listos ({readyCount})
+                Prontos ({readyCount})
               </Button>
               <Button
                 variant={filterStatus === 'UNDER_REVIEW' ? 'primary' : 'ghost'}
                 size="sm"
                 onClick={() => setFilterStatus('UNDER_REVIEW')}
               >
-                En Revisión ({underReviewCount})
+                Em Revisão ({underReviewCount})
               </Button>
               <Button
                 variant={filterStatus === 'APPROVED' ? 'primary' : 'ghost'}
                 size="sm"
                 onClick={() => setFilterStatus('APPROVED')}
               >
-                Aprobados ({approvedCount})
+                Aprovados ({approvedCount})
               </Button>
               <Button
                 variant={filterStatus === 'REJECTED' ? 'primary' : 'ghost'}
                 size="sm"
                 onClick={() => setFilterStatus('REJECTED')}
               >
-                Rechazados ({rejectedCount})
+                Rejeitados ({rejectedCount})
               </Button>
             </div>
           </div>
@@ -583,16 +583,16 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
       <div className="space-y-4">
         {loading ? (
           <div className="py-16 text-center text-xs text-slate-400 animate-pulse">
-            Cargando cola de revisión de gobernanza...
+            A carregar fila de revisão de governação...
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="p-12 rounded-xl bg-white border border-slate-200 text-center space-y-2">
             <ShieldCheck className="w-8 h-8 text-slate-400 mx-auto" />
             <h4 className="text-sm font-semibold text-slate-800">
-              Ninguna pieza en esta categoría de revisión
+              Nenhuma peça nesta categoria de revisão
             </h4>
             <p className="text-xs text-slate-500 max-w-md mx-auto">
-              Las piezas creadas en el Editor de Contenido pueden enviarse formalmente para aprobación para figurar en esta cola.
+              As peças criadas no Editor de Conteúdo podem ser enviadas formalmente para aprovação para constarem nesta fila.
             </p>
           </div>
         ) : (
@@ -619,25 +619,25 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                               : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                           }`}
                         >
-                          Moderación: {item.moderation_status}
+                          Moderação: {item.moderation_status}
                         </span>
                       )}
                       <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-600">
                         {item.channel}
                       </span>
                       <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-                        Versión #{item.current_version}
+                        Versão #{item.current_version}
                       </span>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                       <span>Autor: <strong className="text-slate-800">{item.created_by_name}</strong> ({item.created_by_role})</span>
                       <span className="text-slate-400">·</span>
-                      <span>Actualizado el: {new Date(item.updated_at).toLocaleString('es-ES')}</span>
+                      <span>Atualizado em: {new Date(item.updated_at).toLocaleString('pt-PT')}</span>
                       {item.submitted_at && (
                         <>
                           <span className="text-slate-400">·</span>
-                          <span>Enviado el: {new Date(item.submitted_at).toLocaleString('es-ES')}</span>
+                          <span>Enviado em: {new Date(item.submitted_at).toLocaleString('pt-PT')}</span>
                         </>
                       )}
                     </div>
@@ -651,7 +651,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                       onClick={() => setTimelineItem(item)}
                       leftIcon={<History className="w-3.5 h-3.5" />}
                     >
-                      Historial
+                      Histórico
                     </Button>
 
                     <Button
@@ -660,7 +660,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                       onClick={() => onOpenContentInEditor(item.id)}
                       leftIcon={<ExternalLink className="w-3.5 h-3.5" />}
                     >
-                      Abrir en el Editor
+                      Abrir no Editor
                     </Button>
 
                     {canStart && (
@@ -671,7 +671,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                         isLoading={isProcessing}
                         leftIcon={<Clock className="w-3.5 h-3.5" />}
                       >
-                        Iniciar Revisión
+                        Iniciar Revisão
                       </Button>
                     )}
 
@@ -684,7 +684,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                           disabled={isProcessing}
                           leftIcon={<XCircle className="w-3.5 h-3.5" />}
                         >
-                          Rechazar
+                          Rejeitar
                         </Button>
 
                         <div className="relative group">
@@ -695,12 +695,12 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                             disabled={isAuthor || isProcessing}
                             leftIcon={<CheckCircle2 className="w-3.5 h-3.5" />}
                           >
-                            Aprobar
+                            Aprovar
                           </Button>
                           {isAuthor && (
                             <div className="absolute right-0 bottom-full mb-1.5 hidden group-hover:block z-20 w-64 p-2 rounded-md bg-slate-900 border border-amber-400/50 text-[11px] text-amber-200 shadow-xl">
                               <AlertTriangle className="w-3.5 h-3.5 inline mr-1 text-amber-400" />
-                              <strong>Infracción de Gobernanza:</strong> El creador de la pieza no puede aprobar su propio contenido.
+                              <strong>Infração de Governação:</strong> O criador da peça não pode aprovar o seu próprio conteúdo.
                             </div>
                           )}
                         </div>
@@ -711,7 +711,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
 
                 {/* Content Preview Snippet */}
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 font-mono line-clamp-2">
-                  {item.content || 'Ningún contenido textual registrado.'}
+                  {item.content || 'Nenhum conteúdo textual registado.'}
                 </div>
 
                 {/* Rejection Warning Banner */}
@@ -719,7 +719,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                   <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-800 space-y-1">
                     <div className="flex items-center gap-1.5 font-semibold text-red-900">
                       <XCircle className="w-4 h-4 text-red-600" />
-                      Justificación del Rechazo (Revisado por {item.reviewed_by_name || 'Revisor'}):
+                      Justificação da Rejeição (Revisto por {item.reviewed_by_name || 'Revisor'}):
                     </div>
                     <p className="pl-5 text-red-700">{item.rejection_reason}</p>
                   </div>
@@ -730,7 +730,7 @@ export const CampaignReviewQueueTab: React.FC<CampaignReviewQueueTabProps> = ({
                   <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                     <span>
-                      Aprobado formalmente por <strong className="text-emerald-900">{item.reviewed_by_name || 'Revisor Autorizado'}</strong> el {item.reviewed_at ? new Date(item.reviewed_at).toLocaleString('es-ES') : 'Fecha no informada'}.
+                      Aprovado formalmente por <strong className="text-emerald-900">{item.reviewed_by_name || 'Revisor Autorizado'}</strong> em {item.reviewed_at ? new Date(item.reviewed_at).toLocaleString('pt-PT') : 'Data não informada'}.
                     </span>
                   </div>
                 )}

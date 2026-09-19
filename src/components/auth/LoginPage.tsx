@@ -53,7 +53,7 @@ export const LoginPage: React.FC = () => {
     setSuccessMessage(null);
 
     if (!email.trim() || !password.trim()) {
-      setLocalError('Por favor complete su correo electrónico y contraseña corporativos.');
+      setLocalError('Por favor preencha o seu e-mail e palavra-passe corporativos.');
       return;
     }
 
@@ -61,7 +61,7 @@ export const LoginPage: React.FC = () => {
 
     if (mode === 'signup') {
       if (!fullName.trim()) {
-        setLocalError('Por favor ingrese su nombre completo para el registro.');
+        setLocalError('Por favor insira o seu nome completo para o registo.');
         setIsLoading(false);
         return;
       }
@@ -99,7 +99,7 @@ export const LoginPage: React.FC = () => {
             </span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Plataforma Enterprise de Marketing y Motor RBAC
+            Plataforma Enterprise de Marketing e Motor RBAC
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export const LoginPage: React.FC = () => {
                     </Badge>
                   </div>
                   <h2 className="text-sm sm:text-base font-semibold text-slate-900 mt-0.5">
-                    Supabase Auth no configurado
+                    Supabase Auth não configurado
                   </h2>
                 </div>
               </div>
@@ -133,30 +133,30 @@ export const LoginPage: React.FC = () => {
 
             <div className="text-xs text-slate-600 space-y-3 leading-relaxed">
               <p>
-                La autenticación de la plataforma requiere la conexión de una <strong>instancia real de Supabase Auth y PostgreSQL</strong>.
+                A autenticação da plataforma requer a ligação de uma <strong>instância real de Supabase Auth e PostgreSQL</strong>.
               </p>
               <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-700 space-y-1.5 font-mono">
                 <div className="text-slate-800 font-sans font-medium text-xs mb-1">
-                  Variables de entorno requeridas:
+                  Variáveis de ambiente necessárias:
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-red-600 font-bold">• SUPABASE_URL:</span>
-                  <span className="text-slate-500">URL de su proyecto Supabase</span>
+                  <span className="text-slate-500">URL do seu projeto Supabase</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-red-600 font-bold">• SUPABASE_ANON_KEY:</span>
-                  <span className="text-slate-500">Clave pública para el cliente</span>
+                  <span className="text-slate-500">Chave pública para o cliente</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-amber-700 font-bold">• SUPABASE_SERVICE_ROLE_KEY:</span>
-                  <span className="text-slate-500">Clave de servicio (solo backend)</span>
+                  <span className="text-slate-500">Chave de serviço (apenas backend)</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
               <span className="text-[11px] text-slate-500">
-                Una vez configuradas las credenciales:
+                Após configurar as credenciais:
               </span>
               <Button
                 variant="primary"
@@ -164,7 +164,7 @@ export const LoginPage: React.FC = () => {
                 leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
                 onClick={refreshSession}
               >
-                Verificar conexión
+                Verificar ligação
               </Button>
             </div>
           </Card>
@@ -178,14 +178,14 @@ export const LoginPage: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div>
                 <h2 className="text-base font-semibold text-slate-900">
-                  Autenticación Corporativa
+                  Autenticação Corporativa
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Conectado a Supabase Auth con RBAC nativo.
+                  Ligado ao Supabase Auth com RBAC nativo.
                 </p>
               </div>
               <Badge variant="success" hasDot size="sm">
-                Supabase Activo
+                Supabase Ativo
               </Badge>
             </div>
 
@@ -205,7 +205,7 @@ export const LoginPage: React.FC = () => {
                 }`}
               >
                 <LogIn className="w-3.5 h-3.5" />
-                <span>Iniciar sesión</span>
+                <span>Iniciar sessão</span>
               </button>
               <button
                 type="button"
@@ -221,7 +221,7 @@ export const LoginPage: React.FC = () => {
                 }`}
               >
                 <UserPlus className="w-3.5 h-3.5" />
-                <span>Crear cuenta</span>
+                <span>Criar conta</span>
               </button>
             </div>
 
@@ -243,9 +243,9 @@ export const LoginPage: React.FC = () => {
               {mode === 'signup' && (
                 <>
                   <Input
-                    label="Nombre Completo"
+                    label="Nome Completo"
                     type="text"
-                    placeholder="Su nombre y apellido"
+                    placeholder="O seu nome e apelido"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     leftIcon={<User className="w-4 h-4" />}
@@ -253,26 +253,26 @@ export const LoginPage: React.FC = () => {
                   />
 
                   <Select
-                    label="Rol Inicial de Creación (RBAC)"
+                    label="Função Inicial de Criação (RBAC)"
                     value={role}
                     onChange={(e) => setRole(e.target.value as UserRole)}
                     options={[
-                      { value: 'Designer', label: 'Designer (Creación visual y generación de activos)' },
-                      { value: 'Copywriter', label: 'Copywriter (Redacción y creación editorial)' },
+                      { value: 'Designer', label: 'Designer (Criação visual e geração de ativos)' },
+                      { value: 'Copywriter', label: 'Copywriter (Redação e criação editorial)' },
                     ]}
                   />
                   <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-100 text-[11px] text-blue-800 leading-snug">
-                    <span className="font-semibold text-blue-900">Control de Privilegios:</span> Los roles de{' '}
-                    <span className="text-blue-950 font-mono font-medium">Approver</span> y{' '}
-                    <span className="text-blue-950 font-mono font-medium">Administrator</span> son asignados exclusivamente por un Administrador autenticado.
+                    <span className="font-semibold text-blue-900">Controlo de Privilégios:</span> As funções de{' '}
+                    <span className="text-blue-950 font-mono font-medium">Approver</span> e{' '}
+                    <span className="text-blue-950 font-mono font-medium">Administrator</span> são atribuídas exclusivamente por um Administrador autenticado.
                   </div>
                 </>
               )}
 
               <Input
-                label="Correo Electrónico Corporativo"
+                label="E-mail Corporativo"
                 type="email"
-                placeholder="usuario@empresa.com"
+                placeholder="utilizador@empresa.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 leftIcon={<Mail className="w-4 h-4" />}
@@ -281,7 +281,7 @@ export const LoginPage: React.FC = () => {
               />
 
               <Input
-                label="Contraseña"
+                label="Palavra-passe"
                 type="password"
                 placeholder="••••••••••••"
                 value={password}
@@ -299,14 +299,14 @@ export const LoginPage: React.FC = () => {
                   isLoading={isLoading}
                   rightIcon={<ArrowRight className="w-4 h-4" />}
                 >
-                  {mode === 'signup' ? 'Registrarse y acceder' : 'Iniciar sesión'}
+                  {mode === 'signup' ? 'Registar e aceder' : 'Iniciar sessão'}
                 </Button>
               </div>
             </form>
 
             <div className="pt-2 border-t border-slate-200 text-center">
               <p className="text-[11px] text-slate-500">
-                Sesión segura gestionada mediante tokens JWT en Supabase Auth.
+                Sessão segura gerida através de tokens JWT no Supabase Auth.
               </p>
             </div>
           </Card>
@@ -316,11 +316,11 @@ export const LoginPage: React.FC = () => {
         <div className="grid grid-cols-2 gap-3 text-[11px] text-slate-600">
           <div className="flex items-center gap-1.5 p-2 rounded-lg bg-white border border-slate-200 shadow-sm">
             <Server className="w-3.5 h-3.5 text-blue-600" />
-            <span>Backend RBAC Activo</span>
+            <span>Backend RBAC Ativo</span>
           </div>
           <div className="flex items-center gap-1.5 p-2 rounded-lg bg-white border border-slate-200 shadow-sm">
             <Key className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Clave de Servicio Protegida</span>
+            <span>Chave de Serviço Protegida</span>
           </div>
         </div>
       </div>

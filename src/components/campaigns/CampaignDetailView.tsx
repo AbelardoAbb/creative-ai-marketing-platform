@@ -92,28 +92,28 @@ export const CampaignDetailView: React.FC<CampaignDetailViewProps> = ({
   const getStatusLabel = (status: CampaignStatus) => {
     switch (status) {
       case 'active':
-        return 'ACTIVA';
+        return 'ATIVA';
       case 'in_review':
-        return 'EN REVISIÓN';
+        return 'EM REVISÃO';
       case 'completed':
-        return 'COMPLETADA';
+        return 'CONCLUÍDA';
       case 'archived':
-        return 'ARCHIVADA';
+        return 'ARQUIVADA';
       case 'draft':
       default:
-        return 'BORRADOR';
+        return 'RASCUNHO';
     }
   };
 
   const tabs = [
-    { id: 'overview', label: 'Visión General', icon: <Layers className="w-4 h-4" /> },
-    { id: 'review_queue', label: 'Cola de Aprobación', icon: <ClipboardCheck className="w-4 h-4" /> },
-    { id: 'content', label: 'Editor de Contenido (Claude)', icon: <PenTool className="w-4 h-4" /> },
-    { id: 'studio', label: 'Estudio de Imagen (IA)', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'briefing', label: 'Briefing y Contexto IA', icon: <FileText className="w-4 h-4" /> },
-    { id: 'team', label: `Equipo (${members.length})`, icon: <Users className="w-4 h-4" /> },
+    { id: 'overview', label: 'Visão Geral', icon: <Layers className="w-4 h-4" /> },
+    { id: 'review_queue', label: 'Fila de Aprovação', icon: <ClipboardCheck className="w-4 h-4" /> },
+    { id: 'content', label: 'Editor de Conteúdo (Claude)', icon: <PenTool className="w-4 h-4" /> },
+    { id: 'studio', label: 'Estúdio de Imagem (IA)', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'briefing', label: 'Briefing e Contexto IA', icon: <FileText className="w-4 h-4" /> },
+    { id: 'team', label: `Equipa (${members.length})`, icon: <Users className="w-4 h-4" /> },
     { id: 'ai_metrics', label: 'Métricas de IA', icon: <Cpu className="w-4 h-4" /> },
-    { id: 'activity', label: 'Actividades', icon: <Activity className="w-4 h-4" /> },
+    { id: 'activity', label: 'Atividades', icon: <Activity className="w-4 h-4" /> },
   ];
 
   return (
@@ -127,7 +127,7 @@ export const CampaignDetailView: React.FC<CampaignDetailViewProps> = ({
             onClick={onBack}
             leftIcon={<ArrowLeft className="w-4 h-4" />}
           >
-            Volver a Campañas
+            Voltar a Campanhas
           </Button>
           <span className="text-slate-300">/</span>
           <span className="text-xs sm:text-sm text-slate-500 font-mono">
@@ -141,7 +141,7 @@ export const CampaignDetailView: React.FC<CampaignDetailViewProps> = ({
           </Badge>
           {isCreator && (
             <Badge variant="blue" size="md">
-              Creador de la Campaña
+              Criador da Campanha
             </Badge>
           )}
         </div>
@@ -154,13 +154,13 @@ export const CampaignDetailView: React.FC<CampaignDetailViewProps> = ({
             <div className="flex items-center gap-2">
               <Building2 className="w-4 h-4 text-blue-600" />
               <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-                {campaign.client || 'Cliente General'}
+                {campaign.client || 'Cliente Geral'}
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900">{campaign.name}</h1>
             {campaign.product_or_service && (
               <p className="text-xs sm:text-sm text-slate-500">
-                Producto en foco: <span className="text-slate-700 font-medium">{campaign.product_or_service}</span>
+                Produto em foco: <span className="text-slate-700 font-medium">{campaign.product_or_service}</span>
               </p>
             )}
           </div>
@@ -169,7 +169,7 @@ export const CampaignDetailView: React.FC<CampaignDetailViewProps> = ({
           <div className="flex flex-wrap gap-4 text-xs text-slate-500">
             <div className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Inicio: {new Date(campaign.created_at).toLocaleDateString('es-ES')}</span>
+              <span>Início: {new Date(campaign.created_at).toLocaleDateString('pt-PT')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-slate-400" />

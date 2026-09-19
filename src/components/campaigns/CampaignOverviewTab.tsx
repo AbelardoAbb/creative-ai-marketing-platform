@@ -32,21 +32,21 @@ export interface CampaignOverviewTabProps {
 
 const STATUS_TRANSITION_MAP: Record<CampaignStatus, { next: CampaignStatus; label: string }[]> = {
   draft: [
-    { next: 'active', label: 'Publicar y activar campaña' },
-    { next: 'archived', label: 'Archivar borrador' },
+    { next: 'active', label: 'Publicar e ativar campanha' },
+    { next: 'archived', label: 'Arquivar rascunho' },
   ],
   active: [
-    { next: 'in_review', label: 'Enviar a revisión y gobernanza' },
-    { next: 'completed', label: 'Concluir campaña' },
-    { next: 'archived', label: 'Archivar' },
+    { next: 'in_review', label: 'Enviar para revisão e governação' },
+    { next: 'completed', label: 'Concluir campanha' },
+    { next: 'archived', label: 'Arquivar' },
   ],
   in_review: [
-    { next: 'active', label: 'Devolver a producción activa' },
-    { next: 'completed', label: 'Aprobar y concluir' },
-    { next: 'archived', label: 'Archivar' },
+    { next: 'active', label: 'Devolver à produção ativa' },
+    { next: 'completed', label: 'Aprovar e concluir' },
+    { next: 'archived', label: 'Arquivar' },
   ],
-  completed: [{ next: 'archived', label: 'Mover al archivo' }],
-  archived: [{ next: 'draft', label: 'Restaurar a borrador' }],
+  completed: [{ next: 'archived', label: 'Mover para o arquivo' }],
+  archived: [{ next: 'draft', label: 'Restaurar para rascunho' }],
 };
 
 export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
@@ -65,10 +65,10 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
     try {
       const res = await onStatusChange(nextStatus);
       if (!res.success) {
-        setError(res.error || 'Fallo al actualizar el estado de la campaña.');
+        setError(res.error || 'Falha ao atualizar o estado da campanha.');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Fallo en la transición de estado.');
+      setError(err instanceof Error ? err.message : 'Falha na transição de estado.');
     } finally {
       setLoading(false);
     }
@@ -77,16 +77,16 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
   const getStatusLabel = (status: CampaignStatus) => {
     switch (status) {
       case 'active':
-        return 'Activa';
+        return 'Ativa';
       case 'in_review':
-        return 'En revisión';
+        return 'Em revisão';
       case 'completed':
-        return 'Completada';
+        return 'Concluída';
       case 'archived':
-        return 'Archivada';
+        return 'Arquivada';
       case 'draft':
       default:
-        return 'Borrador';
+        return 'Rascunho';
     }
   };
 
@@ -105,55 +105,55 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card padding="md">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Estado del Ciclo de Vida</span>
+            <span className="text-xs text-slate-500 font-medium">Estado do Ciclo de Vida</span>
             <div className="w-2 h-2 rounded-full bg-blue-600" />
           </div>
           <p className="text-lg font-semibold text-slate-900 mt-2">
             {getStatusLabel(campaign.status)}
           </p>
           <span className="text-[11px] text-slate-500 block mt-1">
-            {campaign.status === 'draft' && 'Lista para configuración del briefing'}
-            {campaign.status === 'active' && 'En producción creativa y generación de assets'}
-            {campaign.status === 'in_review' && 'En espera de validación de gobernanza'}
-            {campaign.status === 'completed' && 'Entregables validados con éxito'}
-            {campaign.status === 'archived' && 'Campaña archivada'}
+            {campaign.status === 'draft' && 'Pronta para configuração do briefing'}
+            {campaign.status === 'active' && 'Em produção criativa e geração de ativos'}
+            {campaign.status === 'in_review' && 'A aguardar validação de governação'}
+            {campaign.status === 'completed' && 'Entregáveis validados com sucesso'}
+            {campaign.status === 'archived' && 'Campanha arquivada'}
           </span>
         </Card>
 
         <Card padding="md">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Equipo Asignado</span>
+            <span className="text-xs text-slate-500 font-medium">Equipa Atribuída</span>
             <Users className="w-4 h-4 text-blue-600" />
           </div>
-          <p className="text-lg font-semibold text-slate-900 mt-2">{members.length} miembros</p>
+          <p className="text-lg font-semibold text-slate-900 mt-2">{members.length} membros</p>
           <span className="text-[11px] text-slate-500 block mt-1">
-            Aislamiento de RLS activo por campaña
+            Isolamento de RLS ativo por campanha
           </span>
         </Card>
 
         <Card padding="md">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Canales de Distribución</span>
+            <span className="text-xs text-slate-500 font-medium">Canais de Distribuição</span>
             <Layers className="w-4 h-4 text-emerald-600" />
           </div>
           <p className="text-lg font-semibold text-slate-900 mt-2">
-            {campaign.channels?.length || 0} canales
+            {campaign.channels?.length || 0} canais
           </p>
           <span className="text-[11px] text-slate-500 block mt-1">
-            {campaign.channels?.slice(0, 2).join(', ') || 'Ningún canal activo'}
+            {campaign.channels?.slice(0, 2).join(', ') || 'Nenhum canal ativo'}
           </span>
         </Card>
 
         <Card padding="md">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Preparación para IA</span>
+            <span className="text-xs text-slate-500 font-medium">Preparação para IA</span>
             <Sparkles className="w-4 h-4 text-blue-600" />
           </div>
           <p className="text-lg font-semibold text-slate-900 mt-2">
             {campaign.campaign_objective && campaign.visual_direction ? '100%' : '80%'}
           </p>
           <span className="text-[11px] text-slate-500 block mt-1">
-            Contexto listo para Claude y SD
+            Contexto pronto para Claude e SD
           </span>
         </Card>
       </div>
@@ -165,7 +165,7 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
           <Card padding="md" className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-                Resumen Ejecutivo del Briefing
+                Resumo Executivo do Briefing
               </span>
               <button
                 type="button"
@@ -177,20 +177,20 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
             </div>
 
             <p className="text-sm text-slate-700 leading-relaxed">
-              {campaign.campaign_objective || 'Ningún objetivo especificado.'}
+              {campaign.campaign_objective || 'Nenhum objetivo especificado.'}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-100">
               <div>
-                <span className="text-[11px] text-slate-500 block">Público Objetivo</span>
+                <span className="text-[11px] text-slate-500 block">Público-Alvo</span>
                 <span className="text-xs text-slate-800 font-medium block mt-0.5">
-                  {campaign.target_audience || 'No especificado'}
+                  {campaign.target_audience || 'Não especificado'}
                 </span>
               </div>
               <div>
-                <span className="text-[11px] text-slate-500 block">Tono de Voz</span>
+                <span className="text-[11px] text-slate-500 block">Tom de Voz</span>
                 <span className="text-xs text-slate-800 font-medium block mt-0.5">
-                  {campaign.tone_of_voice || 'Profesional y Persuasivo'}
+                  {campaign.tone_of_voice || 'Profissional e Persuasivo'}
                 </span>
               </div>
             </div>
@@ -204,11 +204,11 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
               </div>
               <div>
                 <h4 className="text-xs font-semibold text-slate-900">
-                  Espacio de Trabajo Conectado a la Cadena Creativa
+                  Espaço de Trabalho Ligado à Cadeia Criativa
                 </h4>
                 <p className="text-[11px] text-slate-500">
-                  Las fases de generación (Claude en redacción y Stability en imágenes) consumen
-                  automáticamente estos metadatos.
+                  As fases de geração (Claude em redação e Stability em imagens) consomem
+                  automaticamente estes metadados.
                 </p>
               </div>
             </div>
@@ -220,11 +220,11 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
                 className="p-2.5 rounded-lg bg-white border border-slate-200 hover:border-blue-300 flex items-center justify-between text-left transition-colors cursor-pointer shadow-2xs"
               >
                 <div>
-                  <span className="text-xs text-slate-900 font-medium block">Editor de Contenido (Claude)</span>
-                  <span className="text-[10px] text-slate-500">Copywriting y transformaciones</span>
+                  <span className="text-xs text-slate-900 font-medium block">Editor de Conteúdo (Claude)</span>
+                  <span className="text-[10px] text-slate-500">Copywriting e transformações</span>
                 </div>
                 <Badge variant="blue" size="sm">
-                  Activo
+                  Ativo
                 </Badge>
               </button>
               <button
@@ -233,11 +233,11 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
                 className="p-2.5 rounded-lg bg-white border border-slate-200 hover:border-blue-300 flex items-center justify-between text-left transition-colors cursor-pointer shadow-2xs"
               >
                 <div>
-                  <span className="text-xs text-slate-900 font-medium block">Estudio de Imagen (IA)</span>
-                  <span className="text-[10px] text-slate-500">Generación y moderación visual</span>
+                  <span className="text-xs text-slate-900 font-medium block">Estúdio de Imagem (IA)</span>
+                  <span className="text-[10px] text-slate-500">Geração e moderação visual</span>
                 </div>
                 <Badge variant="info" size="sm">
-                  Activo
+                  Ativo
                 </Badge>
               </button>
             </div>
@@ -248,13 +248,13 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
         <div className="space-y-6">
           <Card padding="md" className="space-y-4">
             <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider block">
-              Control de Ciclo de Vida
+              Controlo do Ciclo de Vida
             </span>
 
             {canEdit && allowedNextStatuses.length > 0 ? (
               <div className="space-y-2.5">
                 <p className="text-xs text-slate-500">
-                  Haga avanzar la campaña según el progreso del equipo creativo:
+                  Avance a campanha conforme o progresso da equipa criativa:
                 </p>
                 {allowedNextStatuses.map((item) => (
                   <Button
@@ -273,30 +273,30 @@ export const CampaignOverviewTab: React.FC<CampaignOverviewTabProps> = ({
             ) : (
               <div className="p-3 rounded-lg bg-slate-50 text-xs text-slate-500 flex items-center gap-2 border border-slate-200">
                 <Lock className="w-4 h-4 text-slate-400 shrink-0" />
-                <span>Ninguna transición de estado autorizada para su perfil en este momento.</span>
+                <span>Nenhuma transição de estado autorizada para o seu perfil neste momento.</span>
               </div>
             )}
           </Card>
 
           <Card padding="md" className="space-y-3">
             <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider block">
-              Auditoría de Creación
+              Auditoria de Criação
             </span>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between">
-                <span className="text-slate-500">Creado el:</span>
+                <span className="text-slate-500">Criado em:</span>
                 <span className="text-slate-800 font-medium">
-                  {new Date(campaign.created_at).toLocaleDateString('es-ES')}
+                  {new Date(campaign.created_at).toLocaleDateString('pt-PT')}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Última actualización:</span>
+                <span className="text-slate-500">Última atualização:</span>
                 <span className="text-slate-800 font-medium">
-                  {new Date(campaign.updated_at).toLocaleDateString('es-ES')}
+                  {new Date(campaign.updated_at).toLocaleDateString('pt-PT')}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">ID de la Campaña:</span>
+                <span className="text-slate-500">ID da Campanha:</span>
                 <span className="font-mono text-[11px] text-blue-700">
                   {campaign.id.substring(0, 16)}...
                 </span>

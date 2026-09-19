@@ -105,22 +105,22 @@ export const AIAuditTrailView: React.FC = () => {
   });
 
   const handleExportCSV = () => {
-      const headers = [
+    const headers = [
       'ID',
-      'Fecha/Hora',
-      'Campaña',
-      'Usuario',
-      'Rol',
-      'Proveedor',
+      'Data/Hora',
+      'Campanha',
+      'Utilizador',
+      'Função',
+      'Fornecedor',
       'Modelo',
-      'Operación',
+      'Operação',
       'Estado',
-      'Moderación',
-      'Duración (ms)',
-      'Tokens Total',
-      'Coste Estimado (USD)',
-      'Estado Coste',
-      'Error',
+      'Moderação',
+      'Duração (ms)',
+      'Total Tokens',
+      'Custo Estimado (USD)',
+      'Estado do Custo',
+      'Erro',
     ];
 
     const rows = filteredEvents.map((e) => [
@@ -148,7 +148,7 @@ export const AIAuditTrailView: React.FC = () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `pista_auditoria_ia_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `trilha_auditoria_ia_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -160,13 +160,13 @@ export const AIAuditTrailView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-white tracking-tight">Pista de Auditoría de IA</h2>
+            <h2 className="text-xl font-bold text-white tracking-tight">Trilha de Auditoria de IA</h2>
             <Badge variant="purple" size="sm">
-              Append-Only (Inmutable)
+              Append-Only (Imutável)
             </Badge>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Registro detallado de cada inferencia, tiempo de ejecución, consumo de tokens y moderación de seguridad
+            Registo detalhado de cada inferência, tempo de execução, consumo de tokens e moderação de segurança
           </p>
         </div>
 
@@ -177,7 +177,7 @@ export const AIAuditTrailView: React.FC = () => {
             onClick={fetchEvents}
             leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />}
           >
-            Actualizar
+            Atualizar
           </Button>
           <Button
             variant="ghost"
@@ -198,7 +198,7 @@ export const AIAuditTrailView: React.FC = () => {
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
-              placeholder="Buscar campaña, usuario..."
+              placeholder="Pesquisar campanha, utilizador..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-[#141c2e] border border-[#202b42] rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
@@ -211,10 +211,10 @@ export const AIAuditTrailView: React.FC = () => {
             onChange={(e) => setSelectedProvider(e.target.value)}
             className="bg-[#141c2e] border border-[#202b42] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
           >
-            <option value="ALL">Todos los proveedores</option>
+            <option value="ALL">Todos os fornecedores</option>
             <option value="anthropic">Anthropic (Claude)</option>
             <option value="stability_ai">Stability AI</option>
-            <option value="fallback_provider">Fallback Provider</option>
+            <option value="fallback_provider">Fornecedor de Contingência</option>
           </select>
 
           {/* Status */}
@@ -223,10 +223,10 @@ export const AIAuditTrailView: React.FC = () => {
             onChange={(e) => setSelectedStatus(e.target.value)}
             className="bg-[#141c2e] border border-[#202b42] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
           >
-            <option value="ALL">Todos los estados</option>
-            <option value="SUCCESS">ÉXITO</option>
+            <option value="ALL">Todos os estados</option>
+            <option value="SUCCESS">SUCESSO</option>
             <option value="BLOCKED">BLOQUEADO</option>
-            <option value="FAILED">FALLO</option>
+            <option value="FAILED">FALHA</option>
           </select>
 
           {/* Moderation */}
@@ -235,10 +235,10 @@ export const AIAuditTrailView: React.FC = () => {
             onChange={(e) => setSelectedModStatus(e.target.value)}
             className="bg-[#141c2e] border border-[#202b42] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
           >
-            <option value="ALL">Toda la moderación</option>
-            <option value="LOW_RISK">Bajo riesgo</option>
-            <option value="REQUIRES_HUMAN_REVIEW">Revisión humana</option>
-            <option value="HIGH_RISK">Alto riesgo (Bloqueado)</option>
+            <option value="ALL">Toda a moderação</option>
+            <option value="LOW_RISK">Baixo risco</option>
+            <option value="REQUIRES_HUMAN_REVIEW">Revisão humana</option>
+            <option value="HIGH_RISK">Alto risco (Bloqueado)</option>
           </select>
 
           {/* Operation */}
@@ -247,32 +247,32 @@ export const AIAuditTrailView: React.FC = () => {
             onChange={(e) => setSelectedOperation(e.target.value)}
             className="bg-[#141c2e] border border-[#202b42] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
           >
-            <option value="ALL">Todas las operaciones</option>
-            <option value="generate">Redacción (Generate)</option>
-            <option value="expand">Expandir contenido</option>
-            <option value="shorten">Resumir contenido</option>
-            <option value="tone_shift">Ajustar tono</option>
-            <option value="image_generate">Generar imagen</option>
-            <option value="image_variation">Variación de imagen</option>
+            <option value="ALL">Todas as operações</option>
+            <option value="generate">Redação (Generate)</option>
+            <option value="expand">Expandir conteúdo</option>
+            <option value="shorten">Resumir conteúdo</option>
+            <option value="tone_shift">Ajustar tom</option>
+            <option value="image_generate">Gerar imagem</option>
+            <option value="image_variation">Variação de imagem</option>
           </select>
         </div>
       </div>
 
       {/* Audit Events Table */}
       {loading ? (
-        <LoadingState message="Cargando eventos de auditoría inmutables..." />
+        <LoadingState message="A carregar eventos de auditoria imutáveis..." />
       ) : error ? (
         <div className="p-6 rounded-2xl bg-red-950/20 border border-red-800/40 text-center space-y-2">
           <AlertCircle className="w-6 h-6 text-red-400 mx-auto" />
-          <div className="text-sm font-semibold text-white">Error al obtener auditoría</div>
+          <div className="text-sm font-semibold text-white">Erro ao obter auditoria</div>
           <p className="text-xs text-red-300">{error}</p>
         </div>
       ) : filteredEvents.length === 0 ? (
         <div className="p-12 rounded-2xl bg-[#0f1523] border border-[#202b42] text-center space-y-3">
           <ShieldCheck className="w-8 h-8 text-slate-500 mx-auto" />
-          <div className="text-sm font-semibold text-slate-300">Ningún evento registrado</div>
+          <div className="text-sm font-semibold text-slate-300">Nenhum evento registado</div>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
-            No se encontraron operaciones de IA con los filtros seleccionados.
+            Não foram encontradas operações de IA com os filtros selecionados.
           </p>
         </div>
       ) : (
@@ -281,15 +281,15 @@ export const AIAuditTrailView: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-[#141c2e] border-b border-[#202b42] text-slate-400 font-semibold uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4">Fecha / Hora</th>
-                  <th className="py-3 px-4">Campaña / Usuario</th>
-                  <th className="py-3 px-4">Proveedor y Modelo</th>
-                  <th className="py-3 px-4">Operación</th>
+                  <th className="py-3 px-4">Data / Hora</th>
+                  <th className="py-3 px-4">Campanha / Utilizador</th>
+                  <th className="py-3 px-4">Fornecedor e Modelo</th>
+                  <th className="py-3 px-4">Operação</th>
                   <th className="py-3 px-4">Estado</th>
-                  <th className="py-3 px-4">Moderación</th>
-                  <th className="py-3 px-4">Tokens / Latencia</th>
-                  <th className="py-3 px-4">Coste</th>
-                  <th className="py-3 px-4 text-right">Acción</th>
+                  <th className="py-3 px-4">Moderação</th>
+                  <th className="py-3 px-4">Tokens / Latência</th>
+                  <th className="py-3 px-4">Custo</th>
+                  <th className="py-3 px-4 text-right">Ação</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1b253b]">
@@ -297,10 +297,10 @@ export const AIAuditTrailView: React.FC = () => {
                   <tr key={ev.id} className="hover:bg-[#131b2c] transition-colors">
                     <td className="py-3 px-4 whitespace-nowrap">
                       <div className="text-slate-200 font-mono">
-                        {new Date(ev.started_at).toLocaleDateString('es-ES')}
+                        {new Date(ev.started_at).toLocaleDateString('pt-PT')}
                       </div>
                       <div className="text-[10px] text-slate-500 font-mono">
-                        {new Date(ev.started_at).toLocaleTimeString('es-ES')}
+                        {new Date(ev.started_at).toLocaleTimeString('pt-PT')}
                       </div>
                     </td>
 
@@ -333,21 +333,21 @@ export const AIAuditTrailView: React.FC = () => {
 
                     <td className="py-3 px-4">
                       {ev.status === 'SUCCESS' ? (
-                        <Badge variant="success" size="sm">ÉXITO</Badge>
+                        <Badge variant="success" size="sm">SUCESSO</Badge>
                       ) : ev.status === 'BLOCKED' ? (
                         <Badge variant="warning" size="sm">BLOQUEADO</Badge>
                       ) : (
-                        <Badge variant="danger" size="sm">FALLO</Badge>
+                        <Badge variant="danger" size="sm">FALHA</Badge>
                       )}
                     </td>
 
                     <td className="py-3 px-4">
                       {ev.moderation_status === 'LOW_RISK' ? (
-                        <Badge variant="success" size="sm">Bajo</Badge>
+                        <Badge variant="success" size="sm">Baixo</Badge>
                       ) : ev.moderation_status === 'HIGH_RISK' ? (
                         <Badge variant="danger" size="sm">Alto (Bloq.)</Badge>
                       ) : (
-                        <Badge variant="purple" size="sm">Revisión</Badge>
+                        <Badge variant="purple" size="sm">Revisão</Badge>
                       )}
                     </td>
 
@@ -389,8 +389,8 @@ export const AIAuditTrailView: React.FC = () => {
           </div>
 
           <div className="px-6 py-3 border-t border-[#202b42] bg-[#141c2e] flex items-center justify-between text-xs text-slate-400">
-            <span>Mostrando {filteredEvents.length} de {events.length} eventos auditados</span>
-            <span className="text-[11px] font-mono">Filtros Activos: Proveedor [{selectedProvider}] | Estado [{selectedStatus}]</span>
+            <span>A apresentar {filteredEvents.length} de {events.length} eventos auditados</span>
+            <span className="text-[11px] font-mono">Filtros Ativos: Fornecedor [{selectedProvider}] | Estado [{selectedStatus}]</span>
           </div>
         </div>
       )}

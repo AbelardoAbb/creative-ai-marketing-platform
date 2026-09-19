@@ -13,27 +13,27 @@ export const ApprovalStatusBadge: React.FC<ApprovalStatusBadgeProps> = ({
 }) => {
   const config = {
     draft: {
-      label: 'Borrador',
+      label: 'Rascunho',
       icon: <FileText className="w-3 h-3" />,
       classes: 'bg-slate-100 text-slate-700 border-slate-200',
     },
     pending: {
-      label: 'Pendiente de aprobación',
+      label: 'Pendente de aprovação',
       icon: <Clock className="w-3 h-3" />,
       classes: 'bg-amber-50 text-amber-800 border-amber-200',
     },
     in_review: {
-      label: 'En revisión editorial',
+      label: 'Em revisão editorial',
       icon: <Clock className="w-3 h-3" />,
       classes: 'bg-blue-50 text-blue-800 border-blue-200',
     },
     approved: {
-      label: 'Aprobado',
+      label: 'Aprovado',
       icon: <CheckCircle className="w-3 h-3" />,
       classes: 'bg-emerald-50 text-emerald-800 border-emerald-200',
     },
     rejected: {
-      label: 'Rechazado / En ajuste',
+      label: 'Rejeitado / Em ajuste',
       icon: <AlertTriangle className="w-3 h-3" />,
       classes: 'bg-red-50 text-red-800 border-red-200',
     },

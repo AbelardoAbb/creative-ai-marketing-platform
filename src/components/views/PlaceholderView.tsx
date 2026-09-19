@@ -59,129 +59,129 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
     }
   > = {
     dashboard: {
-      title: 'Panel Principal',
-      subtitle: 'Visión general de la operación creativa',
+      title: 'Painel Principal',
+      subtitle: 'Visão geral da operação criativa',
       icon: <Layers className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 3 (Activa)',
-      integrationPoints: ['Métricas consolidadas de campañas y producciones'],
+      targetPhase: 'Fase 3 (Ativa)',
+      integrationPoints: ['Métricas consolidadas de campanhas e produções'],
     },
     campaigns: {
-      title: 'Gestión de Campañas y Briefings',
-      subtitle: 'Creación y organización de campañas de marketing, público objetivo y clientes',
+      title: 'Gestão de Campanhas e Briefings',
+      subtitle: 'Criação e organização de campanhas de marketing, público-alvo e clientes',
       icon: <FolderKanban className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 6 — Campañas',
+      targetPhase: 'Fase 6 — Campanhas',
       integrationPoints: [
-        'Tabla `campaigns` y `campaign_members` en Supabase',
-        'Políticas RLS por pertenencia a miembros',
-        'Briefing estructurado para generación de IA',
+        'Tabela `campaigns` e `campaign_members` no Supabase',
+        'Políticas RLS por pertença a membros',
+        'Briefing estruturado para geração de IA',
       ],
     },
     'generate-image': {
-      title: 'Estudio de Generación de Imágenes',
-      subtitle: 'Creación de activos visuales personalizados con Stability AI y fallback',
+      title: 'Estúdio de Geração de Imagens',
+      subtitle: 'Criação de ativos visuais personalizados com Stability AI e fallback',
       icon: <Sparkles className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 7 — Generación Visual',
+      targetPhase: 'Fase 7 — Geração Visual',
       integrationPoints: [
-        'Proveedor principal: Stability AI (Stable Diffusion API)',
-        'Proveedor fallback: FallbackImageProvider (con auditoría explícita)',
-        'Moderación previa de prompt (Input Moderation)',
-        'Almacenamiento directo en Supabase Storage',
+        'Fornecedor principal: Stability AI (Stable Diffusion API)',
+        'Fornecedor de recurso: FallbackImageProvider (com auditoria explícita)',
+        'Moderação prévia de prompt (Input Moderation)',
+        'Armazenamento direto no Supabase Storage',
       ],
     },
     'create-content': {
-      title: 'Estudio de Redacción y Copywriting',
-      subtitle: 'Editor profesional integrado con Claude (Anthropic API) en vista comparativa',
+      title: 'Estúdio de Redação e Copywriting',
+      subtitle: 'Editor profissional integrado com Claude (Anthropic API) em vista comparativa',
       icon: <PenTool className="w-6 h-6 text-blue-600" />,
       targetPhase: 'Fase 8 & 9 — Claude & Editor',
       integrationPoints: [
-        'Proveedor principal: Claude (Anthropic Messages API)',
-        'Envío de contexto estructurado (Objetivo, Canal, Audiencia, Tono)',
-        'Editor de comparación Original vs. Asistido',
-        'Control de versiones continuo en `content_versions`',
+        'Fornecedor principal: Claude (Anthropic Messages API)',
+        'Envio de contexto estruturado (Objetivo, Canal, Audiência, Tom)',
+        'Editor de comparação Original vs. Assistido',
+        'Controlo de versões contínuo em `content_versions`',
       ],
     },
     gallery: {
-      title: 'Galería de Activos Visuales',
-      subtitle: 'Repositorio de imágenes generadas, metadatos de inferencia y envío a aprobación',
+      title: 'Galeria de Ativos Visuais',
+      subtitle: 'Repositório de imagens geradas, metadados de inferência e envio para aprovação',
       icon: <ImageIcon className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 7 & 11 — Galería & Aprobaciones',
+      targetPhase: 'Fase 7 & 11 — Galeria & Aprovações',
       integrationPoints: [
-        'Listado de activos persistidos en Supabase Storage',
-        'Filtros por campaña, autor y estado de aprobación',
-        'Inspección detallada de metadados técnicos de generación',
+        'Listagem de ativos persistidos no Supabase Storage',
+        'Filtros por campanha, autor e estado de aprovação',
+        'Inspeção detalhada de metadados técnicos de geração',
       ],
     },
     approvals: {
-      title: 'Flujo de Aprobación y Control de Calidad',
-      subtitle: 'Cola de revisión para Aprobadores con regla estricta: el creador no aprueba su propio contenido',
+      title: 'Fluxo de Aprovação e Controlo de Qualidade',
+      subtitle: 'Fila de revisão para Aprovadores com regra estrita: o criador não aprova o seu próprio conteúdo',
       icon: <CheckCircle2 className="w-6 h-6 text-emerald-600" />,
-      targetPhase: 'Fase 11 — Workflow de Aprobación',
+      targetPhase: 'Fase 11 — Fluxo de Aprovação',
       integrationPoints: [
-        'Tabla `approvals` en Supabase con integridad referencial',
-        'Validación de autorización en servidor (anti-autoaprobación)',
-        'Justificación obligatoria en caso de rechazo',
+        'Tabela `approvals` no Supabase com integridade referencial',
+        'Validação de autorização no servidor (anti-autoaprovação)',
+        'Justificação obrigatória em caso de rejeição',
       ],
     },
     collaboration: {
-      title: 'Colaboración y Comentarios',
-      subtitle: 'Discusión contextual entre Diseñadores, Copywriters y Aprobadores',
+      title: 'Colaboração e Comentários',
+      subtitle: 'Discussão contextual entre Designers, Copywriters e Aprovadores',
       icon: <MessageSquare className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 10 — Colaboración',
+      targetPhase: 'Fase 10 — Colaboração',
       integrationPoints: [
-        'Comentarios en hilos vinculados a campañas y piezas',
-        'Notificaciones de menciones y tareas asignadas',
+        'Comentários em tópicos vinculados a campanhas e peças',
+        'Notificações de menções e tarefas atribuídas',
       ],
     },
     history: {
-      title: 'Historial y Control de Versiones',
-      subtitle: 'Restauración de versiones anteriores y trazabilidad de cambios editoriales',
+      title: 'Histórico e Controlo de Versões',
+      subtitle: 'Restauração de versões anteriores e rastreabilidade de alterações editoriais',
       icon: <History className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 12 — Historial de Versiones',
+      targetPhase: 'Fase 12 — Histórico de Versões',
       integrationPoints: [
-        'Historial granular de `content_versions` con diff visual',
-        'Restauración autorizada hacia borradores de trabajo',
+        'Histórico granular de `content_versions` com diff visual',
+        'Restauração autorizada para rascunhos de trabalho',
       ],
     },
     governance: {
-      title: 'Gobernanza y Registro de Auditoría',
-      subtitle: 'Registro inmutable de llamadas de IA, decisiones de moderación y calificaciones',
+      title: 'Governança e Registo de Auditoria',
+      subtitle: 'Registo imutável de chamadas de IA, decisões de moderação e classificações',
       icon: <ShieldCheck className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 12 & 13 — Auditoría & Moderación',
+      targetPhase: 'Fase 12 & 13 — Auditoria & Moderação',
       integrationPoints: [
-        'Tablas `activity_logs` y `ai_generations`',
-        'Registro de proveedor real, tiempo de respuesta, tokens y costo estimado',
-        'Clasificación de riesgo (Bajo Riesgo, Revisión Humana, Bloqueo)',
+        'Tabelas `activity_logs` e `ai_generations`',
+        'Registo de fornecedor real, tempo de resposta, tokens e custo estimado',
+        'Classificação de risco (Baixo Risco, Revisão Humana, Bloqueio)',
       ],
     },
     'users-permissions': {
-      title: 'Usuarios y Permisos (RBAC)',
-      subtitle: 'Gestión de roles (Designer, Copywriter, Approver, Administrator) y asignación a campañas',
+      title: 'Utilizadores e Permissões (RBAC)',
+      subtitle: 'Gestão de funções (Designer, Copywriter, Approver, Administrator) e atribuição a campanhas',
       icon: <Users className="w-6 h-6 text-blue-600" />,
-      targetPhase: 'Fase 4 & 5 — Autenticación & RBAC',
+      targetPhase: 'Fase 4 & 5 — Autenticação & RBAC',
       integrationPoints: [
-        'Supabase Auth con credenciales seguras',
-        'Tablas `roles` y `campaign_members`',
-        'Políticas RLS en PostgreSQL para aislamiento estricto',
+        'Supabase Auth com credenciais seguras',
+        'Tabelas `roles` e `campaign_members`',
+        'Políticas RLS no PostgreSQL para isolamento estrito',
       ],
     },
     'costs-roi': {
-      title: 'Costos y Retorno de Inversión (ROI)',
-      subtitle: 'Seguimiento del consumo de inferencia, tiempo ahorrado y eficiencia operativa',
+      title: 'Custos e Retorno de Investimento (ROI)',
+      subtitle: 'Acompanhamento do consumo de inferência, tempo poupado e eficiência operacional',
       icon: <TrendingUp className="w-6 h-6 text-emerald-600" />,
-      targetPhase: 'Fase 14 — Métricas & Costos',
+      targetPhase: 'Fase 14 — Métricas & Custos',
       integrationPoints: [
-        'Tabla `cost_records` agregando llamadas de texto e imagen',
-        'Diferenciación clara entre consumo real y estimaciones operativas',
+        'Tabela `cost_records` agregando chamadas de texto e imagem',
+        'Diferenciação clara entre consumo real e estimativas operacionais',
       ],
     },
     settings: {
-      title: 'Configuración de la Plataforma',
-      subtitle: 'Preferencias de la organización y estado de las integraciones de IA y Supabase',
+      title: 'Configurações da Plataforma',
+      subtitle: 'Preferências da organização e estado das integrações de IA e Supabase',
       icon: <Settings className="w-6 h-6 text-slate-500" />,
-      targetPhase: 'Configuración',
+      targetPhase: 'Configurações',
       integrationPoints: [
-        'Estado de conexión Supabase, Claude y Stability AI',
-        'Preferencias de interfaz y diseño corporativo',
+        'Estado de conexão Supabase, Claude e Stability AI',
+        'Preferências de interface e design corporativo',
       ],
     },
   };
@@ -218,10 +218,10 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
             leftIcon={<Wrench className="w-3.5 h-3.5" />}
             onClick={() => setIsTestModalOpen(true)}
           >
-            Probar componentes UI
+            Testar componentes UI
           </Button>
           <Button variant="outline" size="sm" onClick={() => onNavigate('dashboard')}>
-            Volver al panel
+            Voltar ao painel
           </Button>
         </div>
       </div>
@@ -236,10 +236,10 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
           <Card variant="default" padding="lg">
             <h3 className="text-base font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-600" />
-              Contrato de integración planificado para esta ruta
+              Contrato de integração planeado para esta rota
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
-              Esta sección cuenta con arquitectura visual completa, componentes reactivos accesibles y persistencia integrada conforme a los contratos del sistema.
+              Esta secção conta com arquitetura visual completa, componentes reativos acessíveis e persistência integrada conforme os contratos do sistema.
             </p>
 
             <div className="space-y-2.5">
@@ -260,16 +260,16 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
           {/* Interactive UI Component Sampler directly on the page */}
           <Card variant="default" padding="lg">
             <h3 className="text-base font-semibold text-slate-900 mb-4">
-              Muestra de componentes reutilizables (Design System)
+              Amostra de componentes reutilizáveis (Design System)
             </h3>
 
             {/* Tabs Component Demo */}
             <div className="mb-6">
               <Tabs
                 tabs={[
-                  { id: 'tab-1', label: 'Formularios y campos', badge: '3' },
-                  { id: 'tab-2', label: 'Estados de feedback', badge: 'Listo' },
-                  { id: 'tab-3', label: 'Carga y esqueletos' },
+                  { id: 'tab-1', label: 'Formulários e campos', badge: '3' },
+                  { id: 'tab-2', label: 'Estados de feedback', badge: 'Pronto' },
+                  { id: 'tab-3', label: 'Carregamento e esqueletos' },
                 ]}
                 activeTab={activeTab}
                 onChange={(t) => setActiveTab(t)}
@@ -279,28 +279,28 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
             {activeTab === 'tab-1' && (
               <div className="space-y-4 max-w-xl">
                 <Input
-                  label="Título del briefing creativo"
-                  placeholder="Ej: Campaña de lanzamiento Q3..."
+                  label="Título do briefing criativo"
+                  placeholder="Ex: Campanha de lançamento Q3..."
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  helperText="Defina un nombre conciso y descriptivo para el proyecto."
+                  helperText="Defina um nome conciso e descritivo para o projeto."
                 />
 
                 <Select
-                  label="Canal principal de distribución"
+                  label="Canal principal de distribuição"
                   value={selectValue}
                   onChange={(e) => setSelectValue(e.target.value)}
                   options={[
-                    { value: 'opt-1', label: 'Instagram Ads y Reels' },
+                    { value: 'opt-1', label: 'Instagram Ads e Reels' },
                     { value: 'opt-2', label: 'LinkedIn Sponsored Content' },
                     { value: 'opt-3', label: 'E-mail marketing promocional' },
-                    { value: 'opt-4', label: 'Display y medios programáticos' },
+                    { value: 'opt-4', label: 'Display e meios programáticos' },
                   ]}
                 />
 
                 <Textarea
-                  label="Instrucciones de estilo y restricciones de marca"
-                  placeholder="Ej: No utilizar colores fluorescentes. Mantener tono profesional y elegante..."
+                  label="Instruções de estilo e restrições de marca"
+                  placeholder="Ex: Não utilizar cores fluorescentes. Manter tom profissional e elegante..."
                   rows={3}
                 />
 
@@ -311,10 +311,10 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
                       setShowToast(true);
                     }}
                   >
-                    Mostrar notificación Toast
+                    Mostrar notificação Toast
                   </Button>
                   <Button variant="secondary" onClick={() => setInputValue('')}>
-                    Limpiar
+                    Limpar
                   </Button>
                 </div>
 
@@ -323,8 +323,8 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
                     <Toast
                       id="demo-toast"
                       type="success"
-                      title="Interacción de UI registrada"
-                      message="El componente Toast se ha renderizado cumpliendo los estándares de accesibilidad."
+                      title="Interação de UI registada"
+                      message="O componente Toast foi renderizado cumprindo os padrões de acessibilidade."
                       onClose={() => setShowToast(false)}
                     />
                   </div>
@@ -336,15 +336,15 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <EmptyState
-                    title="Ninguna pieza rechazada"
-                    description="Todas las propuestas creativas enviadas han sido aprobadas o están en cola de revisión."
-                    actionLabel="Ver cola de aprobaciones"
+                    title="Nenhuma peça rejeitada"
+                    description="Todas as propostas criativas submetidas foram aprovadas ou estão na fila de revisão."
+                    actionLabel="Ver fila de aprovações"
                     onAction={() => onNavigate('approvals')}
                   />
                   <ErrorState
-                    title="Simulación de error de validación"
-                    message="Ejemplo de estado de error accesible con botón de reintento controlado."
-                    onRetry={() => alert('Acción de reintento ejecutada.')}
+                    title="Simulação de erro de validação"
+                    message="Exemplo de estado de erro acessível com botão de nova tentativa controlado."
+                    onRetry={() => alert('Ação de nova tentativa executada.')}
                   />
                 </div>
               </div>
@@ -353,7 +353,7 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
             {activeTab === 'tab-3' && (
               <div className="space-y-4">
                 <p className="text-xs text-slate-500">
-                  Estados de carga con Skeleton para transiciones suaves:
+                  Estados de carregamento com Skeleton para transições suaves:
                 </p>
                 <div className="space-y-2 max-w-md">
                   <Skeleton variant="text" className="w-3/4 h-5" />
@@ -366,7 +366,7 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
                 </div>
 
                 <div className="pt-4">
-                  <LoadingState message="Simulando procesamiento en segundo plano..." />
+                  <LoadingState message="A simular processamento em segundo plano..." />
                 </div>
               </div>
             )}
@@ -377,31 +377,31 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
         <div className="space-y-6">
           <Card variant="default" padding="md">
             <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
-              Contexto del rol actual
+              Contexto da função atual
             </h4>
             <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
               <div>
-                <span className="text-[11px] text-slate-500 block">Rol seleccionado (DEV):</span>
+                <span className="text-[11px] text-slate-500 block">Função selecionada (DEV):</span>
                 <span className="text-sm font-bold text-blue-700">{currentRole}</span>
               </div>
               <Badge variant="blue" size="sm">
-                VISTA PREVIA
+                PRÉ-VISUALIZAÇÃO
               </Badge>
             </div>
             <p className="text-[11px] text-slate-500 mt-3 leading-relaxed">
-              El selector superior permite emular la vista de este rol. Los accesos del menú y las operaciones se ajustan dinámicamente según la matriz de privilegios mínimos (RBAC).
+              O seletor superior permite emular a visualização desta função. Os acessos do menu e as operações ajustam-se dinamicamente de acordo com a matriz de privilégios mínimos (RBAC).
             </p>
           </Card>
 
           <Card variant="outline" padding="md" className="bg-slate-50 border-slate-200">
             <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
-              Seguridad & Gobernanza
+              Segurança & Governança
             </h4>
             <p className="text-xs text-slate-800 font-medium">
-              Controles Enterprise Activos
+              Controlos Enterprise Ativos
             </p>
             <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-              Autenticación Supabase con sesiones seguras, tokens JWT y políticas RLS activas en base de datos.
+              Autenticação Supabase com sessões seguras, tokens JWT e políticas RLS ativas na base de dados.
             </p>
           </Card>
         </div>
@@ -411,12 +411,12 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
       <Modal
         isOpen={isTestModalOpen}
         onClose={() => setIsTestModalOpen(false)}
-        title="Validación del Sistema de Diseño"
-        description="Prueba interactiva de botones, etiquetas y accesibilidad modal."
+        title="Validação do Sistema de Design"
+        description="Teste interativo de botões, etiquetas e acessibilidade modal."
         footer={
           <div className="flex items-center justify-end gap-3 w-full">
             <Button variant="outline" size="sm" onClick={() => setIsTestModalOpen(false)}>
-              Cerrar
+              Fechar
             </Button>
             <Button
               variant="primary"
@@ -424,28 +424,28 @@ export const PlaceholderView: React.FC<PlaceholderViewProps> = ({
               leftIcon={<Check className="w-4 h-4" />}
               onClick={() => setIsTestModalOpen(false)}
             >
-              Confirmar validación
+              Confirmar validação
             </Button>
           </div>
         }
       >
         <div className="space-y-4">
           <p className="text-xs text-slate-600 leading-relaxed">
-            Este modal implementa cierre con la tecla <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[11px] text-slate-800">ESC</kbd>, clic en fondo oscurecido y contraste de nivel WCAG AA.
+            Este modal implementa encerramento com a tecla <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[11px] text-slate-800">ESC</kbd>, clique no fundo escurecido e contraste de nível WCAG AA.
           </p>
 
           <div className="flex flex-wrap gap-2 pt-2">
             <Badge variant="success" hasDot>
-              Aprobado
+              Aprovado
             </Badge>
             <Badge variant="warning" hasDot>
-              Pendiente
+              Pendente
             </Badge>
             <Badge variant="error" hasDot>
-              Rechazado
+              Rejeitado
             </Badge>
             <Badge variant="info" hasDot>
-              En revisión
+              Em revisão
             </Badge>
           </div>
         </div>

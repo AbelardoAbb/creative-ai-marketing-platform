@@ -23,10 +23,10 @@ export interface CampaignTeamTabProps {
 }
 
 const AVAILABLE_ROLES: { value: UserRole; label: string }[] = [
-  { value: 'Designer', label: 'Diseñador (Creación visual y assets)' },
-  { value: 'Copywriter', label: 'Redactor / Copywriter (Textos con IA)' },
-  { value: 'Approver', label: 'Aprobador (Revisión y gobernanza editorial)' },
-  { value: 'Administrator', label: 'Administrador (Supervisión y auditoría)' },
+  { value: 'Designer', label: 'Designer (Criação visual e ativos)' },
+  { value: 'Copywriter', label: 'Redator / Copywriter (Textos com IA)' },
+  { value: 'Approver', label: 'Aprovador (Revisão e governação editorial)' },
+  { value: 'Administrator', label: 'Administrador (Supervisão e auditoria)' },
 ];
 
 export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
@@ -50,7 +50,7 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
     setSuccessMsg(null);
 
     if (!targetEmail.trim()) {
-      setError('Indique el correo electrónico o identificador del usuario.');
+      setError('Indique o endereço de e-mail ou identificador do utilizador.');
       return;
     }
 
@@ -65,14 +65,14 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
       );
 
       if (res.success) {
-        setSuccessMsg(`Miembro añadido con éxito al equipo de la campaña.`);
+        setSuccessMsg(`Membro adicionado com sucesso à equipa da campanha.`);
         setTargetEmail('');
         setTargetName('');
       } else {
-        setError(res.error || 'Error al añadir miembro.');
+        setError(res.error || 'Erro ao adicionar membro.');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al añadir miembro.');
+      setError(err instanceof Error ? err.message : 'Erro ao adicionar membro.');
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
 
   const handleRemove = async (userId: string, isCreator: boolean) => {
     if (isCreator) {
-      setError('No está permitido eliminar al creador de la campaña del equipo.');
+      setError('Não é permitido remover o criador da campanha da equipa.');
       return;
     }
 
@@ -90,12 +90,12 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
     try {
       const res = await onRemoveMember(userId);
       if (res.success) {
-        setSuccessMsg('Miembro eliminado de la campaña con éxito.');
+        setSuccessMsg('Membro removido da campanha com sucesso.');
       } else {
-        setError(res.error || 'Error al eliminar miembro.');
+        setError(res.error || 'Erro ao remover membro.');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al eliminar miembro.');
+      setError(err instanceof Error ? err.message : 'Erro ao remover membro.');
     } finally {
       setLoading(false);
     }
@@ -121,13 +121,13 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-slate-900">Equipo de la Campaña y Permisos</h3>
+            <h3 className="text-base font-semibold text-slate-900">Equipa da Campanha e Permissões</h3>
             <Badge variant="neutral" size="sm">
-              {members.length} miembros
+              {members.length} membros
             </Badge>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            El aislamiento por RLS garantiza que únicamente los usuarios listados aquí puedan acceder o editar los contenidos de esta campaña.
+            O isolamento por RLS garante que unicamente os utilizadores listados aqui possam aceder ou editar os conteúdos desta campanha.
           </p>
         </div>
       </div>
@@ -150,12 +150,12 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
         {/* Members Roster (2 Cols) */}
         <div className="lg:col-span-2 space-y-3">
           <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
-            Miembros Asignados
+            Membros Atribuídos
           </h4>
 
           {members.length === 0 ? (
             <Card padding="md" className="text-center text-xs text-slate-500">
-              Ningún miembro registrado además del creador.
+              Nenhum membro registado além do criador.
             </Card>
           ) : (
             members.map((m) => {
@@ -176,7 +176,7 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
                         <span className="text-sm font-medium text-slate-900">{displayName}</span>
                         {isCreator && (
                           <Badge variant="blue" size="sm">
-                            Creador
+                            Criador
                           </Badge>
                         )}
                       </div>
@@ -196,7 +196,7 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
                         type="button"
                         onClick={() => handleRemove(m.user_id, isCreator)}
                         disabled={loading}
-                        aria-label="Eliminar miembro"
+                        aria-label="Eliminar membro"
                         className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -216,29 +216,29 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
               <div className="flex items-center gap-2">
                 <UserPlus className="w-4 h-4 text-blue-600" />
                 <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
-                  Añadir Miembro al Equipo
+                  Adicionar Membro à Equipa
                 </h4>
               </div>
               <p className="text-[11px] text-slate-500 leading-relaxed">
-                Añada colaboradores para producir imágenes, redacciones o realizar la aprobación final.
+                Adicione colaboradores para produzir imagens, redações ou realizar a aprovação final.
               </p>
 
               <form onSubmit={handleAddMember} className="space-y-3.5 pt-2">
                 <Input
-                  label="Correo Electrónico o Usuario *"
+                  label="Endereço de E-mail ou Utilizador *"
                   placeholder="colaborador@empresa.com"
                   value={targetEmail}
                   onChange={(e) => setTargetEmail(e.target.value)}
                   required
                 />
                 <Input
-                  label="Nombre a Mostrar"
-                  placeholder="Ej: Mariana Costa"
+                  label="Nome a Exibir"
+                  placeholder="Ex: Mariana Costa"
                   value={targetName}
                   onChange={(e) => setTargetName(e.target.value)}
                 />
                 <Select
-                  label="Rol en la Campaña"
+                  label="Função na Campanha"
                   options={AVAILABLE_ROLES}
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value as UserRole)}
@@ -252,7 +252,7 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
                   isLoading={loading}
                   leftIcon={<UserPlus className="w-4 h-4" />}
                 >
-                  Conceder Acceso
+                  Conceder Acesso
                 </Button>
               </form>
             </Card>
@@ -261,11 +261,11 @@ export const CampaignTeamTab: React.FC<CampaignTeamTabProps> = ({
               <div className="flex items-center gap-2 text-slate-600">
                 <Shield className="w-4 h-4 text-slate-500" />
                 <span className="text-xs font-semibold uppercase tracking-wider">
-                  Gestión Restringida
+                  Gestão Restrita
                 </span>
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Únicamente el Creador de la campaña o los Administradores tienen permiso para añadir o eliminar miembros de este equipo.
+                Unicamente o Criador da campanha ou os Administradores têm permissão para adicionar ou remover membros desta equipa.
               </p>
             </Card>
           )}

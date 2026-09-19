@@ -28,19 +28,19 @@ export const ForbiddenState: React.FC<ForbiddenStateProps> = ({
         </div>
 
         <span className="text-[11px] font-mono font-bold tracking-widest text-red-600 uppercase">
-          Error 403 • Acceso Prohibido
+          Erro 403 • Acesso Proibido
         </span>
         <h2 className="text-lg font-bold text-slate-900 mt-1">
-          Permiso Insuficiente (RBAC)
+          Permissão Insuficiente (RBAC)
         </h2>
 
         <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-          Su rol autenticado actual ({userRole ? <strong className="text-slate-900">{userRole}</strong> : 'no identificado'}) no dispone de la autorización requerida para acceder a este módulo.
+          A sua função autenticada atual ({userRole ? <strong className="text-slate-900">{userRole}</strong> : 'não identificada'}) não dispõe da autorização necessária para aceder a este módulo.
         </p>
 
         {requiredPermission && (
           <div className="mt-4 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 font-mono">
-            Requiere: <span className="text-blue-700 font-semibold">{requiredPermission}</span>
+            Requer: <span className="text-blue-700 font-semibold">{requiredPermission}</span>
           </div>
         )}
 
@@ -51,7 +51,7 @@ export const ForbiddenState: React.FC<ForbiddenStateProps> = ({
             leftIcon={<ArrowLeft className="w-3.5 h-3.5" />}
             onClick={onBackToDashboard}
           >
-            Volver al panel principal
+            Voltar ao painel principal
           </Button>
         </div>
       </Card>

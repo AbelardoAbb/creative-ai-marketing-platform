@@ -81,17 +81,17 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
   }, [fetchMetrics]);
 
     if (loading) {
-    return <LoadingState message="Cargando métricas de inferencia de la campaña..." />;
+    return <LoadingState message="A carregar métricas de inferência da campanha..." />;
   }
 
   if (error || !operational) {
     return (
       <div className="p-6 rounded-xl bg-red-50 border border-red-200 text-center space-y-2">
         <AlertTriangle className="w-6 h-6 text-red-600 mx-auto" />
-        <h4 className="text-sm font-semibold text-slate-900">Métricas no disponibles</h4>
-        <p className="text-xs text-red-700">{error || 'No fue posible cargar las métricas.'}</p>
+        <h4 className="text-sm font-semibold text-slate-900">Métricas não disponíveis</h4>
+        <p className="text-xs text-red-700">{error || 'Não foi possível carregar as métricas.'}</p>
         <Button variant="outline" size="sm" onClick={fetchMetrics}>
-          Reintentar
+          Tentar novamente
         </Button>
       </div>
     );
@@ -103,10 +103,10 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
       <div className="flex items-center justify-between pb-3 border-b border-slate-200">
         <div>
           <h3 className="text-base font-semibold text-slate-900">
-            Métricas de IA y Eficiencia de la Campaña
+            Métricas de IA e Eficiência da Campanha
           </h3>
           <p className="text-xs text-slate-500">
-            Telemetría de ejecuciones vinculadas exclusivamente a esta campaña
+            Telemetria de execuções associadas exclusivamente a esta campanha
           </p>
         </div>
         <Button
@@ -115,46 +115,46 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
           onClick={fetchMetrics}
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          Actualizar
+          Atualizar
         </Button>
       </div>
 
       {/* Operational Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs">
-          <span className="text-[11px] text-slate-500 font-medium">Operaciones de IA</span>
+          <span className="text-[11px] text-slate-500 font-medium">Operações de IA</span>
           <div className="text-xl font-bold font-mono text-slate-900 mt-1">
             {operational.totalOperations}
           </div>
-          <span className="text-[10px] text-slate-400">En esta campaña</span>
+          <span className="text-[10px] text-slate-400">Nesta campanha</span>
         </div>
 
         <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 shadow-2xs">
-          <span className="text-[11px] text-emerald-700 font-medium">Completadas con Éxito</span>
+          <span className="text-[11px] text-emerald-700 font-medium">Concluídas com Sucesso</span>
           <div className="text-xl font-bold font-mono text-emerald-800 mt-1">
             {operational.successfulOperations}
           </div>
           <span className="text-[10px] text-emerald-600">
             {operational.totalOperations > 0
-              ? `${((operational.successfulOperations / operational.totalOperations) * 100).toFixed(0)}% de tasa`
+              ? `${((operational.successfulOperations / operational.totalOperations) * 100).toFixed(0)}% de taxa`
               : '0%'}
           </span>
         </div>
 
         <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 shadow-2xs">
-          <span className="text-[11px] text-amber-700 font-medium">Bloqueos de Gobernanza</span>
+          <span className="text-[11px] text-amber-700 font-medium">Bloqueios de Governação</span>
           <div className="text-xl font-bold font-mono text-amber-800 mt-1">
             {operational.blockedOperations}
           </div>
-          <span className="text-[10px] text-amber-600">Moderación / Claves</span>
+          <span className="text-[10px] text-amber-600">Moderação / Chaves</span>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs">
-          <span className="text-[11px] text-slate-500 font-medium">Latencia Media</span>
+          <span className="text-[11px] text-slate-500 font-medium">Latência Média</span>
           <div className="text-xl font-bold font-mono text-blue-700 mt-1">
             {operational.averageDurationMs !== null ? `${operational.averageDurationMs} ms` : 'N/D'}
           </div>
-          <span className="text-[10px] text-slate-400">Tiempo de inferencia</span>
+          <span className="text-[10px] text-slate-400">Tempo de inferência</span>
         </div>
       </div>
 
@@ -162,36 +162,36 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
       {productivity && (
         <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-3">
           <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
-            Productividad y Ciclo de Aprobación
+            Produtividade e Ciclo de Aprovação
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
-              <span className="text-[11px] text-slate-500">Versiones Totales</span>
+              <span className="text-[11px] text-slate-500">Versões Totais</span>
               <div className="text-base font-bold font-mono text-blue-700 mt-1">
                 {productivity.contentVersionsCreated}
               </div>
               <span className="text-[10px] text-slate-500">{productivity.aiAssistedVersions} IA / {productivity.humanEditedVersions} manual</span>
             </div>
             <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
-              <span className="text-[11px] text-slate-500">Piezas e Imágenes</span>
+              <span className="text-[11px] text-slate-500">Peças e Imagens</span>
               <div className="text-base font-bold font-mono text-slate-800 mt-1">
                 {productivity.contentGenerated + productivity.imagesGenerated}
               </div>
               <span className="text-[10px] text-slate-500">{productivity.contentGenerated} txt / {productivity.imagesGenerated} img</span>
             </div>
             <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
-              <span className="text-[11px] text-slate-500">Aprobados / Rechazados</span>
+              <span className="text-[11px] text-slate-500">Aprovados / Rejeitados</span>
               <div className="text-base font-bold font-mono text-slate-800 mt-1">
                 {productivity.approvedContentCount} / {productivity.rejectedContentCount}
               </div>
-              <span className="text-[10px] text-slate-500">{productivity.revisionCount} revisiones</span>
+              <span className="text-[10px] text-slate-500">{productivity.revisionCount} revisões</span>
             </div>
             <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200">
-              <span className="text-[11px] text-emerald-700">Ciclo Medio de Revisión</span>
+              <span className="text-[11px] text-emerald-700">Ciclo Médio de Revisão</span>
               <div className="text-base font-bold font-mono text-emerald-800 mt-1">
                 {productivity.averageReviewCycleFormatted}
               </div>
-              <span className="text-[10px] text-emerald-600">creación hasta aprobación</span>
+              <span className="text-[10px] text-emerald-600">criação até aprovação</span>
             </div>
           </div>
         </div>
@@ -201,14 +201,14 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
       <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-3">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
-            Costes de Inferencia de la Campaña
+            Custos de Inferência da Campanha
           </h4>
           {hasFinancialAccess ? (
             <Badge variant="success" size="sm">CONFIRMADO</Badge>
           ) : (
             <Badge variant="neutral" size="sm">
               <Lock className="w-3 h-3 mr-1 inline" />
-              ACCESO RESTRINGIDO
+              ACESSO RESTRITO
             </Badge>
           )}
         </div>
@@ -217,19 +217,19 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200">
-                <span className="text-[11px] text-slate-500">Coste Conocido</span>
+                <span className="text-[11px] text-slate-500">Custo Conhecido</span>
                 <div className="text-lg font-bold font-mono text-emerald-700 mt-1">
                   ${costs.totalKnownCostUSD.toFixed(4)} USD
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
-                <span className="text-[11px] text-slate-500">Coste Estimado</span>
+                <span className="text-[11px] text-slate-500">Custo Estimado</span>
                 <div className="text-lg font-bold font-mono text-slate-800 mt-1">
                   ${costs.totalEstimatedCostUSD.toFixed(4)} USD
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-amber-50 border border-amber-200">
-                <span className="text-[11px] text-amber-700">Operaciones Sin Coste</span>
+                <span className="text-[11px] text-amber-700">Operações Sem Custo</span>
                 <div className="text-lg font-bold font-mono text-amber-800 mt-1">
                   {costs.unknownCostOperationsCount}
                 </div>
@@ -246,10 +246,10 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
           <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-center space-y-1">
             <Lock className="w-5 h-5 text-slate-400 mx-auto mb-1" />
             <div className="text-xs font-medium text-slate-700">
-              Datos Financieros Confidenciales
+              Dados Financeiros Confidenciais
             </div>
             <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
-              Únicamente los administradores tienen acceso a la visualización de costes monetarios de inferencia.
+              Unicamente os administradores têm acesso à visualização de custos monetários de inferência.
             </p>
           </div>
         )}
@@ -259,7 +259,7 @@ export const CampaignAIMetricsTab: React.FC<CampaignAIMetricsTabProps> = ({ camp
       {roi && (
         <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1 text-xs">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-blue-900">Conformidad de ROI:</span>
+            <span className="font-semibold text-blue-900">Conformidade de ROI:</span>
             <Badge variant="blue" size="sm">{roi.status}</Badge>
           </div>
           <p className="text-blue-800 leading-relaxed">

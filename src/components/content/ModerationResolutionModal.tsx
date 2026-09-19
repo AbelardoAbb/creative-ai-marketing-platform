@@ -31,7 +31,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!notes.trim() || notes.trim().length < 5) {
-      setValidationError('La justificación de la moderación debe contener al menos 5 caracteres.');
+      setValidationError('A justificação da moderação deve conter pelo menos 5 carateres.');
       return;
     }
     setValidationError(null);
@@ -55,10 +55,10 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
             </div>
             <div>
               <h3 className="text-base font-semibold text-neutral-100">
-                Resolución de moderación de seguridad
+                Resolução de moderação de segurança
               </h3>
               <p className="text-xs text-neutral-400">
-                Evaluación humana obligatoria para liberación o bloqueo definitivo
+                Avaliação humana obrigatória para libertação ou bloqueio definitivo
               </p>
             </div>
           </div>
@@ -75,10 +75,10 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
         <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-neutral-800 text-neutral-300">
-              Etapa: {event.stage === 'INPUT' ? 'Entrada (Prompt)' : 'Salida (Generación)'}
+              Etapa: {event.stage === 'INPUT' ? 'Entrada (Prompt)' : 'Saída (Geração)'}
             </span>
             <span className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300">
-              Riesgo: {event.risk_level}
+              Risco: {event.risk_level}
             </span>
             <span className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-neutral-800 text-neutral-400">
               {event.provider} · {event.model}
@@ -87,7 +87,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
 
           {event.categories && event.categories.length > 0 && (
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs text-neutral-400">Categorías:</span>
+              <span className="text-xs text-neutral-400">Categorias:</span>
               {event.categories.map((cat) => (
                 <span
                   key={cat}
@@ -101,7 +101,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
 
           {event.reason && (
             <div className="text-xs text-amber-200/90 bg-amber-500/5 p-2.5 rounded-lg border border-amber-500/20">
-              <strong>Motivo detectado:</strong> {event.reason}
+              <strong>Motivo detetado:</strong> {event.reason}
             </div>
           )}
 
@@ -109,7 +109,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
             <div className="space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-medium">
                 <FileText className="w-3.5 h-3.5" />
-                <span>Fragmento evaluado:</span>
+                <span>Fragmento avaliado:</span>
               </div>
               <p className="text-xs text-neutral-300 font-mono bg-neutral-900 p-2.5 rounded-lg border border-neutral-800 line-clamp-4 break-words">
                 {event.evaluated_snippet}
@@ -118,14 +118,14 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
           )}
 
           <div className="text-[11px] text-neutral-400 pt-1">
-            Enviado por: <strong className="text-neutral-300">{event.user_name}</strong> ({event.user_role}) el {new Date(event.timestamp).toLocaleString('es-ES')}
+            Enviado por: <strong className="text-neutral-300">{event.user_name}</strong> ({event.user_role}) em {new Date(event.timestamp).toLocaleString('pt-PT')}
           </div>
         </div>
 
         {/* Decision Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-neutral-300">Decisión del revisor:</label>
+            <label className="text-xs font-semibold text-neutral-300">Decisão do revisor:</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -139,7 +139,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
                 <ShieldCheck className={`w-4 h-4 mt-0.5 ${decision === 'ALLOW' ? 'text-emerald-400' : 'text-neutral-500'}`} />
                 <div>
                   <div className="text-xs font-bold text-neutral-200">ALLOW (Permitir)</div>
-                  <div className="text-[11px] text-neutral-400">Clasifica como falso positivo o aceptable en el contexto.</div>
+                  <div className="text-[11px] text-neutral-400">Classifica como falso positivo ou aceitável no contexto.</div>
                 </div>
               </button>
 
@@ -155,7 +155,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
                 <AlertTriangle className={`w-4 h-4 mt-0.5 ${decision === 'BLOCK' ? 'text-red-400' : 'text-neutral-500'}`} />
                 <div>
                   <div className="text-xs font-bold text-neutral-200">BLOCK (Bloquear)</div>
-                  <div className="text-[11px] text-neutral-400">Confirma infracción de seguridad y bloquea definitivamente.</div>
+                  <div className="text-[11px] text-neutral-400">Confirma infração de segurança e bloqueia definitivamente.</div>
                 </div>
               </button>
             </div>
@@ -163,7 +163,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-neutral-300">
-              Justificación obligatoria de auditoría:
+              Justificação obrigatória de auditoria:
             </label>
             <textarea
               value={notes}
@@ -171,7 +171,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
                 setNotes(e.target.value);
                 if (validationError) setValidationError(null);
               }}
-              placeholder="Describa detalladamente el análisis técnico de seguridad y el motivo de la decisión..."
+              placeholder="Descreva detalhadamente a análise técnica de segurança e o motivo da decisão..."
               rows={3}
               className="w-full text-xs bg-neutral-950 border border-neutral-800 rounded-xl p-3 text-neutral-200 placeholder-neutral-500 focus:outline-hidden focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20"
             />
@@ -199,7 +199,7 @@ export const ModerationResolutionModal: React.FC<ModerationResolutionModalProps>
                   : 'bg-red-600 hover:bg-red-500 disabled:opacity-50'
               }`}
             >
-              {isProcessing ? 'Guardando resolución...' : decision === 'ALLOW' ? 'Confirmar permiso' : 'Confirmar bloqueo'}
+              {isProcessing ? 'A guardar resolução...' : decision === 'ALLOW' ? 'Confirmar permissão' : 'Confirmar bloqueio'}
             </button>
           </div>
         </form>

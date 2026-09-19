@@ -11,10 +11,10 @@ export interface CampaignCardProps {
 
 export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onSelect }) => {
   const statusBadge = {
-    active: <Badge variant="success" hasDot>Activa</Badge>,
-    in_review: <Badge variant="warning" hasDot>En revisión</Badge>,
-    completed: <Badge variant="info" hasDot>Completada</Badge>,
-    draft: <Badge variant="neutral" hasDot>Borrador</Badge>,
+    active: <Badge variant="success" hasDot>Ativa</Badge>,
+    in_review: <Badge variant="warning" hasDot>Em revisão</Badge>,
+    completed: <Badge variant="info" hasDot>Concluída</Badge>,
+    draft: <Badge variant="neutral" hasDot>Rascunho</Badge>,
   }[campaign.status];
 
   return (
@@ -51,15 +51,15 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onSelect }
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
             <Layers className="w-3.5 h-3.5 text-slate-400" />
-            {campaign.piecesCount} piezas
+            {campaign.piecesCount} peças
           </span>
           <span className="flex items-center gap-1">
             <Users className="w-3.5 h-3.5 text-slate-400" />
-            {campaign.membersCount} miembros
+            {campaign.membersCount} membros
           </span>
         </div>
         <span className="text-[11px] text-slate-500 flex items-center gap-1 group-hover:text-blue-600 transition-colors font-medium">
-          Detalles <ArrowUpRight className="w-3 h-3" />
+          Detalhes <ArrowUpRight className="w-3 h-3" />
         </span>
       </div>
     </Card>

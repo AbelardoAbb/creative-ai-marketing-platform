@@ -106,12 +106,12 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                Galería General de Activos Creativos
+                Galeria Geral de Ativos Criativos
               </h2>
-              <Badge variant="blue" size="sm">Fase 7 Activa</Badge>
+              <Badge variant="blue" size="sm">Fase 7 Ativa</Badge>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Repositorio central de activos visuales generados mediante Stability AI y FallbackProvider con evaluación editorial humana.
+              Repositório central de ativos visuais gerados através de Stability AI e Fornecedor de Contingência com avaliação editorial humana.
             </p>
           </div>
         </div>
@@ -123,7 +123,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
             onClick={fetchAssets}
             leftIcon={<RefreshCw className="w-4 h-4 text-slate-600" />}
           >
-            Actualizar
+            Atualizar
           </Button>
         </div>
       </div>
@@ -135,7 +135,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Buscar por prompt, estilo o términos..."
+              placeholder="Pesquisar por prompt, estilo ou termos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
@@ -150,10 +150,10 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
             onChange={(e) => setStatusFilter(e.target.value)}
             className="w-48 text-xs"
             options={[
-              { value: 'all', label: 'Todos los estados' },
-              { value: 'GENERATED', label: 'Generados (En espera)' },
-              { value: 'READY_FOR_REVIEW', label: 'Listo para revisión' },
-              { value: 'MODERATION_REVIEW', label: 'En revisión de moderación' },
+              { value: 'all', label: 'Todos os estados' },
+              { value: 'GENERATED', label: 'Gerados (Em espera)' },
+              { value: 'READY_FOR_REVIEW', label: 'Pronto para revisão' },
+              { value: 'MODERATION_REVIEW', label: 'Em revisão de moderação' },
             ]}
           />
         </div>
@@ -161,7 +161,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
 
       {/* Grid of Image Assets */}
       {loading ? (
-        <LoadingState message="Cargando galería de activos visuales..." />
+        <LoadingState message="A carregar galeria de ativos visuais..." />
       ) : filteredAssets.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAssets.map((asset) => (
@@ -175,11 +175,11 @@ export const GalleryView: React.FC<GalleryViewProps> = ({ onNavigateToCampaign }
         </div>
       ) : (
         <EmptyState
-          title="Ningún activo visual encontrado"
+          title="Nenhum ativo visual encontrado"
           description={
             searchQuery
-              ? 'No se encontraron resultados para los términos ingresados.'
-              : 'Genere nuevos activos desde el Estudio de Imagen en cualquier campaña autorizada.'
+              ? 'Não foram encontrados resultados para os termos inseridos.'
+              : 'Gere novos ativos a partir do Estúdio de Imagem em qualquer campanha autorizada.'
           }
         />
       )}

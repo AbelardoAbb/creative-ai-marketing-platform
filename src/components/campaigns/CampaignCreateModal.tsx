@@ -26,17 +26,17 @@ const CHANNEL_OPTIONS = [
   'Facebook',
   'Twitter / X',
   'Email Marketing',
-  'Medios Exteriores (OOH)',
-  'Portal de Noticias',
+  'Meios Exteriores (OOH)',
+  'Portal de Notícias',
 ];
 
 const TONE_OPTIONS = [
-  { value: 'Profesional y Persuasivo', label: 'Profesional y Persuasivo (Estándar B2B)' },
-  { value: 'Inspirador y Cercano', label: 'Inspirador y Cercano (Lifestyle y Bienestar)' },
-  { value: 'Enérgico y Dinámico', label: 'Enérgico y Dinámico (Retail y Tecnología)' },
-  { value: 'Técnico y Confiable', label: 'Técnico y Confiable (Finanzas e Infraestructura)' },
-  { value: 'Desenfadado y Juvenil', label: 'Desenfadado y Juvenil (Generación Z)' },
-  { value: 'Sofisticado y Exclusivo', label: 'Sofisticado y Exclusivo (Premium y Lujo)' },
+  { value: 'Profissional e Persuasivo', label: 'Profissional e Persuasivo (Padrão B2B)' },
+  { value: 'Inspirador e Próximo', label: 'Inspirador e Próximo (Lifestyle e Bem-estar)' },
+  { value: 'Enérgico e Dinâmico', label: 'Enérgico e Dinâmico (Retalho e Tecnologia)' },
+  { value: 'Técnico e Fiável', label: 'Técnico e Fiável (Finanças e Infraestrutura)' },
+  { value: 'Descontraído e Jovem', label: 'Descontraído e Jovem (Geração Z)' },
+  { value: 'Sofisticado e Exclusivo', label: 'Sofisticado e Exclusivo (Premium e Luxo)' },
 ];
 
 export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
@@ -50,8 +50,8 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
   const [objective, setObjective] = useState('');
   const [targetAudience, setTargetAudience] = useState('');
   const [keyMessage, setKeyMessage] = useState('');
-  const [toneOfVoice, setToneOfVoice] = useState('Profesional y Persuasivo');
-  const [language, setLanguage] = useState('es-ES');
+  const [toneOfVoice, setToneOfVoice] = useState('Profissional e Persuasivo');
+  const [language, setLanguage] = useState('pt-PT');
   const [selectedChannels, setSelectedChannels] = useState<string[]>(['Instagram', 'LinkedIn']);
   const [visualDirection, setVisualDirection] = useState('');
   const [creativeConstraints, setCreativeConstraints] = useState('');
@@ -72,11 +72,11 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
     setError(null);
 
     if (!name.trim()) {
-      setError('El nombre de la campaña es obligatorio.');
+      setError('O nome da campanha é obrigatório.');
       return;
     }
     if (!objective.trim()) {
-      setError('El objetivo principal de la campaña es obligatorio.');
+      setError('O objetivo principal da campanha é obrigatório.');
       return;
     }
 
@@ -84,13 +84,13 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
     try {
       const payload: CreateCampaignPayload = {
         name: name.trim(),
-        client: client.trim() || 'General',
+        client: client.trim() || 'Geral',
         product_or_service: productOrService.trim() || undefined,
         campaign_objective: objective.trim(),
         target_audience: targetAudience.trim() || undefined,
         key_message: keyMessage.trim() || undefined,
         tone_of_voice: toneOfVoice,
-        language: language.trim() || 'es-ES',
+        language: language.trim() || 'pt-PT',
         channels: selectedChannels.length > 0 ? selectedChannels : ['Instagram', 'LinkedIn'],
         visual_direction: visualDirection.trim() || undefined,
         creative_constraints: creativeConstraints.trim() || undefined,
@@ -100,10 +100,10 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
       if (result.success) {
         onClose();
       } else {
-        setError(result.error || 'Error al crear la campaña.');
+        setError(result.error || 'Erro ao criar a campanha.');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al crear la campaña.');
+      setError(err instanceof Error ? err.message : 'Erro ao criar a campanha.');
     } finally {
       setLoading(false);
     }
@@ -119,16 +119,16 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-slate-900">Nueva Campaña y Briefing</h3>
+              <h3 className="text-base font-semibold text-slate-900">Nova Campanha e Briefing</h3>
               <p className="text-xs text-slate-500">
-                Configure los metadatos y directrices creativas que impulsarán la generación de IA.
+                Configure os metadados e diretrizes criativas que impulsionarão a geração de IA.
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Cerrar"
+            aria-label="Fechar"
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -144,42 +144,42 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
             </div>
           )}
 
-          {/* Section 1: Identificación & Cliente */}
+          {/* Section 1: Identificação & Cliente */}
           <div className="space-y-4">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              1. Identificación de la Campaña
+              1. Identificação da Campanha
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label="Nombre de la Campaña *"
-                placeholder="Ej: Primavera Sostenible 2026"
+                label="Nome da Campanha *"
+                placeholder="Ex: Primavera Sustentável 2026"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
               <Input
                 label="Cliente / Marca *"
-                placeholder="Ej: EcoVibe Cosméticos"
+                placeholder="Ex: EcoVibe Cosméticos"
                 value={client}
                 onChange={(e) => setClient(e.target.value)}
               />
             </div>
             <Input
-              label="Producto o Servicio en Foco"
-              placeholder="Ej: Línea Bio-Active Skincare Hidratante"
+              label="Produto ou Serviço em Foco"
+              placeholder="Ex: Linha Bio-Active Skincare Hidratante"
               value={productOrService}
               onChange={(e) => setProductOrService(e.target.value)}
             />
           </div>
 
-          {/* Section 2: Estrategia & Briefing */}
+          {/* Section 2: Estratégia & Briefing */}
           <div className="space-y-4 pt-4 border-t border-slate-200">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              2. Estrategia y Objetivos de Negocio
+              2. Estratégia e Objetivos de Negócio
             </h4>
             <Textarea
-              label="Objetivo Principal de la Campaña *"
-              placeholder="Ej: Generar 15.000 registros para lista de espera y posicionar la marca como pionera en envases compostables."
+              label="Objetivo Principal da Campanha *"
+              placeholder="Ex: Gerar 15.000 inscrições para lista de espera e posicionar a marca como pioneira em embalagens compostáveis."
               rows={3}
               value={objective}
               onChange={(e) => setObjective(e.target.value)}
@@ -187,15 +187,15 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Textarea
-                label="Público Objetivo y Demografía"
-                placeholder="Ej: Mujeres y hombres de 22 a 40 años, perfil sostenible y consumidor consciente."
+                label="Público-Alvo e Demografia"
+                placeholder="Ex: Mulheres e homens de 22 a 40 anos, perfil sustentável e consumidor consciente."
                 rows={2}
                 value={targetAudience}
                 onChange={(e) => setTargetAudience(e.target.value)}
               />
               <Textarea
-                label="Mensaje Clave (Key Message)"
-                placeholder="Ej: Cuidado genuino de tu piel y respeto absoluto por el planeta."
+                label="Mensagem-Chave (Key Message)"
+                placeholder="Ex: Cuidado genuíno da sua pele e respeito absoluto pelo planeta."
                 rows={2}
                 value={keyMessage}
                 onChange={(e) => setKeyMessage(e.target.value)}
@@ -206,11 +206,11 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
           {/* Section 3: Voz, Tom & Canais */}
           <div className="space-y-4 pt-4 border-t border-slate-200">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              3. Tono de Voz y Canales de Distribución
+              3. Tom de Voz e Canais de Distribuição
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
-                label="Tono de Voz Primario"
+                label="Tom de Voz Primário"
                 options={TONE_OPTIONS}
                 value={toneOfVoice}
                 onChange={(e) => setToneOfVoice(e.target.value)}
@@ -219,13 +219,13 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
                 label="Idioma Principal"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                placeholder="es-ES"
+                placeholder="pt-PT"
               />
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-700 block mb-2">
-                Canales de Activación
+                Canais de Ativação
               </label>
               <div className="flex flex-wrap gap-2">
                 {CHANNEL_OPTIONS.map((ch) => {
@@ -250,22 +250,22 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
             </div>
           </div>
 
-          {/* Section 4: Diretrizes Criativas & Restrições (Future AI Context) */}
+          {/* Section 4: Diretrizes Criativas & Restrições */}
           <div className="space-y-4 pt-4 border-t border-slate-200">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              4. Directrices Visuales y Restricciones de Marca
+              4. Diretrizes Visuais e Restrições de Marca
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Textarea
-                label="Dirección Visual y Estilo"
-                placeholder="Ej: Fotografía con luz solar natural matutina, tonos botánicos, acabado mate y sin brillos artificiales."
+                label="Direção Visual e Estilo"
+                placeholder="Ex: Fotografia com luz solar natural matinal, tons botânicos, acabamento mate e sem brilhos artificiais."
                 rows={2}
                 value={visualDirection}
                 onChange={(e) => setVisualDirection(e.target.value)}
               />
               <Textarea
-                label="Restricciones Creativas (Negative Constraints)"
-                placeholder="Ej: No utilizar animales en cautiverio, no incluir envases plásticos en las escenas. Destacar certificación orgánica."
+                label="Restrições Criativas (Negative Constraints)"
+                placeholder="Ex: Não utilizar animais em cativeiro, não incluir embalagens de plástico nas cenas. Destacar certificação biológica."
                 rows={2}
                 value={creativeConstraints}
                 onChange={(e) => setCreativeConstraints(e.target.value)}
@@ -285,7 +285,7 @@ export const CampaignCreateModal: React.FC<CampaignCreateModalProps> = ({
               isLoading={loading}
               leftIcon={<Sparkles className="w-4 h-4" />}
             >
-              Crear Campaña y Briefing
+              Criar Campanha e Briefing
             </Button>
           </div>
         </form>

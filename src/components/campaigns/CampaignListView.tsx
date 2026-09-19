@@ -35,12 +35,12 @@ export interface CampaignListViewProps {
 }
 
 const STATUS_FILTERS: { value: string; label: string }[] = [
-  { value: 'all', label: 'Todos los estados' },
-  { value: 'draft', label: 'Borrador' },
-  { value: 'active', label: 'Activa' },
-  { value: 'in_review', label: 'En revisión' },
-  { value: 'completed', label: 'Completada' },
-  { value: 'archived', label: 'Archivada' },
+  { value: 'all', label: 'Todos os estados' },
+  { value: 'draft', label: 'Rascunho' },
+  { value: 'active', label: 'Ativa' },
+  { value: 'in_review', label: 'Em revisão' },
+  { value: 'completed', label: 'Concluída' },
+  { value: 'archived', label: 'Arquivada' },
 ];
 
 export const CampaignListView: React.FC<CampaignListViewProps> = ({
@@ -83,16 +83,16 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
   const getStatusLabel = (status: CampaignStatus) => {
     switch (status) {
       case 'active':
-        return 'Activa';
+        return 'Ativa';
       case 'in_review':
-        return 'En revisión';
+        return 'Em revisão';
       case 'completed':
-        return 'Completada';
+        return 'Concluída';
       case 'archived':
-        return 'Archivada';
+        return 'Arquivada';
       case 'draft':
       default:
-        return 'Borrador';
+        return 'Rascunho';
     }
   };
 
@@ -103,14 +103,14 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
-              Gestión de Campañas y Briefings
+              Gestão de Campanhas e Briefings
             </h1>
             <Badge variant="blue" size="sm">
               Fase 6
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Espacio centralizado para gestionar briefings e impulsar las cadenas de generación de IA con contexto comercial.
+            Espaço centralizado para gerir briefings e impulsionar as cadeias de geração de IA com contexto comercial.
           </p>
         </div>
 
@@ -121,12 +121,12 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
             onClick={onCreateClick}
             leftIcon={<Plus className="w-4 h-4" />}
           >
-            Nueva Campaña
+            Nova Campanha
           </Button>
         ) : (
           <div className="flex items-center gap-2 text-xs text-slate-500">
             <Lock className="w-3.5 h-3.5 text-slate-400" />
-            <span>Creación reservada a Diseñadores y Administradores</span>
+            <span>Criação reservada a Designers e Administradores</span>
           </div>
         )}
       </div>
@@ -137,7 +137,7 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Buscar por nombre, cliente u objetivo..."
+            placeholder="Pesquisar por nome, cliente ou objetivo..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
@@ -157,13 +157,13 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
       {filteredCampaigns.length === 0 ? (
         <EmptyState
           icon={FolderKanban}
-          title="Ninguna campaña encontrada"
+          title="Nenhuma campanha encontrada"
           description={
             searchQuery || statusFilter !== 'all'
-              ? 'Intente ajustar los filtros o términos de su búsqueda.'
-              : 'Comience creando la primera campaña y configurando el briefing creativo.'
+              ? 'Tente ajustar os filtros ou termos da sua pesquisa.'
+              : 'Comece criando a primeira campanha e configurando o briefing criativo.'
           }
-          actionLabel={canCreate && !searchQuery && statusFilter === 'all' ? 'Crear Primera Campaña' : undefined}
+          actionLabel={canCreate && !searchQuery && statusFilter === 'all' ? 'Criar Primeira Campanha' : undefined}
           onAction={canCreate ? onCreateClick : undefined}
         />
       ) : (
@@ -179,7 +179,7 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
                   {/* Top Tags & Status */}
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider truncate">
-                      {camp.client || 'Cliente General'}
+                      {camp.client || 'Cliente Geral'}
                     </span>
                     <Badge variant={getStatusBadgeVariant(camp.status)} size="sm">
                       {getStatusLabel(camp.status)}
@@ -198,7 +198,7 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
 
                   {/* Objective Snip */}
                   <p className="text-xs text-slate-600 mt-3 line-clamp-2 leading-relaxed">
-                    {camp.campaign_objective || 'Sin descripción de objetivo definida.'}
+                    {camp.campaign_objective || 'Sem descrição de objetivo definida.'}
                   </p>
                 </div>
 
@@ -206,11 +206,11 @@ export const CampaignListView: React.FC<CampaignListViewProps> = ({
                 <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{new Date(camp.created_at).toLocaleDateString('es-ES')}</span>
+                    <span>{new Date(camp.created_at).toLocaleDateString('pt-PT')}</span>
                   </div>
 
                   <div className="flex items-center gap-1 font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
-                    <span>Acceder al Workspace</span>
+                    <span>Aceder ao Workspace</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>

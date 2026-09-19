@@ -20,28 +20,28 @@ export const ChangePasswordSection: React.FC = () => {
     setSuccessMessage(null);
 
     if (!user || !session) {
-      setErrorMessage('Debe iniciar sesión para cambiar su contraseña.');
+      setErrorMessage('Deve iniciar sessão para alterar a sua palavra-passe.');
       return;
     }
 
     if (!newPassword) {
-      setErrorMessage('Por favor, ingrese la nueva contraseña.');
+      setErrorMessage('Por favor, insira a nova palavra-passe.');
       return;
     }
 
     if (newPassword.length < 6) {
-      setErrorMessage('La nueva contraseña debe tener al menos 6 caracteres.');
+      setErrorMessage('A nova palavra-passe deve ter pelo menos 6 caracteres.');
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setErrorMessage('Las contraseñas no coinciden.');
+      setErrorMessage('As palavras-passe não coincidem.');
       return;
     }
 
     const supabase = getSupabaseClient();
     if (!supabase) {
-      setErrorMessage('El servicio de autenticación no está disponible.');
+      setErrorMessage('O serviço de autenticação não está disponível.');
       return;
     }
 
@@ -52,14 +52,14 @@ export const ChangePasswordSection: React.FC = () => {
       });
 
       if (error) {
-        setErrorMessage(error.message || 'Error al actualizar la contraseña.');
+        setErrorMessage(error.message || 'Erro ao atualizar a palavra-passe.');
       } else {
-        setSuccessMessage('Contraseña actualizada exitosamente.');
+        setSuccessMessage('Palavra-passe atualizada com sucesso.');
         setNewPassword('');
         setConfirmPassword('');
       }
     } catch {
-      setErrorMessage('Ocurrió un error inesperado al actualizar la contraseña.');
+      setErrorMessage('Ocorreu um erro inesperado ao atualizar a palavra-passe.');
     } finally {
       setIsLoading(false);
     }
@@ -73,10 +73,10 @@ export const ChangePasswordSection: React.FC = () => {
         </div>
         <div>
           <h3 className="text-base font-semibold text-slate-900">
-            Cambiar contraseña
+            Alterar palavra-passe
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Actualice la credencial de acceso para su cuenta autenticada.
+            Atualize a credencial de acesso para a sua conta autenticada.
           </p>
         </div>
       </div>
@@ -84,13 +84,13 @@ export const ChangePasswordSection: React.FC = () => {
       {!user || !session ? (
         <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-center gap-2">
           <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-          <span>Esta sección requiere una sesión autenticada. Inicie sesión para cambiar su contraseña.</span>
+          <span>Esta secção requer uma sessão autenticada. Inicie sessão para alterar a sua palavra-passe.</span>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
           {user.email && (
             <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-              <span className="font-medium text-slate-700">Cuenta activa:</span>{' '}
+              <span className="font-medium text-slate-700">Conta ativa:</span>{' '}
               <span className="font-mono text-slate-900">{user.email}</span>
             </div>
           )}
@@ -120,7 +120,7 @@ export const ChangePasswordSection: React.FC = () => {
               htmlFor="new-password"
               className="block text-xs font-medium text-slate-700"
             >
-              Nueva contraseña
+              Nova palavra-passe
             </label>
             <div className="relative">
               <input
@@ -137,7 +137,7 @@ export const ChangePasswordSection: React.FC = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
-                aria-label={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+                aria-label={showPassword ? 'Ocultar palavra-passe' : 'Ver palavra-passe'}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -149,7 +149,7 @@ export const ChangePasswordSection: React.FC = () => {
               htmlFor="confirm-new-password"
               className="block text-xs font-medium text-slate-700"
             >
-              Confirmar nueva contraseña
+              Confirmar nova palavra-passe
             </label>
             <input
               id="confirm-new-password"
@@ -157,7 +157,7 @@ export const ChangePasswordSection: React.FC = () => {
               autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Repita la nueva contraseña"
+              placeholder="Repita a nova palavra-passe"
               disabled={isLoading}
               className="w-full rounded-lg bg-white border border-slate-300 text-slate-900 placeholder-slate-400 text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 disabled:bg-slate-50 disabled:cursor-not-allowed"
             />
@@ -172,7 +172,7 @@ export const ChangePasswordSection: React.FC = () => {
               isLoading={isLoading}
               disabled={isLoading || !newPassword || !confirmPassword}
             >
-              {isLoading ? 'Actualizando...' : 'Actualizar contraseña'}
+              {isLoading ? 'A atualizar...' : 'Atualizar palavra-passe'}
             </Button>
           </div>
         </form>

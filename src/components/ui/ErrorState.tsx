@@ -10,7 +10,7 @@ export interface ErrorStateProps {
 }
 
 export const ErrorState: React.FC<ErrorStateProps> = ({
-  title = 'Ha ocurrido un error',
+  title = 'Ocorreu um erro',
   message,
   onRetry,
   className = '',
@@ -28,7 +28,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
       {onRetry && (
         <div className="mt-4">
           <Button size="sm" variant="outline" leftIcon={<RotateCcw className="w-3.5 h-3.5" />} onClick={onRetry}>
-            Reintentar
+            Tentar novamente
           </Button>
         </div>
       )}

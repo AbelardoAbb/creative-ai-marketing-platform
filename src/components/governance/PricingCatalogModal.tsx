@@ -32,9 +32,9 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
               <DollarSign className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-white">Catálogo de precios de IA</h3>
+              <h3 className="text-base font-semibold text-white">Catálogo de Preços de IA</h3>
               <p className="text-xs text-slate-400">
-                Tabla oficial de costes de inferencia configurada en CostEngine
+                Tabela oficial de custos de inferência configurada no CostEngine
               </p>
             </div>
           </div>
@@ -51,13 +51,13 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
           <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-800/40 flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
             <div className="text-xs text-indigo-200/90 leading-relaxed">
-              <span className="font-semibold text-white">Regla de integridad financiera:</span> Los costes
-              se calculan estrictamente en base a los tokens y unidades devueltos por la API de los proveedores.
-              Los proveedores bloqueados o sin credencial activa reportan estado{' '}
+              <span className="font-semibold text-white">Regra de integridade financeira:</span> Os custos
+              são calculados estritamente com base nos tokens e unidades devolvidos pela API dos fornecedores.
+              Os fornecedores bloqueados ou sem credencial ativa reportam estado{' '}
               <code className="px-1.5 py-0.5 rounded bg-indigo-900/60 text-indigo-300 font-mono">
                 COST_UNKNOWN
               </code>
-              , sin ninguna fabricación de valores monetarios.
+              , sem qualquer fabricação de valores monetários.
             </div>
           </div>
 
@@ -75,13 +75,13 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
                         {item.provider.toUpperCase()}
                       </Badge>
                       <Badge variant={item.billing_mode === 'token_based' ? 'info' : 'purple'} size="sm">
-                        {item.billing_mode === 'token_based' ? 'Por token' : 'Por unidad'}
+                        {item.billing_mode === 'token_based' ? 'Por token' : 'Por unidade'}
                       </Badge>
                     </div>
                     <p className="text-xs text-slate-400 mt-0.5 font-mono">{item.model}</p>
                   </div>
                   <Badge variant={item.is_active ? 'success' : 'neutral'} size="sm">
-                    {item.is_active ? 'Activo' : 'Inactivo'}
+                    {item.is_active ? 'Ativo' : 'Inativo'}
                   </Badge>
                 </div>
 
@@ -99,7 +99,7 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
                       </div>
 
                       <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-                        <span className="text-[11px] text-slate-400">Salida (Completion)</span>
+                        <span className="text-[11px] text-slate-400">Saída (Completion)</span>
                         <div className="text-xs font-mono font-semibold text-emerald-400 mt-0.5">
                           ${(item.output_rate_per_unit || 0) * 1000} / 1K tokens
                           <div className="text-[10px] text-slate-500 font-normal">
@@ -109,7 +109,7 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
                       </div>
 
                       <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-                        <span className="text-[11px] text-slate-400">Moneda</span>
+                        <span className="text-[11px] text-slate-400">Moeda</span>
                         <div className="text-xs font-mono font-semibold text-slate-200 mt-0.5">
                           {item.currency}
                         </div>
@@ -118,14 +118,14 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
                   ) : (
                     <>
                       <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337] sm:col-span-2">
-                        <span className="text-[11px] text-slate-400">Coste por generación visual</span>
+                        <span className="text-[11px] text-slate-400">Custo por geração visual</span>
                         <div className="text-xs font-mono font-semibold text-purple-400 mt-0.5">
-                          ${(item.fixed_rate_per_generation || 0).toFixed(4)} USD / imagen
+                          ${(item.fixed_rate_per_generation || 0).toFixed(4)} USD / imagem
                         </div>
                       </div>
 
                       <div className="p-2.5 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-                        <span className="text-[11px] text-slate-400">Moneda</span>
+                        <span className="text-[11px] text-slate-400">Moeda</span>
                         <div className="text-xs font-mono font-semibold text-slate-200 mt-0.5">
                           {item.currency}
                         </div>
@@ -135,8 +135,8 @@ export const PricingCatalogModal: React.FC<PricingCatalogModalProps> = ({
                 </div>
 
                 <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1">
-                  <span>Operaciones: {item.operations.join(', ')}</span>
-                  <span>Vigencia: {item.effective_from}</span>
+                  <span>Operações: {item.operations.join(', ')}</span>
+                  <span>Vigência: {item.effective_from}</span>
                 </div>
               </div>
             ))}

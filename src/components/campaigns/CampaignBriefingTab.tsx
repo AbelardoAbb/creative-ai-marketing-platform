@@ -32,12 +32,12 @@ export interface CampaignBriefingTabProps {
 }
 
 const TONE_OPTIONS = [
-  { value: 'Profesional y Persuasivo', label: 'Profesional y Persuasivo (Estándar B2B)' },
-  { value: 'Inspirador y Cercano', label: 'Inspirador y Cercano (Lifestyle y Bienestar)' },
-  { value: 'Enérgico y Dinámico', label: 'Enérgico e Dinámico (Retail y Tecnología)' },
-  { value: 'Técnico y Confiable', label: 'Técnico y Confiable (Finanzas e Infraestructura)' },
-  { value: 'Desenfadado y Juvenil', label: 'Desenfadado y Juvenil (Generación Z)' },
-  { value: 'Sofisticado e Exclusivo', label: 'Sofisticado y Exclusivo (Premium y Lujo)' },
+  { value: 'Profissional e Persuasivo', label: 'Profissional e Persuasivo (Padrão B2B)' },
+  { value: 'Inspirador e Próximo', label: 'Inspirador e Próximo (Lifestyle e Bem-estar)' },
+  { value: 'Enérgico e Dinâmico', label: 'Enérgico e Dinâmico (Retalho e Tecnologia)' },
+  { value: 'Técnico e Fiável', label: 'Técnico e Fiável (Finanças e Infraestrutura)' },
+  { value: 'Descontraído e Jovem', label: 'Descontraído e Jovem (Geração Z)' },
+  { value: 'Sofisticado e Exclusivo', label: 'Sofisticado e Exclusivo (Premium e Luxo)' },
 ];
 
 const CHANNEL_OPTIONS = [
@@ -49,8 +49,8 @@ const CHANNEL_OPTIONS = [
   'Facebook',
   'Twitter / X',
   'Email Marketing',
-  'Medios Exteriores (OOH)',
-  'Portal de Noticias',
+  'Meios Exteriores (OOH)',
+  'Portal de Notícias',
 ];
 
 export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
@@ -69,8 +69,8 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
   const [objective, setObjective] = useState(campaign.campaign_objective || '');
   const [targetAudience, setTargetAudience] = useState(campaign.target_audience || '');
   const [keyMessage, setKeyMessage] = useState(campaign.key_message || '');
-  const [toneOfVoice, setToneOfVoice] = useState(campaign.tone_of_voice || 'Profesional y Persuasivo');
-  const [language, setLanguage] = useState(campaign.language || 'es-ES');
+  const [toneOfVoice, setToneOfVoice] = useState(campaign.tone_of_voice || 'Profissional e Persuasivo');
+  const [language, setLanguage] = useState(campaign.language || 'pt-PT');
   const [channels, setChannels] = useState<string[]>(
     Array.isArray(campaign.channels) ? campaign.channels : ['Instagram', 'LinkedIn']
   );
@@ -84,11 +84,11 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
   const handleSave = async () => {
     setMessage(null);
     if (!name.trim()) {
-      setMessage({ type: 'error', text: 'El nombre de la campaña es obligatorio.' });
+      setMessage({ type: 'error', text: 'O nome da campanha é obrigatório.' });
       return;
     }
     if (!objective.trim()) {
-      setMessage({ type: 'error', text: 'El objetivo de la campaña es obligatorio.' });
+      setMessage({ type: 'error', text: 'O objetivo da campanha é obrigatório.' });
       return;
     }
 
@@ -96,26 +96,26 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
     try {
       const res = await onUpdate({
         name: name.trim(),
-        client: client.trim() || 'General',
+        client: client.trim() || 'Geral',
         product_or_service: productOrService.trim() || undefined,
         campaign_objective: objective.trim(),
         target_audience: targetAudience.trim() || undefined,
         key_message: keyMessage.trim() || undefined,
         tone_of_voice: toneOfVoice,
-        language: language.trim() || 'es-ES',
+        language: language.trim() || 'pt-PT',
         channels: channels.length > 0 ? channels : ['Instagram', 'LinkedIn'],
         visual_direction: visualDirection.trim() || undefined,
         creative_constraints: creativeConstraints.trim() || undefined,
       });
 
       if (res.success) {
-        setMessage({ type: 'success', text: 'Briefing y directrices actualizados con éxito.' });
+        setMessage({ type: 'success', text: 'Briefing e diretrizes atualizados com sucesso.' });
         setIsEditing(false);
       } else {
-        setMessage({ type: 'error', text: res.error || 'Error al guardar las modificaciones.' });
+        setMessage({ type: 'error', text: res.error || 'Erro ao guardar as modificações.' });
       }
     } catch (err: unknown) {
-      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Error al guardar.' });
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Erro ao guardar.' });
     } finally {
       setLoading(false);
     }
@@ -128,14 +128,14 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-base font-semibold text-slate-900">
-              Briefing y Matriz de Contexto Creativo
+              Briefing e Matriz de Contexto Criativo
             </h3>
             <Badge variant="blue" size="sm">
-              Contexto Listo para IA
+              Contexto Pronto para IA
             </Badge>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Estructura unificada que contextualizará modelos de lenguaje (Claude) y difusión visual.
+            Estrutura unificada que contextualizará modelos de linguagem (Claude) e difusão visual.
           </p>
         </div>
 
@@ -153,8 +153,8 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
                     setObjective(campaign.campaign_objective || '');
                     setTargetAudience(campaign.target_audience || '');
                     setKeyMessage(campaign.key_message || '');
-                    setToneOfVoice(campaign.tone_of_voice || 'Profesional y Persuasivo');
-                    setLanguage(campaign.language || 'es-ES');
+                    setToneOfVoice(campaign.tone_of_voice || 'Profissional e Persuasivo');
+                    setLanguage(campaign.language || 'pt-PT');
                     setChannels(campaign.channels || ['Instagram', 'LinkedIn']);
                     setVisualDirection(campaign.visual_direction || '');
                     setCreativeConstraints(campaign.creative_constraints || '');
@@ -211,11 +211,11 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
         <div className="space-y-6">
           <Card padding="md" className="space-y-4">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              Identificación y Producto
+              Identificação e Produto
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label="Nombre de la Campaña *"
+                label="Nome da Campanha *"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -226,7 +226,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
               />
             </div>
             <Input
-              label="Producto o Servicio"
+              label="Produto ou Serviço"
               value={productOrService}
               onChange={(e) => setProductOrService(e.target.value)}
             />
@@ -234,7 +234,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
 
           <Card padding="md" className="space-y-4">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              Estrategia y Mensaje
+              Estratégia e Mensagem
             </h4>
             <Textarea
               label="Objetivo Principal *"
@@ -244,13 +244,13 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Textarea
-                label="Público Objetivo"
+                label="Público-Alvo"
                 rows={2}
                 value={targetAudience}
                 onChange={(e) => setTargetAudience(e.target.value)}
               />
               <Textarea
-                label="Mensaje Clave"
+                label="Mensagem-Chave"
                 rows={2}
                 value={keyMessage}
                 onChange={(e) => setKeyMessage(e.target.value)}
@@ -260,11 +260,11 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
 
           <Card padding="md" className="space-y-4">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              Tono y Canales
+              Tom e Canais
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
-                label="Tono de Voz"
+                label="Tom de Voz"
                 options={TONE_OPTIONS}
                 value={toneOfVoice}
                 onChange={(e) => setToneOfVoice(e.target.value)}
@@ -277,7 +277,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             </div>
 
             <div>
-              <label className="text-xs font-medium text-slate-700 block mb-2">Canales de Activación</label>
+              <label className="text-xs font-medium text-slate-700 block mb-2">Canais de Ativação</label>
               <div className="flex flex-wrap gap-2">
                 {CHANNEL_OPTIONS.map((ch) => {
                   const isSelected = channels.includes(ch);
@@ -303,17 +303,17 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
 
           <Card padding="md" className="space-y-4">
             <h4 className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-              Directrices y Restricciones Visuales
+              Diretrizes e Restrições Visuais
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Textarea
-                label="Dirección Visual y Estilo"
+                label="Direção Visual e Estilo"
                 rows={3}
                 value={visualDirection}
                 onChange={(e) => setVisualDirection(e.target.value)}
               />
               <Textarea
-                label="Restricciones Creativas"
+                label="Restrições Criativas"
                 rows={3}
                 value={creativeConstraints}
                 onChange={(e) => setCreativeConstraints(e.target.value)}
@@ -329,10 +329,10 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             {/* Objective Card */}
             <Card padding="md">
               <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider block mb-2">
-                Objetivo del Negocio y Campaña
+                Objetivo do Negócio e Campanha
               </span>
               <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-normal">
-                {campaign.campaign_objective || 'Ningún objetivo especificado.'}
+                {campaign.campaign_objective || 'Nenhum objetivo especificado.'}
               </p>
             </Card>
 
@@ -340,19 +340,19 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card padding="md">
                 <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider block mb-2">
-                  Público Objetivo
+                  Público-Alvo
                 </span>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {campaign.target_audience || 'General / No especificado.'}
+                  {campaign.target_audience || 'Geral / Não especificado.'}
                 </p>
               </Card>
 
               <Card padding="md">
                 <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider block mb-2">
-                  Mensaje Clave
+                  Mensagem-Chave
                 </span>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {campaign.key_message || 'Enfoque en el posicionamiento de marca.'}
+                  {campaign.key_message || 'Foco no posicionamento de marca.'}
                 </p>
               </Card>
             </div>
@@ -361,11 +361,11 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             <Card padding="md" className="space-y-4">
               <div>
                 <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider block mb-1.5">
-                  Dirección Visual y Estética
+                  Direção Visual e Estética
                 </span>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   {campaign.visual_direction ||
-                    'Seguir identidad visual estándar del cliente y directrices de marca.'}
+                    'Seguir identidade visual padrão do cliente e diretrizes de marca.'}
                 </p>
               </div>
 
@@ -373,7 +373,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
                 <div className="pt-3 border-t border-slate-200">
                   <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
                     <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                    Restricciones y Negative Constraints
+                    Restrições e Negative Constraints
                   </span>
                   <p className="text-xs sm:text-sm text-amber-800 leading-relaxed">
                     {campaign.creative_constraints}
@@ -388,26 +388,26 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             {/* Tone & Language Card */}
             <Card padding="md" className="space-y-4">
               <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider block">
-                Parámetros Editoriales
+                Parâmetros Editoriais
               </span>
 
               <div>
-                <span className="text-[11px] text-slate-500 block">Tono de Voz</span>
+                <span className="text-[11px] text-slate-500 block">Tom de Voz</span>
                 <span className="text-xs sm:text-sm font-medium text-slate-800 block mt-0.5">
-                  {campaign.tone_of_voice || 'Profesional y Persuasivo'}
+                  {campaign.tone_of_voice || 'Profissional e Persuasivo'}
                 </span>
               </div>
 
               <div>
                 <span className="text-[11px] text-slate-500 block">Idioma Principal</span>
                 <span className="text-xs sm:text-sm font-medium text-slate-800 block mt-0.5">
-                  {campaign.language || 'es-ES'}
+                  {campaign.language || 'pt-PT'}
                 </span>
               </div>
 
               {campaign.product_or_service && (
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Producto / Servicio</span>
+                  <span className="text-[11px] text-slate-500 block">Produto / Serviço</span>
                   <span className="text-xs sm:text-sm font-medium text-slate-800 block mt-0.5">
                     {campaign.product_or_service}
                   </span>
@@ -418,7 +418,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
             {/* Channels Card */}
             <Card padding="md" className="space-y-3">
               <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider block">
-                Canales de Activación
+                Canais de Ativação
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {campaign.channels && campaign.channels.length > 0 ? (
@@ -431,7 +431,7 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
                     </span>
                   ))
                 ) : (
-                  <span className="text-xs text-slate-500">Ningún canal seleccionado</span>
+                  <span className="text-xs text-slate-500">Nenhum canal selecionado</span>
                 )}
               </div>
             </Card>
@@ -441,11 +441,11 @@ export const CampaignBriefingTab: React.FC<CampaignBriefingTabProps> = ({
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-blue-600" />
                 <span className="text-xs font-semibold text-blue-800">
-                  Integración con Claude y SD
+                  Integração com Claude e SD
                 </span>
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed">
-                Este briefing está listo para ser consumido automáticamente por el generador de textos (Claude) y el estudio de imágenes.
+                Este briefing está pronto para ser consumido automaticamente pelo gerador de textos (Claude) e pelo estúdio de imagens.
               </p>
             </Card>
           </div>

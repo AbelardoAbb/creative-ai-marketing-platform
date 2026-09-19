@@ -71,7 +71,7 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || 'Error al registrar comentario.');
+        setError(data.message || 'Erro ao registar comentário.');
         return;
       }
 
@@ -82,7 +82,7 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
         await fetchComments();
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Fallo de red.');
+      setError(err instanceof Error ? err.message : 'Falha de rede.');
     } finally {
       setSubmitting(false);
     }
@@ -94,10 +94,10 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
         <div className="flex items-center gap-2">
           <MessageSquare className="w-4 h-4 text-sky-400" />
           <h4 className="text-sm font-semibold text-slate-200">
-            Comentarios y Colaboración ({comments.length})
+            Comentários e Colaboração ({comments.length})
           </h4>
         </div>
-        <span className="text-xs text-slate-500">Versión activa #{versionNumber}</span>
+        <span className="text-xs text-slate-500">Versão ativa #{versionNumber}</span>
       </div>
 
       {error && (
@@ -113,12 +113,12 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
           rows={2}
-          placeholder="Deje un comentario técnico, sugerencia de ajuste u observación para el equipo..."
+          placeholder="Deixe um comentário técnico, sugestão de ajuste ou observação para a equipa..."
           className="w-full bg-[#161f30] border border-[#26344d] rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
         />
         <div className="flex justify-between items-center">
           <span className="text-[11px] text-slate-500">
-            Identidad del autor asignada estrictamente por el servidor
+            Identidade do autor atribuída estritamente pelo servidor
           </span>
           <Button
             variant="outline"
@@ -136,10 +136,10 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
       {/* Comment List */}
       <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
         {loading ? (
-          <p className="text-center text-xs text-slate-500 py-6">Cargando comentarios...</p>
+          <p className="text-center text-xs text-slate-500 py-6">A carregar comentários...</p>
         ) : comments.length === 0 ? (
           <div className="p-6 rounded-lg bg-[#111827] border border-[#202b42] text-center text-xs text-slate-500">
-            Ningún comentario registrado aún. Utilice esta área para alinear decisiones editoriales.
+            Nenhum comentário registado ainda. Utilize esta área para alinhar decisões editoriais.
           </div>
         ) : (
           comments.map((cmt) => (
@@ -163,7 +163,7 @@ export const ContentCommentsPanel: React.FC<ContentCommentsPanelProps> = ({
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-500 font-mono">
-                  {new Date(cmt.created_at).toLocaleTimeString('es-ES', {
+                  {new Date(cmt.created_at).toLocaleTimeString('pt-PT', {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}

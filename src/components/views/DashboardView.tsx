@@ -61,9 +61,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
         <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div className="text-xs sm:text-sm text-slate-700">
           <span className="font-semibold text-blue-900">
-            Plataforma Enterprise de IA Creativa:
+            Plataforma Enterprise de IA Criativa:
           </span>{' '}
-          Entorno operativo activo con diseño profesional, control de calidad editorial humano (Human-in-the-Loop) y trazabilidad completa de costos y auditoría.
+          Ambiente operacional ativo com design profissional, controlo de qualidade editorial humano (Human-in-the-Loop) e rastreabilidade completa de custos e auditoria.
         </div>
       </div>
 
@@ -71,10 +71,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Panel de Operaciones Creativas
+            Painel de Operações Criativas
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Supervisión en tiempo real de campañas, generaciones con IA y cola de aprobaciones.
+            Supervisão em tempo real de campanhas, gerações com IA e fila de aprovações.
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
             leftIcon={<Sparkles className="w-3.5 h-3.5 text-blue-600" />}
             onClick={() => onNavigate('generate-image')}
           >
-            Generar imagen
+            Gerar imagem
           </Button>
           <Button
             variant="primary"
@@ -93,7 +93,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
             leftIcon={<Plus className="w-3.5 h-3.5" />}
             onClick={() => onNavigate('campaigns')}
           >
-            Nueva campaña
+            Nova campanha
           </Button>
         </div>
       </div>
@@ -145,7 +145,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
               <div className="flex items-center gap-2">
                 <FolderKanban className="w-4 h-4 text-blue-600" />
                 <h3 className="text-sm sm:text-base font-semibold text-slate-900">
-                  Campañas en curso
+                  Campanhas em curso
                 </h3>
               </div>
               <button
@@ -173,14 +173,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-blue-600" />
                 <h3 className="text-sm sm:text-base font-semibold text-slate-900">
-                  Recursos visuales recientes
+                  Recursos visuais recentes
                 </h3>
               </div>
               <button
                 onClick={() => onNavigate('gallery')}
                 className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 cursor-pointer"
               >
-                Abrir galería <ArrowRight className="w-3 h-3" />
+                Abrir galeria <ArrowRight className="w-3 h-3" />
               </button>
             </div>
 
@@ -202,7 +202,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-blue-600" />
                 <h3 className="text-sm sm:text-base font-semibold text-slate-900">
-                  Redacciones y contenido asistido por IA
+                  Redações e conteúdo assistido por IA
                 </h3>
               </div>
               <button
@@ -230,10 +230,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
           <Card variant="default" padding="md">
             <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <h3 className="text-sm font-semibold text-slate-900">
-                Actividades del equipo
+                Atividades da equipa
               </h3>
               <span className="text-[10px] font-mono text-slate-600 px-2 py-0.5 rounded bg-slate-100 border border-slate-200">
-                TIEMPO REAL
+                TEMPO REAL
               </span>
             </div>
 
@@ -250,7 +250,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
                 className="w-full justify-center text-xs text-slate-600 hover:text-slate-900"
                 onClick={() => onNavigate('history')}
               >
-                Ver registro de auditoría completo
+                Ver registo de auditoria completo
               </Button>
             </div>
           </Card>
@@ -259,10 +259,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
           <Card variant="outline" padding="md" className="bg-slate-50 border-slate-200">
             <div className="flex items-center gap-2 text-blue-700 text-xs font-semibold uppercase tracking-wider">
               <Award className="w-4 h-4" />
-              <span>Supervisión humana (Human-in-the-Loop)</span>
+              <span>Supervisão humana (Human-in-the-Loop)</span>
             </div>
             <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-              Todas las piezas visuales y textuales generadas con asistencia de IA pasan obligatoriamente por revisión editorial y aprobación antes de su publicación.
+              Todas as peças visuais e textuais geradas com assistência de IA passam obrigatoriamente por revisão editorial e aprovação antes da sua publicação.
             </p>
           </Card>
         </div>
@@ -274,7 +274,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
           isOpen={Boolean(selectedAsset)}
           onClose={() => setSelectedAsset(null)}
           title={selectedAsset.title}
-          description={`Campaña: ${selectedAsset.campaignName} • Creado por ${selectedAsset.creatorName}`}
+          description={`Campanha: ${selectedAsset.campaignName} • Criado por ${selectedAsset.creatorName}`}
           maxWidth="lg"
           footer={
             <div className="flex items-center justify-between w-full">
@@ -282,7 +282,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
                 Estilo: {selectedAsset.style} ({selectedAsset.aspectRatio})
               </span>
               <Button size="sm" variant="outline" onClick={() => setSelectedAsset(null)}>
-                Cerrar
+                Fechar
               </Button>
             </div>
           }

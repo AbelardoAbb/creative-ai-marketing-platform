@@ -253,22 +253,22 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       if (!res.ok) {
         if (data.statusCode === 'MODERATION_BLOCKED') {
           setErrorMessage(
-            `Moderación de Seguridad IA: Solicitud bloqueada (${data.moderation?.riskLevel || 'HIGH_RISK'}). ${data.message || ''}`
+            `Moderação de Segurança IA: Pedido bloqueado (${data.moderation?.riskLevel || 'HIGH_RISK'}). ${data.message || ''}`
           );
         } else if (data.statusCode === 'REQUIRES_HUMAN_REVIEW') {
           setErrorMessage(
-            `Moderación de Seguridad IA: Contenido retenido para revisión humana (${data.moderation?.riskLevel || 'MEDIUM_RISK'}). ${data.message || ''}`
+            `Moderação de Segurança IA: Conteúdo retido para revisão humana (${data.moderation?.riskLevel || 'MEDIUM_RISK'}). ${data.message || ''}`
           );
         } else if (data.statusCode === 'BLOCKED') {
           setErrorMessage(
-            'El servicio Claude está en estado BLOCKED: ANTHROPIC_API_KEY no configurada en el servidor. No se permiten simulaciones ni contenidos artificiales falsos.'
+            'O serviço Claude está em estado BLOCKED: ANTHROPIC_API_KEY não configurada no servidor. Não são permitidas simulações nem conteúdos artificiais falsos.'
           );
         } else if (data.statusCode === 'RATE_LIMITED') {
-          setErrorMessage('Límite de solicitudes de Claude alcanzado. Reintente en unos momentos.');
+          setErrorMessage('Limite de pedidos do Claude atingido. Tente novamente dentro de momentos.');
         } else if (data.statusCode === 'TIMEOUT') {
-          setErrorMessage('Tiempo límite excedido en la comunicación con la API de Anthropic.');
+          setErrorMessage('Tempo limite excedido na comunicação com a API da Anthropic.');
         } else {
-          setErrorMessage(data.message || 'Error al procesar contenido con Claude.');
+          setErrorMessage(data.message || 'Erro ao processar conteúdo com o Claude.');
         }
         if (data.result) {
           setAiResult(data.result);
@@ -280,7 +280,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       setAiResult(result);
       setAiOutput(result.generatedContent || '');
     } catch (err: unknown) {
-      setErrorMessage(err instanceof Error ? err.message : 'Fallo de red al comunicarse con el servidor.');
+      setErrorMessage(err instanceof Error ? err.message : 'Falha de rede ao comunicar com o servidor.');
     } finally {
       setIsProcessing(false);
       setActiveOperation(null);
@@ -329,7 +329,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
           provider: 'anthropic',
           model: aiResult?.model || 'claude-3-5-sonnet-20241022',
           operation: aiResult?.operation || 'generate',
-          notes: `Aceptado de la generación Claude (${aiResult?.operation || 'asistida'})`,
+          notes: `Aceite a partir da geração Claude (${aiResult?.operation || 'assistida'})`,
         }),
       });
 
@@ -357,7 +357,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
         headers: getAuthHeaders(),
         body: JSON.stringify({
           content: sourceText,
-          notes: 'Edición manual del redactor',
+          notes: 'Edição manual do redator',
           status: 'HUMAN_EDITED',
         }),
       });
@@ -441,18 +441,18 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
 
       const data = await res.json();
       if (!res.ok) {
-        setWorkflowFeedback({ type: 'error', message: data.message || 'Error al enviar a revisión.' });
+        setWorkflowFeedback({ type: 'error', message: data.message || 'Erro ao enviar para revisão.' });
         return;
       }
 
       const updated: ContentModel = data.content;
       setActiveContent(updated);
       setContents((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
-      setWorkflowFeedback({ type: 'success', message: '¡Contenido enviado con éxito a la cola de revisión!' });
+      setWorkflowFeedback({ type: 'success', message: 'Conteúdo enviado com sucesso para a fila de revisão!' });
     } catch (err: unknown) {
       setWorkflowFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación con el servidor.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação com o servidor.',
       });
     } finally {
       setIsSubmittingReview(false);
@@ -473,18 +473,18 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
 
       const data = await res.json();
       if (!res.ok) {
-        setWorkflowFeedback({ type: 'error', message: data.message || 'Error al iniciar revisión.' });
+        setWorkflowFeedback({ type: 'error', message: data.message || 'Erro ao iniciar revisão.' });
         return;
       }
 
       const updated: ContentModel = data.content;
       setActiveContent(updated);
       setContents((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
-      setWorkflowFeedback({ type: 'success', message: 'Revisión formal iniciada.' });
+      setWorkflowFeedback({ type: 'success', message: 'Revisão formal iniciada.' });
     } catch (err: unknown) {
       setWorkflowFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação.',
       });
     } finally {
       setIsWorkflowLoading(false);
@@ -506,7 +506,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
 
       const data = await res.json();
       if (!res.ok) {
-        setWorkflowFeedback({ type: 'error', message: data.message || 'Error al aprobar contenido.' });
+        setWorkflowFeedback({ type: 'error', message: data.message || 'Erro ao aprovar conteúdo.' });
         return;
       }
 
@@ -516,12 +516,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       setIsApprovalModalOpen(false);
       setWorkflowFeedback({
         type: 'success',
-        message: `¡Contenido "${updated.title}" aprobado formalmente!`,
+        message: `Conteúdo "${updated.title}" aprovado formalmente!`,
       });
     } catch (err: unknown) {
       setWorkflowFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação.',
       });
     } finally {
       setIsWorkflowLoading(false);
@@ -543,7 +543,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
 
       const data = await res.json();
       if (!res.ok) {
-        setWorkflowFeedback({ type: 'error', message: data.message || 'Error al rechazar contenido.' });
+        setWorkflowFeedback({ type: 'error', message: data.message || 'Erro ao rejeitar conteúdo.' });
         return;
       }
 
@@ -553,12 +553,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       setIsRejectionModalOpen(false);
       setWorkflowFeedback({
         type: 'success',
-        message: 'Contenido rechazado con solicitud de revisión enviada al autor.',
+        message: 'Conteúdo rejeitado com pedido de revisão enviado ao autor.',
       });
     } catch (err: unknown) {
       setWorkflowFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação.',
       });
     } finally {
       setIsWorkflowLoading(false);
@@ -577,13 +577,13 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
         headers: getAuthHeaders(),
         body: JSON.stringify({
           content: sourceText,
-          notes: notes || 'Revisión tras comentarios del aprobador',
+          notes: notes || 'Revisão após comentários do aprovador',
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        setWorkflowFeedback({ type: 'error', message: data.message || 'Error al crear nueva versión revisada.' });
+        setWorkflowFeedback({ type: 'error', message: data.message || 'Erro ao criar nova versão revista.' });
         return;
       }
 
@@ -595,12 +595,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       setRevisionNotes('');
       setWorkflowFeedback({
         type: 'success',
-        message: `Nueva versión #${updated.current_version} generada a partir de la revisión. Historial anterior preservado intacto.`,
+        message: `Nova versão #${updated.current_version} gerada a partir da revisão. Histórico anterior preservado intacto.`,
       });
     } catch (err: unknown) {
       setWorkflowFeedback({
         type: 'error',
-        message: err instanceof Error ? err.message : 'Fallo de comunicación.',
+        message: err instanceof Error ? err.message : 'Falha de comunicação.',
       });
     } finally {
       setIsWorkflowLoading(false);
@@ -616,20 +616,20 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
   const getStatusBadge = (status: ContentStatus) => {
     switch (status) {
       case 'APPROVED':
-        return <Badge variant="success" size="sm">APROBADO</Badge>;
+        return <Badge variant="success" size="sm">APROVADO</Badge>;
       case 'REJECTED':
-        return <Badge variant="danger" size="sm">RECHAZADO</Badge>;
+        return <Badge variant="danger" size="sm">REJEITADO</Badge>;
       case 'UNDER_REVIEW':
-        return <Badge variant="warning" size="sm">EN REVISIÓN</Badge>;
+        return <Badge variant="warning" size="sm">EM REVISÃO</Badge>;
       case 'READY_FOR_REVIEW':
-        return <Badge variant="info" size="sm">LISTO PARA REVISIÓN</Badge>;
+        return <Badge variant="info" size="sm">PRONTO PARA REVISÃO</Badge>;
       case 'HUMAN_EDITED':
         return <Badge variant="purple" size="sm">EDITADO MANUALMENTE</Badge>;
       case 'AI_GENERATED':
-        return <Badge variant="neutral" size="sm">GENERADO POR IA</Badge>;
+        return <Badge variant="neutral" size="sm">GERADO POR IA</Badge>;
       case 'DRAFT':
       default:
-        return <Badge variant="neutral" size="sm">BORRADOR</Badge>;
+        return <Badge variant="neutral" size="sm">RASCUNHO</Badge>;
     }
   };
 
@@ -645,11 +645,11 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               </div>
               <div>
                 <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
-                  Editor de Contenido y Claude IA
+                  Editor de Conteúdo e Claude IA
                   {activeContent && getStatusBadge(activeContent.status)}
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Creación y transformación de copy orientada al briefing estructurado
+                  Criação e transformação de copy orientada ao briefing estruturado
                 </p>
               </div>
             </div>
@@ -681,7 +681,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               onClick={() => setIsNewContentModalOpen(true)}
               leftIcon={<Plus className="w-3.5 h-3.5" />}
             >
-              Nuevo texto
+              Novo texto
             </Button>
           </div>
 
@@ -701,7 +701,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 }`}
               />
               <span>
-                Claude 3.5 Sonnet: {claudeStatus?.status === 'READY' ? 'ACTIVO' : 'BLOQUEADO (Sin Clave)'}
+                Claude 3.5 Sonnet: {claudeStatus?.status === 'READY' ? 'ATIVO' : 'BLOQUEADO (Sem Chave)'}
               </span>
             </div>
 
@@ -713,7 +713,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => setIsVersionHistoryOpen(true)}
                   leftIcon={<History className="w-4 h-4" />}
                 >
-                  Versiones ({activeContent.versions?.length || activeContent.current_version})
+                  Versões ({activeContent.versions?.length || activeContent.current_version})
                 </Button>
                 <Button
                   variant="ghost"
@@ -724,7 +724,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   }}
                   leftIcon={<ShieldCheck className="w-4 h-4" />}
                 >
-                  Auditoría
+                  Auditoria
                 </Button>
               </>
             )}
@@ -739,7 +739,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#1f2c44]">
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold text-slate-300">Flujo de Aprobación:</span>
+                <span className="text-xs font-semibold text-slate-300">Fluxo de Aprovação:</span>
                 {getStatusBadge(activeContent.status)}
                 {activeContent.moderation_status && (
                   <span
@@ -751,19 +751,19 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                         : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
                     }`}
                   >
-                    Moderación: {activeContent.moderation_status}
+                    Moderação: {activeContent.moderation_status}
                   </span>
                 )}
                 <span className="text-[11px] text-slate-400 font-mono">
-                  Versión #{activeContent.current_version}
+                  Versão #{activeContent.current_version}
                 </span>
                 <span className="text-slate-600">·</span>
                 <span className="text-[11px] text-slate-400">
-                  Creado por: <strong className="text-slate-200">{activeContent.created_by_name}</strong> ({activeContent.created_by_role})
+                  Criado por: <strong className="text-slate-200">{activeContent.created_by_name}</strong> ({activeContent.created_by_role})
                 </span>
               </div>
               <p className="text-[11px] text-slate-500">
-                Gobernanza human-in-the-loop: la IA nunca aprueba automáticamente. El autor no puede aprobar su propia pieza.
+                Governança human-in-the-loop: a IA nunca aprova automaticamente. O autor não pode aprovar a sua própria peça.
               </p>
             </div>
 
@@ -775,7 +775,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 onClick={() => setIsCommentsPanelOpen(!isCommentsPanelOpen)}
                 leftIcon={<MessageSquare className="w-3.5 h-3.5" />}
               >
-                {isCommentsPanelOpen ? 'Ocultar comentarios' : 'Comentarios'}
+                {isCommentsPanelOpen ? 'Ocultar comentários' : 'Comentários'}
               </Button>
 
               <Button
@@ -784,7 +784,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 onClick={() => setIsTimelineModalOpen(true)}
                 leftIcon={<History className="w-3.5 h-3.5" />}
               >
-                Historial de revisión
+                Histórico de revisão
               </Button>
 
               {/* Submit for Review: for DRAFT, AI_GENERATED, HUMAN_EDITED, REJECTED */}
@@ -797,7 +797,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   isLoading={isSubmittingReview}
                   leftIcon={<Send className="w-3.5 h-3.5" />}
                 >
-                  Enviar a revisión
+                  Enviar para revisão
                 </Button>
               )}
 
@@ -811,7 +811,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   isLoading={isWorkflowLoading}
                   leftIcon={<Clock className="w-3.5 h-3.5" />}
                 >
-                  Iniciar revisión
+                  Iniciar revisão
                 </Button>
               )}
 
@@ -825,7 +825,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                     disabled={isWorkflowLoading}
                     leftIcon={<XCircle className="w-3.5 h-3.5" />}
                   >
-                    Rechazar
+                    Rejeitar
                   </Button>
 
                   <div className="relative group">
@@ -836,12 +836,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                       disabled={user?.id === activeContent.created_by || isWorkflowLoading}
                       leftIcon={<CheckCircle2 className="w-3.5 h-3.5" />}
                     >
-                      Aprobar
+                      Aprovar
                     </Button>
                     {user?.id === activeContent.created_by && (
                       <div className="absolute right-0 bottom-full mb-1.5 hidden group-hover:block z-30 w-64 p-2 rounded-md bg-[#161f30] border border-amber-500/30 text-[11px] text-amber-300 shadow-xl">
                         <AlertTriangle className="w-3.5 h-3.5 inline mr-1 text-amber-400" />
-                        <strong>Violación de Gobernanza:</strong> Usted es el autor de esta pieza y no puede aprobar su propio contenido.
+                        <strong>Violação de Governança:</strong> É o autor desta peça e não pode aprovar o seu próprio conteúdo.
                       </div>
                     )}
                   </div>
@@ -855,7 +855,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-amber-400 flex-shrink-0" />
               <span>
-                <strong>Regla de Segregación de Funciones:</strong> Usted es el autor registrado de esta pieza. Para garantizar la conformidad, la aprobación final requiere la evaluación de otro miembro con perfil de Aprobador.
+                <strong>Regra de Segregação de Funções:</strong> É o autor registado desta peça. Para garantir a conformidade, a aprovação final requer a avaliação de outro membro com perfil de Aprovador.
               </span>
             </div>
           )}
@@ -866,7 +866,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2 font-semibold text-rose-300">
                   <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
-                  <span>Contenido rechazado por {activeContent.reviewed_by_name || 'Aprobador'} ({activeContent.reviewed_at ? new Date(activeContent.reviewed_at).toLocaleString('es-ES') : ''})</span>
+                  <span>Conteúdo rejeitado por {activeContent.reviewed_by_name || 'Aprovador'} ({activeContent.reviewed_at ? new Date(activeContent.reviewed_at).toLocaleString('pt-PT') : ''})</span>
                 </div>
                 <Button
                   variant="outline"
@@ -874,12 +874,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => setIsRevisionModalOpen(true)}
                   leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
                 >
-                  Crear revisión (Nueva versión)
+                  Criar revisão (Nova versão)
                 </Button>
               </div>
               {activeContent.rejection_reason && (
                 <div className="p-2.5 rounded-lg bg-[#0d1320] border border-[#1b263b] text-slate-200 font-sans">
-                  <strong className="text-rose-300 block mb-0.5">Justificación del Aprobador:</strong>
+                  <strong className="text-rose-300 block mb-0.5">Justificação do Aprovador:</strong>
                   {activeContent.rejection_reason}
                 </div>
               )}
@@ -892,8 +892,8 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
                 <div>
-                  <span className="font-semibold text-emerald-200">Pieza Aprobada Formalmente</span> por {activeContent.reviewed_by_name || 'Revisor'} el {activeContent.reviewed_at ? new Date(activeContent.reviewed_at).toLocaleString('es-ES') : 'fecha reciente'}.
-                  <p className="text-[11px] text-emerald-400/80 mt-0.5">Esta versión está liberada y homologada para su publicación en el canal {activeContent.channel}.</p>
+                  <span className="font-semibold text-emerald-200">Peça Aprovada Formalmente</span> por {activeContent.reviewed_by_name || 'Revisor'} em {activeContent.reviewed_at ? new Date(activeContent.reviewed_at).toLocaleString('pt-PT') : 'data recente'}.
+                  <p className="text-[11px] text-emerald-400/80 mt-0.5">Esta versão está libertada e homologada para publicação no canal {activeContent.channel}.</p>
                 </div>
               </div>
               <Button
@@ -902,7 +902,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 onClick={() => setIsRevisionModalOpen(true)}
                 leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
               >
-                Nueva revisión
+                Nova revisão
               </Button>
             </div>
           )}
@@ -954,10 +954,10 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
           <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="font-semibold text-amber-300">
-              Anthropic Claude está en estado BLOCKED (Sin clave de API configurada)
+              Anthropic Claude está em estado BLOCKED (Sem chave de API configurada)
             </p>
             <p className="text-slate-300">
-              La variable <code className="bg-[#131b2b] px-1 py-0.5 rounded text-amber-200">ANTHROPIC_API_KEY</code> no fue detectada en el servidor. En estricta conformidad con las normas de la plataforma, el sistema no realiza simulaciones falsas ni genera textos artificiales simulados. Para utilizar el motor de IA Claude, añada su clave en la configuración.
+              A variável <code className="bg-[#131b2b] px-1 py-0.5 rounded text-amber-200">ANTHROPIC_API_KEY</code> não foi detetada no servidor. Em estrita conformidade com as normas da plataforma, o sistema não realiza simulações falsas nem gera textos artificiais simulados. Para utilizar o motor de IA Claude, adicione a sua chave nas definições.
             </p>
           </div>
         </div>
@@ -988,12 +988,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-indigo-400" />
                 <span className="text-sm font-semibold text-slate-200">
-                  Texto original / Borrador del redactor
+                  Texto original / Rascunho do redator
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-slate-400">
-                  {sourceText.length} caracteres · {sourceText.trim() ? sourceText.trim().split(/\s+/).length : 0} palabras
+                  {sourceText.length} carateres · {sourceText.trim() ? sourceText.trim().split(/\s+/).length : 0} palavras
                 </span>
                 {activeContent && (
                   <Button
@@ -1002,7 +1002,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                     onClick={handleSaveManualEdit}
                     disabled={!sourceText.trim() || isProcessing}
                   >
-                    Guardar borrador
+                    Guardar rascunho
                   </Button>
                 )}
               </div>
@@ -1012,13 +1012,13 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1">
-                  Título de la pieza
+                  Título da peça
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Ej: Manifiesto de Lanzamiento"
+                  placeholder="Ex.: Manifesto de Lançamento"
                   className="w-full bg-[#161f30] border border-[#26344d] rounded-md px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
                 />
               </div>
@@ -1044,12 +1044,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             {/* Main Textarea */}
             <div>
               <label className="block text-xs font-medium text-slate-400 mb-1">
-                Cuerpo del contenido
+                Corpo do conteúdo
               </label>
               <textarea
                 value={sourceText}
                 onChange={(e) => setSourceText(e.target.value)}
-                placeholder="Introduzca el texto original de la pieza aquí o utilice la generación directa con Claude a partir del briefing estructurado..."
+                placeholder="Introduza o texto original da peça aqui ou utilize a geração direta com o Claude a partir do briefing estruturado..."
                 rows={12}
                 className="w-full bg-[#131b2b] border border-[#26344d] rounded-md p-3 text-xs sm:text-sm text-slate-200 font-sans leading-relaxed focus:outline-none focus:border-indigo-500 resize-y"
               />
@@ -1058,21 +1058,21 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             {/* Campaign Context Reminder (Accordion/Pills) */}
             <div className="p-3 rounded-lg bg-[#141d2e] border border-[#202b42] text-xs space-y-1.5">
               <div className="text-slate-400 font-medium flex items-center justify-between">
-                <span>Contexto automático del briefing:</span>
+                <span>Contexto automático do briefing:</span>
                 <span className="text-[11px] text-indigo-400">{campaign.name}</span>
               </div>
               <div className="text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                 <div>
-                  <strong className="text-slate-400">Público:</strong> {campaign.target_audience || 'General'}
+                  <strong className="text-slate-400">Público:</strong> {campaign.target_audience || 'Geral'}
                 </div>
                 <div>
-                  <strong className="text-slate-400">Tono:</strong> {campaign.tone_of_voice || 'Profesional'}
+                  <strong className="text-slate-400">Tom:</strong> {campaign.tone_of_voice || 'Profissional'}
                 </div>
                 <div>
-                  <strong className="text-slate-400">Mensaje:</strong> {campaign.key_message || 'N/A'}
+                  <strong className="text-slate-400">Mensagem:</strong> {campaign.key_message || 'N/A'}
                 </div>
                 <div>
-                  <strong className="text-slate-400">Idioma:</strong> {campaign.language || 'es-ES'}
+                  <strong className="text-slate-400">Idioma:</strong> {campaign.language || 'pt-PT'}
                 </div>
               </div>
             </div>
@@ -1080,12 +1080,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             {/* Contextual Overrides & Specific Instructions */}
             <div className="space-y-2 pt-2 border-t border-[#202b42]">
               <label className="block text-xs font-medium text-slate-400">
-                Instrucciones específicas / Prompt del redactor
+                Instruções específicas / Prompt do redator
               </label>
               <textarea
                 value={userInstructions}
                 onChange={(e) => setUserInstructions(e.target.value)}
-                placeholder="Ej: Enfatice la garantía científica de 30 días y añada una llamada a la acción persuasiva para Instagram Stories..."
+                placeholder="Ex.: Enfatize a garantia científica de 30 dias e adicione uma chamada para ação persuasiva para as Histórias do Instagram..."
                 rows={2}
                 className="w-full bg-[#161f30] border border-[#26344d] rounded-md px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
               />
@@ -1094,7 +1094,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
             {/* Operations Bar */}
             <div className="space-y-2 pt-2">
               <label className="block text-xs font-semibold text-slate-300">
-                Acciones de contenido Claude:
+                Ações de conteúdo Claude:
               </label>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -1104,7 +1104,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => handleProcessOperation('generate')}
                   leftIcon={activeOperation === 'generate' ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
                 >
-                  Generar contenido
+                  Gerar conteúdo
                 </Button>
 
                 <Button
@@ -1114,7 +1114,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => handleProcessOperation('rewrite')}
                   leftIcon={activeOperation === 'rewrite' ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
                 >
-                  Reescribir
+                  Reescrever
                 </Button>
 
                 <Button
@@ -1144,7 +1144,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => handleProcessOperation('correct')}
                   leftIcon={<Check className="w-3.5 h-3.5" />}
                 >
-                  Corregir
+                  Corrigir
                 </Button>
 
                 <Button
@@ -1154,7 +1154,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onClick={() => handleProcessOperation('variations')}
                   leftIcon={<Sliders className="w-3.5 h-3.5" />}
                 >
-                  Variaciones
+                  Variações
                 </Button>
 
                 <Button
@@ -1178,7 +1178,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-semibold text-slate-200">
-                  Salida asistida por IA (Claude 3.5 Sonnet)
+                  Saída assistida por IA (Claude 3.5 Sonnet)
                 </span>
               </div>
               {aiResult && (
@@ -1214,10 +1214,10 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="p-8 rounded-lg bg-[#131b2b] border border-[#202b42] flex flex-col items-center justify-center space-y-3">
                 <RefreshCw className="w-8 h-8 text-indigo-400 animate-spin" />
                 <p className="text-xs text-slate-300 font-medium">
-                  Procesando inferencia con Anthropic Claude 3.5 Sonnet...
+                  A processar inferência com Anthropic Claude 3.5 Sonnet...
                 </p>
                 <p className="text-[11px] text-slate-500 text-center max-w-sm">
-                  Integrando contexto del briefing de la campaña con instrucciones y reglas de tono de voz.
+                  A integrar contexto do briefing da campanha com instruções e regras de tom de voz.
                 </p>
               </div>
             )}
@@ -1230,14 +1230,14 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   onChange={(e) => setAiOutput(e.target.value)}
                   rows={13}
                   className="w-full bg-[#131b2b] border border-[#26344d] rounded-md p-3 text-xs sm:text-sm text-slate-200 font-sans leading-relaxed focus:outline-none focus:border-purple-500 resize-y"
-                  placeholder="El texto generado por Claude aparecerá aquí..."
+                  placeholder="O texto gerado pelo Claude aparecerá aqui..."
                 />
 
                 {/* Variations Cards if available */}
                 {aiResult?.variations && aiResult.variations.length > 0 && (
                   <div className="space-y-2">
                     <span className="text-xs font-semibold text-slate-400">
-                      Variaciones alternativas generadas:
+                      Variações alternativas geradas:
                     </span>
                     <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto">
                       {aiResult.variations.map((vText, idx) => (
@@ -1254,7 +1254,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                           }`}
                         >
                           <div className="font-semibold text-slate-400 mb-1">
-                            Variación #{idx + 1}
+                            Variação #{idx + 1}
                           </div>
                           <div className="line-clamp-2 text-slate-300">{vText}</div>
                         </div>
@@ -1272,7 +1272,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                       onClick={handleAcceptAsVersion}
                       leftIcon={<CheckCircle2 className="w-4 h-4" />}
                     >
-                      Aceptar como nueva versión
+                      Aceitar como nova versão
                     </Button>
 
                     <Button
@@ -1281,7 +1281,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                       onClick={() => copyToClipboard(aiOutput)}
                       leftIcon={copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     >
-                      {copied ? '¡Copiado!' : 'Copiar'}
+                      {copied ? 'Copiado!' : 'Copiar'}
                     </Button>
                   </div>
 
@@ -1304,10 +1304,10 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               <div className="p-12 rounded-lg bg-[#131b2b]/50 border border-dashed border-[#202b42] flex flex-col items-center justify-center text-center space-y-2">
                 <Sparkles className="w-8 h-8 text-slate-600" />
                 <p className="text-xs font-medium text-slate-300">
-                  Ninguna inferencia generada por el momento
+                  Nenhuma inferência gerada de momento
                 </p>
                 <p className="text-[11px] text-slate-500 max-w-sm">
-                  Elija una acción a la izquierda (Generar, Resumir, Expandir, Reescribir o Variaciones) para accionar Claude mediante la API oficial de Anthropic.
+                  Escolha uma ação à esquerda (Gerar, Resumir, Expandir, Reescrever ou Variações) para acionar o Claude através da API oficial da Anthropic.
                 </p>
               </div>
             )}
@@ -1320,7 +1320,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-amber-400" />
                   <span className="text-sm font-semibold text-slate-200">
-                    Evaluación Humana y Gobernanza Editorial
+                    Avaliação Humana e Governança Editorial
                   </span>
                 </div>
                 {activeContent && getStatusBadge(activeContent.status)}
@@ -1329,7 +1329,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               {/* Rating Stars */}
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1.5">
-                  Evaluación de la calidad del texto (1 a 5 estrellas)
+                  Avaliação da qualidade do texto (1 a 5 estrelas)
                 </label>
                 <div className="flex items-center gap-1.5">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -1347,7 +1347,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                     </button>
                   ))}
                   <span className="text-xs text-slate-400 ml-2">
-                    {humanRating > 0 ? `${humanRating} / 5 estrellas` : 'No evaluado'}
+                    {humanRating > 0 ? `${humanRating} / 5 estrelas` : 'Não avaliado'}
                   </span>
                 </div>
               </div>
@@ -1355,12 +1355,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               {/* Feedback Note */}
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1">
-                  Dictamen del redactor / Observaciones de calidad
+                  Parecer do redator / Observações de qualidade
                 </label>
                 <textarea
                   value={humanFeedback}
                   onChange={(e) => setHumanFeedback(e.target.value)}
-                  placeholder="Ej: Tono de voz alineado con la sofisticación orgánica requerida por el cliente..."
+                  placeholder="Ex.: Tom de voz alinhado com a sofisticação orgânica exigida pelo cliente..."
                   rows={2}
                   className="w-full bg-[#161f30] border border-[#26344d] rounded-md px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
                 />
@@ -1374,7 +1374,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   disabled={isSavingEvaluation || humanRating < 1}
                   leftIcon={evaluationSaved ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : undefined}
                 >
-                  {evaluationSaved ? 'Evaluación guardada' : 'Guardar evaluación'}
+                  {evaluationSaved ? 'Avaliação guardada' : 'Guardar avaliação'}
                 </Button>
 
                 {/* Submit for Review Button (Enforces Human-in-the-Loop) */}
@@ -1386,13 +1386,13 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                   leftIcon={<Send className="w-3.5 h-3.5" />}
                 >
                   {activeContent.status === 'READY_FOR_REVIEW'
-                    ? 'En revisión editorial'
-                    : 'Enviar a revisión'}
+                    ? 'Em revisão editorial'
+                    : 'Enviar para revisão'}
                 </Button>
               </div>
 
               <p className="text-[11px] text-slate-500 italic">
-                Regla de Gobernanza: El contenido no puede ser aprobado directamente por el redactor. Enviar a revisión remite la pieza para el análisis imparcial del rol Aprobador.
+                Regra de Governança: O conteúdo não pode ser aprovado diretamente pelo redator. Enviar para revisão remete a peça para a análise imparcial da função Aprovador.
               </p>
             </Card>
           )}
@@ -1403,12 +1403,12 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       <Modal
         isOpen={isVersionHistoryOpen}
         onClose={() => setIsVersionHistoryOpen(false)}
-        title={`Historial de versiones — ${activeContent?.title || 'Contenido'}`}
+        title={`Histórico de versões — ${activeContent?.title || 'Conteúdo'}`}
         size="lg"
       >
         <div className="space-y-4 max-h-[65vh] overflow-y-auto pr-1">
           <p className="text-xs text-slate-400">
-            Pista de auditoría append-only. Ninguna versión anterior se sobrescribe o destruye.
+            Pista de auditoria append-only. Nenhuma versão anterior é substituída ou destruída.
           </p>
 
           <div className="space-y-3">
@@ -1424,10 +1424,10 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-slate-100 font-mono">
-                      Versión #{ver.version_number}
+                      Versão #{ver.version_number}
                     </span>
                     {ver.version_number === activeContent.current_version && (
-                      <Badge variant="purple" size="sm">ACTUAL</Badge>
+                      <Badge variant="purple" size="sm">ATUAL</Badge>
                     )}
                     {ver.provider && (
                       <Badge variant="neutral" size="sm">
@@ -1438,7 +1438,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
 
                   <div className="flex items-center gap-2">
                     <span className="text-[11px] text-slate-400">
-                      {new Date(ver.created_at).toLocaleString('es-ES')}
+                      {new Date(ver.created_at).toLocaleString('pt-PT')}
                     </span>
                     {ver.version_number !== activeContent.current_version && (
                       <Button
@@ -1470,17 +1470,17 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       <Modal
         isOpen={isAuditLogsOpen}
         onClose={() => setIsAuditLogsOpen(false)}
-        title="Registros de auditoría de generaciones IA"
+        title="Registos de auditoria de gerações IA"
         size="lg"
       >
         <div className="space-y-4 max-h-[65vh] overflow-y-auto pr-1">
           <p className="text-xs text-slate-400">
-            Registro detallado de todas las llamadas de inferencia a Claude y costes correspondientes.
+            Registo detalhado de todas as chamadas de inferência ao Claude e custos correspondentes.
           </p>
 
           {auditLogs.length === 0 ? (
             <p className="text-xs text-slate-500 py-6 text-center">
-              Ninguna llamada registrada hasta el momento en esta campaña.
+              Nenhuma chamada registada até ao momento nesta campanha.
             </p>
           ) : (
             <div className="space-y-2">
@@ -1508,22 +1508,22 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                       </Badge>
                     </div>
                     <span className="text-slate-400 text-[11px]">
-                      {new Date(log.timestamp).toLocaleString('es-ES')}
+                      {new Date(log.timestamp).toLocaleString('pt-PT')}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-400">
                     <div>
-                      <strong>Proveedor:</strong> {log.provider}
+                      <strong>Fornecedor:</strong> {log.provider}
                     </div>
                     <div>
                       <strong>Modelo:</strong> {log.model}
                     </div>
                     <div>
-                      <strong>Duración:</strong> {log.duration_ms ? `${log.duration_ms}ms` : 'N/A'}
+                      <strong>Duração:</strong> {log.duration_ms ? `${log.duration_ms}ms` : 'N/A'}
                     </div>
                     <div>
-                      <strong>Coste estimado:</strong> {log.estimated_cost || 'N/A'}
+                      <strong>Custo estimado:</strong> {log.estimated_cost || 'N/A'}
                     </div>
                   </div>
 
@@ -1543,20 +1543,20 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
       <Modal
         isOpen={isNewContentModalOpen}
         onClose={() => setIsNewContentModalOpen(false)}
-        title="Crear nuevo documento de contenido"
+        title="Criar novo documento de conteúdo"
         size="md"
       >
         <form onSubmit={handleCreateNewContent} className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-1">
-              Título del documento *
+              Título do documento *
             </label>
             <input
               type="text"
               required
               value={newContentTitle}
               onChange={(e) => setNewContentTitle(e.target.value)}
-              placeholder="Ej: Anuncio Instagram Black Friday"
+              placeholder="Ex.: Anúncio Instagram Black Friday"
               className="w-full bg-[#161f30] border border-[#26344d] rounded-md px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
             />
           </div>
@@ -1588,7 +1588,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
               Cancelar
             </Button>
             <Button type="submit" variant="primary" size="sm">
-              Crear documento
+              Criar documento
             </Button>
           </div>
         </form>
@@ -1634,23 +1634,23 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
         <Modal
           isOpen={isRevisionModalOpen}
           onClose={() => setIsRevisionModalOpen(false)}
-          title={`Crear revisión (Nueva versión) — ${activeContent.title}`}
+          title={`Criar revisão (Nova versão) — ${activeContent.title}`}
           size="md"
         >
           <div className="space-y-4">
             <div className="p-3.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs">
-              <strong>Preservación de historial:</strong> Esta acción crea la versión #{activeContent.current_version + 1} basándose en el texto actual del editor, manteniendo la versión rechazada #{activeContent.current_version} intacta en el historial de auditoría.
+              <strong>Preservação de histórico:</strong> Esta ação cria a versão #{activeContent.current_version + 1} com base no texto atual do editor, mantendo a versão rejeitada #{activeContent.current_version} intacta no histórico de auditoria.
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Notas de la revisión (¿Qué se ha ajustado?)
+                Notas da revisão (O que foi ajustado?)
               </label>
               <textarea
                 value={revisionNotes}
                 onChange={(e) => setRevisionNotes(e.target.value)}
                 rows={3}
-                placeholder="Ej: Ajustado tono de voz, eliminados términos sensibles e insertada llamada a la acción según lo solicitado por el aprobador..."
+                placeholder="Ex.: Ajustado tom de voz, eliminados termos sensíveis e inserida chamada para ação conforme solicitado pelo aprovador..."
                 className="w-full bg-[#161f30] border border-[#26344d] rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
@@ -1671,7 +1671,7 @@ export const ContentEditorTab: React.FC<ContentEditorTabProps> = ({
                 isLoading={isWorkflowLoading}
                 leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
               >
-                Generar versión #{activeContent.current_version + 1}
+                Gerar versão #{activeContent.current_version + 1}
               </Button>
             </div>
           </div>

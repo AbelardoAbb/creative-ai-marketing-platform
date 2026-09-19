@@ -81,7 +81,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
         setPricingCatalog(pData.pricingCatalog || []);
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al cargar métricas de gobernanza.');
+      setError(err instanceof Error ? err.message : 'Erro ao carregar métricas de governação.');
     } finally {
       setLoading(false);
     }
@@ -92,17 +92,17 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
   }, [fetchData]);
 
   if (loading) {
-    return <LoadingState message="Consolidando métricas de auditoría, costes y productividad de IA..." />;
+    return <LoadingState message="A consolidar métricas de auditoria, custos e produtividade de IA..." />;
   }
 
   if (error || !data) {
     return (
       <div className="p-8 rounded-2xl bg-red-950/20 border border-red-800/40 text-center space-y-3">
         <AlertTriangle className="w-8 h-8 text-red-400 mx-auto" />
-        <h3 className="text-base font-semibold text-white">Error al cargar datos de gobernanza</h3>
-        <p className="text-xs text-red-300">{error || 'Datos no disponibles.'}</p>
+        <h3 className="text-base font-semibold text-white">Erro ao carregar dados de governação</h3>
+        <p className="text-xs text-red-300">{error || 'Dados não disponíveis.'}</p>
         <Button variant="secondary" size="sm" onClick={fetchData}>
-          Reintentar
+          Tentar novamente
         </Button>
       </div>
     );
@@ -117,14 +117,14 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-              Auditoría de IA, Costes y Productividad
+              Auditoria de IA, Custos e Produtividade
             </h1>
             <Badge variant="purple" size="sm">
               Fase 10B
             </Badge>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Trazabilidad integral, control de consumo de inferencia y métricas operacionales sin fabricación de datos
+            Rastreabilidade integral, controlo de consumo de inferência e métricas operacionais sem fabricação de dados
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
             onClick={() => setIsPricingModalOpen(true)}
             leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-400" />}
           >
-            Tabla de Precios
+            Tabela de Preços
           </Button>
           <Button
             variant="ghost"
@@ -143,7 +143,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
             onClick={fetchData}
             leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
           >
-            Actualizar
+            Atualizar
           </Button>
         </div>
       </div>
@@ -154,10 +154,10 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           <Info className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <h4 className="text-xs font-semibold text-amber-200">
-              Aviso de Coste Parcial (Principio de No Fabricación)
+              Aviso de Custo Parcial (Princípio de Não Fabricação)
             </h4>
             <p className="text-xs text-amber-300/80 leading-relaxed">
-              {costs.partialCostNotice} El valor informado corresponde estrictamente al total de operaciones con tarificación y telemetría confirmadas. Las operaciones con claves no configuradas o proveedor de respaldo sin medición de tokens no se inventan ni se estiman con valores ficticios.
+              {costs.partialCostNotice} O valor informado corresponde estritamente ao total de operações com tarifação e telemetria confirmadas. As operações com chaves não configuradas ou fornecedor de contingência sem medição de tokens não são inventadas nem estimadas com valores fictícios.
             </p>
           </div>
         </div>
@@ -173,15 +173,14 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
               <span className="text-xs font-bold text-white">Anthropic Claude (claude-3-5-sonnet)</span>
             </div>
             <Badge variant="warning" size="sm">
-              CLAVE BLOQUEADA
+              CHAVE BLOQUEADA
             </Badge>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed">
-            La clave <code className="text-amber-300 font-mono">ANTHROPIC_API_KEY</code> no está
-            configurada en el entorno. Las operaciones se registran como{' '}
-            <span className="text-amber-400 font-semibold font-mono">BLOCKED</span> con tokens y costes marcados
-            explícitamente como <code className="text-slate-300 font-mono">COST_UNKNOWN</code>. No se fabrica
-            ninguna generación de texto.
+            A chave <code className="text-amber-300 font-mono">ANTHROPIC_API_KEY</code> não está
+            configurada no ambiente. As operações são registadas como{' '}
+            <span className="text-amber-400 font-semibold font-mono">BLOCKED</span> com tokens e custos marcados
+            explicitamente como <code className="text-slate-300 font-mono">COST_UNKNOWN</code>. Nenhuma geração de texto é fabricada.
           </p>
         </div>
 
@@ -190,16 +189,16 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" />
-              <span className="text-xs font-bold text-white">Stability AI / Fallback Provider</span>
+              <span className="text-xs font-bold text-white">Stability AI / Fornecedor de Contingência</span>
             </div>
             <Badge variant="neutral" size="sm">
-              TELEMETRÍA ACTIVA
+              TELEMETRIA ATIVA
             </Badge>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed">
-            Generaciones visuales auditadas con dimensiones, latencia e identificación inequívoca de proveedor real
-            frente a fallback. Las generaciones de respaldo tienen un coste computado como{' '}
-            <span className="text-slate-300 font-mono">COST_UNKNOWN</span> para evitar desviaciones presupuestarias.
+            Gerações visuais auditadas com dimensões, latência e identificação inequívoca de fornecedor real
+            vs contingência. As gerações de contingência têm um custo computado como{' '}
+            <span className="text-slate-300 font-mono">COST_UNKNOWN</span> para evitar desvios orçamentais.
           </p>
         </div>
       </div>
@@ -207,12 +206,12 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
       {/* SECTION 1: Operational Metrics Overview */}
       <div className="space-y-3">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-          1. Métricas Operacionales de IA (Total de Inferencias: {operational.totalOperations})
+          1. Métricas Operacionais de IA (Total de Inferências: {operational.totalOperations})
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42]">
-            <span className="text-[11px] text-slate-400">Total de Operaciones</span>
+            <span className="text-[11px] text-slate-400">Total de Operações</span>
             <div className="text-xl font-bold font-mono text-white mt-1">
               {operational.totalOperations}
             </div>
@@ -220,40 +219,40 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           </div>
 
           <div className="p-4 rounded-xl bg-[#0f1523] border border-emerald-900/40">
-            <span className="text-[11px] text-emerald-400">Éxitos Concluidos</span>
+            <span className="text-[11px] text-emerald-400">Sucessos Concluídos</span>
             <div className="text-xl font-bold font-mono text-emerald-300 mt-1">
               {operational.successfulOperations}
             </div>
             <span className="text-[10px] text-emerald-500/80">
-              Tasa: {operational.totalOperations > 0 ? ((operational.successfulOperations / operational.totalOperations) * 100).toFixed(1) : 0}%
+              Taxa: {operational.totalOperations > 0 ? ((operational.successfulOperations / operational.totalOperations) * 100).toFixed(1) : 0}%
             </span>
           </div>
 
           <div className="p-4 rounded-xl bg-[#0f1523] border border-amber-900/40">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-amber-400">Bloqueos de Gobernanza</span>
-              <HelpCircle className="w-3 h-3 text-amber-500" title="Los bloqueos no son fallos; son retenciones preventivas de seguridad" />
+              <span className="text-[11px] text-amber-400">Bloqueios de Governação</span>
+              <HelpCircle className="w-3 h-3 text-amber-500" title="Os bloqueios não são falhas; são retenções preventivas de segurança" />
             </div>
             <div className="text-xl font-bold font-mono text-amber-300 mt-1">
               {operational.blockedOperations}
             </div>
-            <span className="text-[10px] text-amber-500/80">Claves ausentes / Moderación</span>
+            <span className="text-[10px] text-amber-500/80">Chaves ausentes / Moderação</span>
           </div>
 
           <div className="p-4 rounded-xl bg-[#0f1523] border border-red-900/40">
-            <span className="text-[11px] text-red-400">Fallos Técnicos</span>
+            <span className="text-[11px] text-red-400">Falhas Técnicas</span>
             <div className="text-xl font-bold font-mono text-red-300 mt-1">
               {operational.failedOperations}
             </div>
-            <span className="text-[10px] text-red-500/80">Errores de API / Timeout</span>
+            <span className="text-[10px] text-red-500/80">Erros de API / Timeout</span>
           </div>
 
           <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42]">
-            <span className="text-[11px] text-slate-400">Latencia Media</span>
+            <span className="text-[11px] text-slate-400">Latência Média</span>
             <div className="text-xl font-bold font-mono text-indigo-300 mt-1">
               {operational.averageDurationMs !== null ? `${operational.averageDurationMs} ms` : 'N/A'}
             </div>
-            <span className="text-[10px] text-slate-500">Excluye solicitudes bloqueadas</span>
+            <span className="text-[10px] text-slate-500">Exclui pedidos bloqueados</span>
           </div>
         </div>
       </div>
@@ -262,49 +261,49 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            2. Rastreo de Costes Financieros de Inferencia
+            2. Monitorização de Custos Financeiros de Inferência
           </h3>
-          <span className="text-[11px] font-mono text-slate-400">Moneda Base: USD</span>
+          <span className="text-[11px] font-mono text-slate-400">Moeda Base: USD</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-5 rounded-xl bg-[#0f1523] border border-emerald-500/30 space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400">Coste Conocido (Facturable)</span>
+              <span className="text-xs text-slate-400">Custo Conhecido (Faturável)</span>
               <Badge variant="success" size="sm">CONFIRMADO</Badge>
             </div>
             <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
               ${costs.totalKnownCostUSD.toFixed(4)} <span className="text-xs text-slate-400">USD</span>
             </div>
             <p className="text-[11px] text-slate-500">
-              Derivado estrictamente de tokens y solicitudes confirmadas
+              Derivado estritamente de tokens e pedidos confirmados
             </p>
           </div>
 
           <div className="p-5 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400">Coste Estimado</span>
+              <span className="text-xs text-slate-400">Custo Estimado</span>
               <Badge variant="neutral" size="sm">ESTIMADO</Badge>
             </div>
             <div className="text-2xl font-bold font-mono text-slate-300 mt-1">
               ${costs.totalEstimatedCostUSD.toFixed(4)} <span className="text-xs text-slate-400">USD</span>
             </div>
             <p className="text-[11px] text-slate-500">
-              Cuando es aplicable un método heurístico aprobado
+              Quando aplicável um método heurístico aprovado
             </p>
           </div>
 
           <div className="p-5 rounded-xl bg-[#0f1523] border border-amber-900/30 space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-amber-400">Operaciones Sin Coste Definido</span>
+              <span className="text-xs text-amber-400">Operações Sem Custo Definido</span>
               <Badge variant="warning" size="sm">COST_UNKNOWN</Badge>
             </div>
             <div className="text-2xl font-bold font-mono text-amber-300 mt-1">
               {costs.unknownCostOperationsCount}{' '}
-              <span className="text-xs text-slate-400 font-normal">operaciones</span>
+              <span className="text-xs text-slate-400 font-normal">operações</span>
             </div>
             <p className="text-[11px] text-amber-500/80">
-              Operaciones bloqueadas o de fallback sin informe de tokens
+              Operações bloqueadas ou de contingência sem relatório de tokens
             </p>
           </div>
         </div>
@@ -314,15 +313,15 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           {/* By Provider Table */}
           <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              Consumo por Proveedor
+              Consumo por Fornecedor
             </h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
                   <tr>
-                    <th className="pb-2">Proveedor</th>
-                    <th className="pb-2">Llamadas</th>
-                    <th className="pb-2">Coste Conocido</th>
+                    <th className="pb-2">Fornecedor</th>
+                    <th className="pb-2">Chamadas</th>
+                    <th className="pb-2">Custo Conhecido</th>
                     <th className="pb-2">Indefinidas</th>
                   </tr>
                 </thead>
@@ -363,14 +362,14 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           {/* By Campaign Table */}
           <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              Consumo por Campaña
+              Consumo por Campanha
             </h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
                   <tr>
-                    <th className="pb-2">Campaña</th>
-                    <th className="pb-2">Coste Conocido</th>
+                    <th className="pb-2">Campanha</th>
+                    <th className="pb-2">Custo Conhecido</th>
                     <th className="pb-2">Estado</th>
                   </tr>
                 </thead>
@@ -402,18 +401,18 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
         {costs.costByUser && costs.costByUser.length > 0 && (
           <div className="p-4 rounded-xl bg-[#0f1523] border border-[#202b42] space-y-3">
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              Consumo y generaciones por usuario
+              Consumo e gerações por utilizador
             </h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-[#202b42] text-slate-400 text-[11px]">
                   <tr>
-                    <th className="pb-2">Usuario</th>
-                    <th className="pb-2">Rol</th>
-                    <th className="pb-2">Total de Generaciones</th>
-                    <th className="pb-2">Texto / Imagen</th>
-                    <th className="pb-2">Coste Conocido</th>
-                    <th className="pb-2">Operaciones Sin Coste</th>
+                    <th className="pb-2">Utilizador</th>
+                    <th className="pb-2">Função</th>
+                    <th className="pb-2">Total de Gerações</th>
+                    <th className="pb-2">Texto / Imagem</th>
+                    <th className="pb-2">Custo Conhecido</th>
+                    <th className="pb-2">Operações Sem Custo</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#182236]">
@@ -454,52 +453,52 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            3. Eficiencia Operacional y Productividad
+            3. Eficiência Operacional e Produtividade
           </h3>
           <span className="text-[11px] text-slate-500 font-mono">
-            Diferenciación Estricta: Duración de Flujo vs Tiempo Ahorrado
+            Diferenciação Estrita: Duração de Fluxo vs Tempo Poupado
           </span>
         </div>
 
         <div className="p-6 rounded-2xl bg-[#0f1523] border border-[#202b42] space-y-5">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[11px] text-slate-400">Versiones Creadas</span>
+              <span className="text-[11px] text-slate-400">Versões Criadas</span>
               <div className="text-xl font-bold font-mono text-white mt-1">
                 {productivity.contentVersionsCreated}
               </div>
               <p className="text-[10px] text-slate-500 mt-1">
-                {productivity.aiAssistedVersions} con IA / {productivity.humanEditedVersions} manuales
+                {productivity.aiAssistedVersions} com IA / {productivity.humanEditedVersions} manuais
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[11px] text-slate-400">Aprobados / Rechazados</span>
+              <span className="text-[11px] text-slate-400">Aprovados / Rejeitados</span>
               <div className="text-xl font-bold font-mono text-slate-200 mt-1">
                 {productivity.approvedContentCount} / {productivity.rejectedContentCount}
               </div>
               <p className="text-[10px] text-slate-500 mt-1">
-                {productivity.revisionCount} revisiones solicitadas
+                {productivity.revisionCount} revisões solicitadas
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-[#141c2e] border border-[#202b42]">
-              <span className="text-[11px] text-slate-400">Activos Generados</span>
+              <span className="text-[11px] text-slate-400">Ativos Gerados</span>
               <div className="text-xl font-bold font-mono text-indigo-300 mt-1">
                 {productivity.contentGenerated + productivity.imagesGenerated}
               </div>
               <p className="text-[10px] text-slate-500 mt-1">
-                {productivity.contentGenerated} piezas / {productivity.imagesGenerated} imágenes
+                {productivity.contentGenerated} peças / {productivity.imagesGenerated} imagens
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-[#141c2e] border border-emerald-900/30">
-              <span className="text-[11px] text-emerald-400">Ciclo Medio de Aprobación</span>
+              <span className="text-[11px] text-emerald-400">Ciclo Médio de Aprovação</span>
               <div className="text-xl font-bold font-mono text-emerald-300 mt-1">
                 {productivity.averageReviewCycleFormatted}
               </div>
               <p className="text-[10px] text-emerald-500/80 mt-1">
-                Creación hasta aprobación final
+                Criação até à aprovação final
               </p>
             </div>
           </div>
@@ -507,8 +506,8 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           <div className="p-3.5 rounded-lg bg-[#0d131f] border border-[#1a2337] flex items-start gap-3">
             <Info className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
             <div className="text-xs text-slate-400 leading-relaxed">
-              <span className="text-slate-200 font-semibold">Metodología de Productividad:</span>{' '}
-              La duración computacional de la IA representa el tiempo técnico de inferencia. La plataforma no reivindica horas ahorradas sin un estudio previo de baseline de productividad con el cliente.
+              <span className="text-slate-200 font-semibold">Metodologia de Produtividade:</span>{' '}
+              A duração computacional da IA representa o tempo técnico de inferência. A plataforma não reivindica horas poupadas sem um estudo prévio de linha de base (baseline) de produtividade com o cliente.
             </div>
           </div>
         </div>
@@ -517,7 +516,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
       {/* SECTION 4: ROI Framework & Governance Disclosure */}
       <div className="space-y-3">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-          4. Marco de Retorno sobre la Inversión (ROI)
+          4. Quadro de Retorno sobre o Investimento (ROI)
         </h3>
 
         <div className="p-6 rounded-2xl bg-[#0f1523] border border-indigo-950/60 space-y-4">
@@ -527,8 +526,8 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
                 <TrendingUp className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white">Estado del ROI Financiero</h4>
-                <p className="text-xs text-slate-400">Conformidad con los estándares de auditoría corporativa</p>
+                <h4 className="text-sm font-semibold text-white">Estado do ROI Financeiro</h4>
+                <p className="text-xs text-slate-400">Conformidade com os padrões de auditoria corporativa</p>
               </div>
             </div>
             <Badge variant="purple" size="md">
@@ -539,7 +538,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
           <div className="p-4 rounded-xl bg-[#141c2e] border border-purple-900/30 space-y-2">
             <div className="text-xs font-semibold text-purple-300 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4" />
-              <span>Directriz de Transparencia Financiera</span>
+              <span>Diretriz de Transparência Financeira</span>
             </div>
             <p className="text-xs text-purple-200/80 leading-relaxed">
               {roi.disclaimer}
@@ -548,13 +547,13 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-400">
             <div className="p-3 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-              <span className="font-semibold text-slate-300 block mb-1">Coste de Inferencia Registrado:</span>
+              <span className="font-semibold text-slate-300 block mb-1">Custo de Inferência Registado:</span>
               <span className="font-mono text-emerald-400 text-sm">
                 ${roi.availableInputs.aiOperationalKnownCostUSD.toFixed(4)} USD
               </span>
             </div>
             <div className="p-3 rounded-lg bg-[#0d131f] border border-[#1a2337]">
-              <span className="font-semibold text-slate-300 block mb-1">Entradas No Disponibles para ROI:</span>
+              <span className="font-semibold text-slate-300 block mb-1">Entradas Não Disponíveis para ROI:</span>
               <span className="font-mono text-slate-400 text-xs">
                 {roi.unavailableInputs.join(' • ')}
               </span>
@@ -568,9 +567,9 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              5. Flujo Reciente de Pista Inmutable de Auditoría
+              5. Fluxo Recente de Trilha Imutável de Auditoria
             </h3>
-            <p className="text-xs text-slate-500">Últimos eventos registrados en el sink central</p>
+            <p className="text-xs text-slate-500">Últimos eventos registados no sink central</p>
           </div>
           {onNavigateToAudit && (
             <Button
@@ -579,7 +578,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
               onClick={onNavigateToAudit}
               rightIcon={<ChevronRight className="w-4 h-4" />}
             >
-              Abrir Pista Completa
+              Abrir Trilha Completa
             </Button>
           )}
         </div>
@@ -589,21 +588,21 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
             <table className="w-full text-left text-xs">
               <thead className="bg-[#141c2e] border-b border-[#202b42] text-slate-400 text-[11px]">
                 <tr>
-                  <th className="py-2.5 px-4">Fecha/Hora</th>
-                  <th className="py-2.5 px-4">Campaña</th>
-                  <th className="py-2.5 px-4">Usuario</th>
-                  <th className="py-2.5 px-4">Proveedor/Modelo</th>
-                  <th className="py-2.5 px-4">Operación</th>
+                  <th className="py-2.5 px-4">Data/Hora</th>
+                  <th className="py-2.5 px-4">Campanha</th>
+                  <th className="py-2.5 px-4">Utilizador</th>
+                  <th className="py-2.5 px-4">Fornecedor/Modelo</th>
+                  <th className="py-2.5 px-4">Operação</th>
                   <th className="py-2.5 px-4">Estado</th>
-                  <th className="py-2.5 px-4">Coste</th>
-                  <th className="py-2.5 px-4 text-right">Detalle</th>
+                  <th className="py-2.5 px-4">Custo</th>
+                  <th className="py-2.5 px-4 text-right">Detalhe</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1a243a]">
                 {recentAuditEvents.slice(0, 8).map((ev) => (
                   <tr key={ev.id} className="hover:bg-[#131b2c] transition-colors">
                     <td className="py-2.5 px-4 whitespace-nowrap text-slate-300 font-mono">
-                      {new Date(ev.started_at).toLocaleTimeString('es-ES')}
+                      {new Date(ev.started_at).toLocaleTimeString('pt-PT')}
                     </td>
                     <td className="py-2.5 px-4 text-slate-200 font-medium">
                       {ev.campaign_name || 'Global'}
@@ -619,11 +618,11 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
                     </td>
                     <td className="py-2.5 px-4">
                       {ev.status === 'SUCCESS' ? (
-                        <Badge variant="success" size="sm">ÉXITO</Badge>
+                        <Badge variant="success" size="sm">SUCESSO</Badge>
                       ) : ev.status === 'BLOCKED' ? (
                         <Badge variant="warning" size="sm">BLOQUEADO</Badge>
                       ) : (
-                        <Badge variant="danger" size="sm">FALLO</Badge>
+                        <Badge variant="danger" size="sm">FALHA</Badge>
                       )}
                     </td>
                     <td className="py-2.5 px-4 font-mono text-emerald-400">
@@ -637,7 +636,7 @@ export const CostAndROIDashboard: React.FC<{ onNavigateToAudit?: () => void }> =
                         size="sm"
                         onClick={() => setInspectedEvent(ev)}
                       >
-                        Inspeccionar
+                        Inspecionar
                       </Button>
                     </td>
                   </tr>

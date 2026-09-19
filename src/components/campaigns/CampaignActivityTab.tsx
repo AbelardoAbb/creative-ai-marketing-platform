@@ -19,8 +19,8 @@ export const CampaignActivityTab: React.FC<CampaignActivityTabProps> = ({ campai
     {
       id: 'act-1',
       type: 'creation',
-      title: 'Campaña Creada',
-      description: `Briefing inicial registrado con estado '${campaign.status}'.`,
+      title: 'Campanha Criada',
+      description: `Briefing inicial registado com estado '${campaign.status}'.`,
       timestamp: campaign.created_at,
       icon: Sparkles,
       iconColor: 'text-blue-600 bg-blue-50 border-blue-200',
@@ -28,8 +28,8 @@ export const CampaignActivityTab: React.FC<CampaignActivityTabProps> = ({ campai
     {
       id: 'act-2',
       type: 'team',
-      title: 'Equipo Inicial Vinculado',
-      description: 'Creador y roles iniciales asociados con aislamiento RLS.',
+      title: 'Equipa Inicial Associada',
+      description: 'Criador e funções iniciais associados com isolamento RLS.',
       timestamp: campaign.created_at,
       icon: UserCheck,
       iconColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
@@ -37,8 +37,8 @@ export const CampaignActivityTab: React.FC<CampaignActivityTabProps> = ({ campai
     {
       id: 'act-3',
       type: 'update',
-      title: 'Última Actualización de Metadatos',
-      description: 'Directrices creativas y restricciones sincronizadas en la base de datos.',
+      title: 'Última Atualização de Metadados',
+      description: 'Diretrizes criativas e restrições sincronizadas na base de dados.',
       timestamp: campaign.updated_at,
       icon: Clock,
       iconColor: 'text-amber-600 bg-amber-50 border-amber-200',
@@ -50,13 +50,13 @@ export const CampaignActivityTab: React.FC<CampaignActivityTabProps> = ({ campai
       <div className="flex items-center justify-between pb-4 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-slate-900">Línea de Tiempo y Gobernanza</h3>
+            <h3 className="text-base font-semibold text-slate-900">Linha de Tempo e Governação</h3>
             <Badge variant="neutral" size="sm">
-              Auditable
+              Auditável
             </Badge>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Registro de cambios de estado, asignaciones de equipo y actualizaciones de briefing.
+            Registo de alterações de estado, atribuições de equipa e atualizações de briefing.
           </p>
         </div>
       </div>
@@ -81,7 +81,7 @@ export const CampaignActivityTab: React.FC<CampaignActivityTabProps> = ({ campai
                 <div className="flex items-center justify-between">
                   <h4 className="text-xs sm:text-sm font-medium text-slate-900">{act.title}</h4>
                   <span className="text-[11px] text-slate-400 font-mono">
-                    {new Date(act.timestamp).toLocaleString('es-ES')}
+                    {new Date(act.timestamp).toLocaleString('pt-PT')}
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 mt-1">{act.description}</p>

@@ -38,20 +38,20 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
         {/* Hover action overlay */}
         <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-3">
           <IconButton
-            aria-label="Visualizar imagen ampliada"
+            aria-label="Visualizar imagem ampliada"
             icon={<Eye className="w-4 h-4" />}
             variant="secondary"
             onClick={() => onPreview?.(asset)}
           />
           <IconButton
-            aria-label="Descargar recurso"
+            aria-label="Transferir recurso"
             icon={<Download className="w-4 h-4" />}
             variant="secondary"
-            onClick={() => alert(`Descarga de recurso (${asset.title}) iniciada.`)}
+            onClick={() => alert(`Transferência de recurso (${asset.title}) iniciada.`)}
           />
           {asset.status === 'draft' && onSubmitApproval && (
             <IconButton
-              aria-label="Enviar a aprobación"
+              aria-label="Enviar para aprovação"
               icon={<Send className="w-4 h-4" />}
               variant="primary"
               onClick={() => onSubmitApproval(asset.id)}

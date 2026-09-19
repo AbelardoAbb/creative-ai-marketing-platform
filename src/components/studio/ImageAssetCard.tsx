@@ -46,14 +46,14 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'READY_FOR_REVIEW':
-        return <Badge variant="success" size="sm">Listo para revisión</Badge>;
+        return <Badge variant="success" size="sm">Pronto para revisão</Badge>;
       case 'MODERATION_REVIEW':
-        return <Badge variant="warning" size="sm">Revisión de seguridad</Badge>;
+        return <Badge variant="warning" size="sm">Revisão de segurança</Badge>;
       case 'MODERATION_BLOCKED':
         return <Badge variant="error" size="sm">Bloqueado</Badge>;
       case 'GENERATED':
       default:
-        return <Badge variant="info" size="sm">Generado</Badge>;
+        return <Badge variant="info" size="sm">Gerado</Badge>;
     }
   };
 
@@ -61,7 +61,7 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
     if (provider === 'stability_ai') {
       return <Badge variant="blue" size="sm">Stability AI (SD3.5)</Badge>;
     }
-    return <Badge variant="neutral" size="sm">Proveedor de contingencia (Fallback)</Badge>;
+    return <Badge variant="neutral" size="sm">Fornecedor de contingência (Fallback)</Badge>;
   };
 
   const handleSaveEvaluation = async () => {
@@ -95,7 +95,7 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
         ) : (
           <div className="text-center p-6 text-slate-400 flex flex-col items-center">
             <Sparkles className="w-8 h-8 text-slate-400 mb-2" />
-            <span className="text-xs">Visual no disponible</span>
+            <span className="text-xs">Visual não disponível</span>
           </div>
         )}
 
@@ -173,7 +173,7 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
         {isEvaluating ? (
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-900">Evaluación creativa:</span>
+              <span className="text-xs font-semibold text-slate-900">Avaliação criativa:</span>
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -199,7 +199,7 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
             <Textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Comentario sobre fidelidad al briefing, estética o sugerencias de refinamiento..."
+              placeholder="Comentário sobre fidelidade ao briefing, estética ou sugestões de refinamento..."
               rows={2}
               className="text-xs"
             />
@@ -220,14 +220,14 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
                 disabled={selectedRating < 1 || isSubmitting}
                 isLoading={isSubmitting}
               >
-                {submitSuccess ? '¡Guardado!' : 'Guardar calificación'}
+                {submitSuccess ? 'Guardado!' : 'Guardar classificação'}
               </Button>
             </div>
           </div>
         ) : (
           <div className="pt-2 border-t border-slate-200 flex items-center justify-between gap-2">
             <span className="text-[11px] text-slate-500 font-mono">
-              {new Date(asset.created_at).toLocaleDateString('es-ES')}
+              {new Date(asset.created_at).toLocaleDateString('pt-PT')}
             </span>
 
             <div className="flex items-center gap-1.5">
@@ -238,7 +238,7 @@ export const ImageAssetCard: React.FC<ImageAssetCardProps> = ({
                   leftIcon={<Star className="w-3.5 h-3.5 text-amber-500" />}
                   onClick={() => setIsEvaluating(true)}
                 >
-                  {asset.rating ? 'Reevaluar' : 'Calificar'}
+                  {asset.rating ? 'Reavaliar' : 'Classificar'}
                 </Button>
               )}
             </div>

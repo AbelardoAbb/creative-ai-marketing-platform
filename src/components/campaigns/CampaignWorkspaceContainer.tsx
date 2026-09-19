@@ -63,7 +63,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
       const data = await res.json();
       setCampaigns(data.campaigns || []);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al cargar la lista de campañas.');
+      setError(err instanceof Error ? err.message : 'Erro ao carregar a lista de campanhas.');
     } finally {
       setLoading(false);
     }
@@ -81,13 +81,13 @@ export const CampaignWorkspaceContainer: React.FC = () => {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Error al cargar los detalles de la campaña.');
+        throw new Error(data.error || 'Erro ao carregar os detalhes da campanha.');
       }
       const data = await res.json();
       setSelectedCampaign(data.campaign);
       setSelectedMembers(data.members || []);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al obtener los datos de la campaña.');
+      setError(err instanceof Error ? err.message : 'Erro ao obter os dados da campanha.');
     }
   };
 
@@ -102,7 +102,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
 
       const data = await res.json();
       if (!res.ok) {
-        return { success: false, error: data.error || 'Error al registrar la campaña.' };
+        return { success: false, error: data.error || 'Erro ao registar a campanha.' };
       }
 
       await fetchCampaigns();
@@ -124,14 +124,14 @@ export const CampaignWorkspaceContainer: React.FC = () => {
     } catch (err: unknown) {
       return {
         success: false,
-        error: err instanceof Error ? err.message : 'Error al procesar la creación.',
+        error: err instanceof Error ? err.message : 'Erro ao processar a criação.',
       };
     }
   };
 
   // 4. Update Campaign Briefing / Details
   const handleUpdateCampaign = async (updates: UpdateCampaignPayload) => {
-    if (!selectedCampaign) return { success: false, error: 'Ninguna campaña seleccionada.' };
+    if (!selectedCampaign) return { success: false, error: 'Nenhuma campanha selecionada.' };
 
     try {
       const res = await fetch(`/api/campaigns/${selectedCampaign.id}`, {
@@ -141,7 +141,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        return { success: false, error: data.error || 'Error al actualizar los datos.' };
+        return { success: false, error: data.error || 'Erro ao atualizar os dados.' };
       }
 
       setSelectedCampaign(data.campaign);
@@ -153,7 +153,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
     } catch (err: unknown) {
       return {
         success: false,
-        error: err instanceof Error ? err.message : 'Error en la solicitud.',
+        error: err instanceof Error ? err.message : 'Erro no pedido.',
       };
     }
   };
@@ -170,7 +170,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
     userEmail?: string,
     userDisplayName?: string
   ) => {
-    if (!selectedCampaign) return { success: false, error: 'Ninguna campaña activa.' };
+    if (!selectedCampaign) return { success: false, error: 'Nenhuma campanha ativa.' };
 
     try {
       const res = await fetch(`/api/campaigns/${selectedCampaign.id}/members`, {
@@ -185,7 +185,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        return { success: false, error: data.error || 'Error al añadir miembro.' };
+        return { success: false, error: data.error || 'Erro ao adicionar membro.' };
       }
 
       await fetchCampaignDetails(selectedCampaign.id);
@@ -193,14 +193,14 @@ export const CampaignWorkspaceContainer: React.FC = () => {
     } catch (err: unknown) {
       return {
         success: false,
-        error: err instanceof Error ? err.message : 'Error al vincular miembro.',
+        error: err instanceof Error ? err.message : 'Erro ao associar membro.',
       };
     }
   };
 
   // 7. Remove Team Member
   const handleRemoveMember = async (targetUserId: string) => {
-    if (!selectedCampaign) return { success: false, error: 'Ninguna campaña activa.' };
+    if (!selectedCampaign) return { success: false, error: 'Nenhuma campanha ativa.' };
 
     try {
       const res = await fetch(`/api/campaigns/${selectedCampaign.id}/members/${targetUserId}`, {
@@ -209,7 +209,7 @@ export const CampaignWorkspaceContainer: React.FC = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        return { success: false, error: data.error || 'Error al eliminar miembro.' };
+        return { success: false, error: data.error || 'Erro ao remover membro.' };
       }
 
       await fetchCampaignDetails(selectedCampaign.id);
@@ -217,19 +217,19 @@ export const CampaignWorkspaceContainer: React.FC = () => {
     } catch (err: unknown) {
       return {
         success: false,
-        error: err instanceof Error ? err.message : 'Error al desvincular miembro.',
+        error: err instanceof Error ? err.message : 'Erro ao desassociar membro.',
       };
     }
   };
 
   if (loading && campaigns.length === 0) {
-    return <LoadingState message="Cargando espacio de trabajo de campañas..." />;
+    return <LoadingState message="A carregar espaço de trabalho de campanhas..." />;
   }
 
   if (error && campaigns.length === 0) {
     return (
       <ErrorState
-        title="Error al cargar campañas"
+        title="Erro ao carregar campanhas"
         message={error}
         onRetry={fetchCampaigns}
       />

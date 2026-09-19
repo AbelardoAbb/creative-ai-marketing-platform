@@ -1,6 +1,6 @@
 {
   "name": "Creative AI Marketing Platform",
-  "description": "Plataforma de marketing y publicidad impulsada por IA Generativa con flujos de extremo a extremo de creación de imágenes, redacción, colaboración y aprobación.",
+  "description": "Plataforma de marketing e publicidade impulsionada por IA Generativa com fluxos ponta a ponta de criação de imagens, redação, colaboração e aprovação.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

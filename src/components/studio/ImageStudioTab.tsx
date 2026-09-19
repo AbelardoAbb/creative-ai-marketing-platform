@@ -113,9 +113,9 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
 
   // Pre-fill prompt suggestion based on campaign briefing
   const handleInsertBriefingSuggestion = () => {
-    const suggestion = `Composición visual premium para ${campaign.product_or_service || campaign.name}. ${
-      campaign.visual_direction ? `Dirección de arte: ${campaign.visual_direction}. ` : ''
-    }Público objetivo: ${campaign.target_audience || 'General'}. Iluminación natural refinada.`;
+    const suggestion = `Composição visual premium para ${campaign.product_or_service || campaign.name}. ${
+      campaign.visual_direction ? `Direção de arte: ${campaign.visual_direction}. ` : ''
+    }Público-alvo: ${campaign.target_audience || 'Geral'}. Iluminação natural refinada.`;
     setUserPrompt(suggestion);
   };
 
@@ -148,9 +148,9 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
       if (!res.ok) {
         if (data.statusCode === 'MODERATION_BLOCKED') {
           setModerationWarning(data.moderation);
-          setErrorMessage(data.message || 'Prompt bloqueado por moderación de seguridad.');
+          setErrorMessage(data.message || 'Prompt bloqueado por moderação de segurança.');
         } else {
-          setErrorMessage(data.message || 'Error durante la generación de imagen.');
+          setErrorMessage(data.message || 'Erro durante a geração de imagem.');
         }
         return;
       }
@@ -163,7 +163,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
         }
       }
     } catch (err: unknown) {
-      setErrorMessage(err instanceof Error ? err.message : 'Error en la conexión con el servidor.');
+      setErrorMessage(err instanceof Error ? err.message : 'Erro na ligação com o servidor.');
     } finally {
       setIsGenerating(false);
     }
@@ -196,12 +196,12 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-blue-600" />
             <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-              Estudio de Creación Visual Contextualizado
+              Estúdio de Criação Visual Contextualizado
             </h3>
             <Badge variant="blue" size="sm">Fase 7</Badge>
           </div>
           <p className="text-xs text-slate-500">
-            La IA consume el briefing de <span className="text-slate-800 font-semibold">{campaign.name}</span> ({campaign.client}) para guiar estilo y coherencia visual.
+            A IA consome o briefing de <span className="text-slate-800 font-semibold">{campaign.name}</span> ({campaign.client}) para orientar o estilo e a coerência visual.
           </p>
         </div>
 
@@ -209,7 +209,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
         <div className="flex items-center gap-2 bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200">
           <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse" />
           <div className="text-xs">
-            <span className="text-slate-500 font-medium">Proveedor: </span>
+            <span className="text-slate-500 font-medium">Fornecedor: </span>
             <span className="font-semibold text-slate-900">Stability AI (SD3.5 Core)</span>
           </div>
         </div>
@@ -226,7 +226,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                 <div className="flex items-center justify-between text-xs text-slate-500">
                   <span className="flex items-center gap-1.5 font-semibold text-blue-700">
                     <Building2 className="w-3.5 h-3.5" />
-                    Briefing Activo
+                    Briefing Ativo
                   </span>
                   <button
                     type="button"
@@ -234,16 +234,16 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                     className="text-[11px] text-blue-600 hover:text-blue-800 font-medium hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <Wand2 className="w-3 h-3" />
-                    Usar sugerencia del briefing
+                    Usar sugestão do briefing
                   </button>
                 </div>
                 <p className="text-xs text-slate-700">
-                  <span className="text-slate-500">Dirección Visual: </span>
-                  {campaign.visual_direction || 'Dirección libre conforme a la estética corporativa'}
+                  <span className="text-slate-500">Direção Visual: </span>
+                  {campaign.visual_direction || 'Direção livre conforme a estética corporativa'}
                 </p>
                 {campaign.creative_constraints && (
                   <p className="text-[11px] text-amber-700">
-                    <span className="text-slate-500">Restricciones Creativas: </span>
+                    <span className="text-slate-500">Restrições Criativas: </span>
                     {campaign.creative_constraints}
                   </p>
                 )}
@@ -252,12 +252,12 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
               {/* User Prompt Textarea */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-semibold text-slate-800">
-                  Concepto Visual / Prompt Principal <span className="text-red-500">*</span>
+                  Conceito Visual / Prompt Principal <span className="text-red-500">*</span>
                 </label>
                 <Textarea
                   value={userPrompt}
                   onChange={(e) => setUserPrompt(e.target.value)}
-                  placeholder="Describa el elemento central, acción, iluminación y composición deseada..."
+                  placeholder="Descreva o elemento central, ação, iluminação e composição pretendida..."
                   rows={4}
                   required
                 />
@@ -273,30 +273,30 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                     value={selectedStyle}
                     onChange={(e) => setSelectedStyle(e.target.value as SupportedImageStyle)}
                     options={[
-                      { value: 'Advertising', label: 'Advertising (Publicitario)' },
-                      { value: 'Photorealistic', label: 'Photorealistic (Estudio / 35mm)' },
-                      { value: 'Editorial', label: 'Editorial (High-Fashion)' },
-                      { value: 'Cinematic', label: 'Cinematic (Anamórfico)' },
-                      { value: 'Minimalist', label: 'Minimalist (Minimalista)' },
-                      { value: 'Anime', label: 'Anime (Ilustración Digital)' },
-                      { value: 'Oil Painting', label: 'Oil Painting (Óleo sobre Lienzo)' },
+                      { value: 'Advertising', label: 'Publicitário (Advertising)' },
+                      { value: 'Photorealistic', label: 'Fotorrealista (Estúdio / 35mm)' },
+                      { value: 'Editorial', label: 'Editorial (Alta Costura / Moda)' },
+                      { value: 'Cinematic', label: 'Cinematográfico (Anamórfico)' },
+                      { value: 'Minimalist', label: 'Minimalista (Minimalist)' },
+                      { value: 'Anime', label: 'Anime (Ilustração Digital)' },
+                      { value: 'Oil Painting', label: 'Pintura a Óleo (Óleo sobre Tela)' },
                     ]}
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="block text-xs font-semibold text-slate-800">
-                    Proporción de Pantalla
+                    Proporção de Ecrã
                   </label>
                   <Select
                     value={selectedAspectRatio}
                     onChange={(e) => setSelectedAspectRatio(e.target.value as SupportedAspectRatio)}
                     options={[
-                      { value: '1:1', label: '1:1 (Cuadrado • 1024x1024)' },
+                      { value: '1:1', label: '1:1 (Quadrado • 1024x1024)' },
                       { value: '16:9', label: '16:9 (Horizontal / Banner • 1344x768)' },
                       { value: '9:16', label: '9:16 (Stories / Reels • 768x1344)' },
-                      { value: '4:3', label: '4:3 (Medio Estándar • 1152x864)' },
-                      { value: '3:2', label: '3:2 (Fotografía Clásica • 1216x832)' },
+                      { value: '4:3', label: '4:3 (Médio Padrão • 1152x864)' },
+                      { value: '3:2', label: '3:2 (Fotografia Clássica • 1216x832)' },
                     ]}
                   />
                 </div>
@@ -305,21 +305,21 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
               {/* Negative Prompt (Optional) */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-semibold text-slate-800">
-                  Prompt Negativo (Lo que se desea excluir)
+                  Prompt Negativo (O que deseja excluir)
                 </label>
                 <Input
                   value={negativePrompt}
                   onChange={(e) => setNegativePrompt(e.target.value)}
-                  placeholder="Ej: brillos plásticos, ruido, saturación excesiva..."
+                  placeholder="Ex.: reflexos plásticos, ruído, saturação excessiva..."
                 />
               </div>
 
               {/* Fallback & Safeguard Toggle */}
               <div className="pt-2 flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="space-y-0.5">
-                  <span className="text-xs font-medium text-slate-800">Proveedor de Contingencia</span>
+                  <span className="text-xs font-medium text-slate-800">Fornecedor de Contingência</span>
                   <p className="text-[11px] text-slate-500">
-                    Si Stability AI no está disponible o sin créditos, genera un activo prototipo auditado.
+                    Se o Stability AI não estiver disponível ou sem créditos, gera um ativo protótipo auditado.
                   </p>
                 </div>
                 <input
@@ -335,7 +335,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                 <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5">
                   <AlertTriangle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-semibold block">Error en la Generación:</span>
+                    <span className="font-semibold block">Erro na Geração:</span>
                     <span>{errorMessage}</span>
                   </div>
                 </div>
@@ -351,7 +351,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                 leftIcon={<Sparkles className="w-4 h-4" />}
                 disabled={!userPrompt.trim() || isGenerating}
               >
-                {isGenerating ? 'Procesando Inferencia Visual...' : 'Generar Imagen con IA'}
+                {isGenerating ? 'A processar inferência visual...' : 'Gerar Imagem com IA'}
               </Button>
             </form>
           </Card>
@@ -362,7 +362,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              Resultado Más Reciente y Evaluación
+              Resultado Mais Recente e Avaliação
             </h4>
 
             {lastGeneratedAsset ? (
@@ -376,9 +376,9 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
                 <div className="p-4 rounded-2xl bg-white border border-slate-200 text-blue-600 mb-3 shadow-sm">
                   <Sparkles className="w-8 h-8" />
                 </div>
-                <h4 className="text-sm font-semibold text-slate-800">Ninguna imagen generada en esta sesión</h4>
+                <h4 className="text-sm font-semibold text-slate-800">Nenhuma imagem gerada nesta sessão</h4>
                 <p className="text-xs text-slate-500 mt-1 max-w-sm">
-                  Utilice el estudio contextualizado a la izquierda para iniciar la generación. El briefing será incorporado y los resultados se guardarán en el repositorio de la campaña.
+                  Utilize o estúdio contextualizado à esquerda para iniciar a geração. O briefing será incorporado e os resultados serão guardados no repositório da campanha.
                 </p>
               </div>
             )}
@@ -392,10 +392,10 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
           <div>
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <Layers className="w-4 h-4 text-blue-600" />
-              Galería de Activos de la Campaña ({campaignAssets.length})
+              Galeria de Ativos da Campanha ({campaignAssets.length})
             </h3>
             <p className="text-xs text-slate-500">
-              Activos generados y almacenados en Supabase Storage vinculados a esta campaña.
+              Ativos gerados e armazenados no Supabase Storage vinculados a esta campanha.
             </p>
           </div>
 
@@ -405,7 +405,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
             onClick={fetchCampaignAssets}
             leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
           >
-            Actualizar
+            Atualizar
           </Button>
         </div>
 
@@ -422,7 +422,7 @@ export const ImageStudioTab: React.FC<ImageStudioTabProps> = ({
           </div>
         ) : (
           <div className="p-8 rounded-2xl bg-white border border-slate-200 text-center text-xs text-slate-500 shadow-sm">
-            Ningún activo visual generado hasta el momento para esta campaña.
+            Nenhum ativo visual gerado até ao momento para esta campanha.
           </div>
         )}
       </div>

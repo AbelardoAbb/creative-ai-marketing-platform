@@ -7,7 +7,7 @@ export interface LoadingStateProps {
 }
 
 export const LoadingState: React.FC<LoadingStateProps> = ({
-  message = 'Cargando...',
+  message = 'A carregar...',
   className = '',
 }) => {
   return (
